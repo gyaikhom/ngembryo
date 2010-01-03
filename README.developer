@@ -1,0 +1,49 @@
+SETTING UP THE DEVELOPMENT ENVIRONMENT
+
+1. Install Aptana (with the necessary plugins), Apache, PHP and MySQL.
+2. Start Aptana and create workspace (without space in name).
+3. Create the 'logs' directory inside Aptana workspace (for Apache logging).
+4. Checkout 'ngembryo' codebase from the svn (https://ngembryo.svn.sourceforge.net/svnroot/ngembryo)
+	NOTE: This will become the htdocs root directory of the apache server (see below).
+5. Create MySQL database using the SQL script: ngembryo.sql.
+	NOTE: File located at [svn-project]ngembryo/resources/database/
+6. Create site www.ngembryo.org for the Apache server.
+	a) sudo nano /etc/apache2/sites-available/ngembryo
+	
+	NameVirtualHost 192.168.1.64
+
+	<VirtualHost 192.168.1.64>
+        ServerAdmin gyaikhom@inf.ed.ac.uk
+        ServerName  www.ngembryo.org
+        ServerAlias ngembryo.org
+
+        # Indexes + Directory Root.
+        DirectoryIndex index.html
+ 
+ 		# This should be the project checked-out from the svn above.
+        DocumentRoot /home/work/AptanaWorkspace/ngembryo/
+
+        # Logfiles: uses the logs directory created inside Aptana workspace.
+        ErrorLog  /home/work/AptanaWorkspace/logs/error.log
+        CustomLog /home/work/AptanaWorkspace/logs/access.log combined
+	</VirtualHost>
+	
+	b) sudo a2ensite ngembryo
+	c) sudo /etc/init.d/apache2 reload
+	d) The NGEmbryo web-site is accessed at http://192.168.1.64/index.html 
+
+7. Values which could be different from the above.
+	a) linux user: work
+	b) Aptana workspace: AptanaWorkspace
+		NOTE: Create workspace name without space.
+	c) Apache log: AptanaWorkspace/logs
+		NOTE: Create this directory after initialising Aptana Workspace.
+	d) local host ip: 192.168.1.64
+
+REMARKS
+1. Don't forget to set the correct permissions for ngembryo and its contents. Otherwise,
+	some of the files may not be accessible from the web-server.
+2. Create the mysql.lock file if it does not exists (as in Ubuntu)
+	$ ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
+
+END OF DOCUMENT		

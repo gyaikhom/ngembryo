@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Get 2D marker</title>
+    </head>
+    <body>
+        <form action="get2DRegions.php" method="get" accept-charset="utf-8">
+        	X[low]: <input type='text' name='x_low' id='x_low' value='0'>X[high]: <input type='text' name='x_high' id='x_high' value='500'><br>
+        	Y[low]: <input type='text' name='y_low' id='y_low' value='0'>Y[high]: <input type='text' name='y_high' id='y_high' value='500'><br>
+			scale[low]: <input type='text' name='scale_low' id='scale_low' value='0'>Scale[high]: <input type='text' name='scale_high' id='scale_high' value='500'><br>
+			Format: <input type="radio" name="format" value="json"> JSON<input type="radio" name="format" value="xml"> XML<br>
+			<input type='submit' value='Get'>
+        </form>
+    </body>
+</html>
