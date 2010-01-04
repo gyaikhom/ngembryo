@@ -23,13 +23,13 @@ if ($_GET[format] == "json") {
         $rid = $resource['rid'];
         $temp = mysql_query("SELECT * FROM resource WHERE id = '$rid'");
         $detail = mysql_fetch_array($temp);
-        echo '{ id: '.$detail['id'].', title: "'.$detail['title'].'", abstract: "'.$detail['abstract'].'", url: "'.$detail['url'].'"}';
+        echo '{ id: '.$detail['id'].', title: "'.$detail['title'].'", summary: "'.$detail['abstract'].'", url: "'.$detail['url'].'"}';
     }
     while ($resource = mysql_fetch_array($result)) {
         $rid = $resource['rid'];
         $temp = mysql_query("SELECT * FROM resource WHERE id = '$rid'");
         $detail = mysql_fetch_array($temp);
-        echo ', { id: '.$detail['id'].', title: "'.$detail['title'].'", abstract: "'.$detail['abstract'].'", url: "'.$detail['url'].'"}';
+        echo ', { id: '.$detail['id'].', title: "'.$detail['title'].'", summary: "'.$detail['abstract'].'", url: "'.$detail['url'].'"}';
     }
     echo ']';
 } else {
