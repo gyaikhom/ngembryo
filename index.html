@@ -9,19 +9,23 @@
         <meta name="copyright" content="&copy; 2009, 2010 NG-Embryo Project" />
         <script src="http://www.google.com/jsapi" type="text/javascript">
         </script>
-        <script type="text/javascript">
+
+     <script type="text/javascript">
             var djConfig = {
                 parseOnLoad: true,
-                isDebug: false,
+                isDebug: false
             };
         </script>
+
         <script type="text/javascript">
-            google.load("mootools", "1.2.1");
-            google.load("dojo", "1.4.0");
-            google.load("yui", "2.7.0");
+            google.load("mootools", "1.2.1", {uncompressed:false});
+            google.load("dojo", "1.4.0", {uncompressed:false});
+            google.load("yui", "2.7.0", {uncompressed:false});
         </script>
+
+
         <script type="text/javascript">
-            dojo.require("dojo.parser");
+       	    dojo.require("dijit.dijit");
             dojo.require("dojox.gfx");
             dojo.require("dojo.data.ItemFileWriteStore");
             dojo.require("dijit.Toolbar");
@@ -45,7 +49,10 @@
             dojo.require("dijit.form.Slider");
             dojo.require("dojox.grid.DataGrid");
             dojo.require("dojox.data.CsvStore");
+            dojo.require("dojo.parser");
         </script>
+
+
         <script type="text/javascript" src="lib/ngembryo/annotation.js">
         </script>
         <script type="text/javascript" src="lib/ngembryo/icon.js">
@@ -72,6 +79,7 @@
         </script>
         <script type="text/javascript" src="lib/ngembryo/ngembryo.js">
         </script>
+
         <style type="text/css">
             @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.0/dojo/resources/dojo.css";
             @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.0/dijit/themes/soria/soria.css";
@@ -92,10 +100,7 @@
         </style>
     </head>
     <body class="soria">
-        <script type="text/javascript">
-            /**
-             * This is the instance of the NGEmbryo annotation engine.
-             */
+       <script type="text/javascript">
             var ngembryo = new NGEmbryo();
             dojo.addOnLoad(function()
             {
