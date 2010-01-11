@@ -1,3 +1,5 @@
+
+
 .soria .dijitToolbar .dijitButton, .soria .dijitToolbar .dijitToggleButton, .soria .dijitToolbar .dijitDropDownButton, .soria .dijitToolbar .dijitComboButton .dijitButtonContents, .soria .dijitToolbar .dijitComboButton .dijitDownArrowButton {
     background: none;
     padding: 3px;
@@ -50,35 +52,101 @@
 }
 
 /*
- * Following values are used by region2D.js etc. 
+ * Following values are used by region2D.js etc.
  */
-#floatingTipper {
-    position: 'fixed';
+#tipper {
+    position: absolute;
     width: 300px;
     height: 165px;
     overflow: hidden;
-	border: 1px dotted #444444;
-	padding: 0px;
+    border: 1px solid #1446ff;
+    padding: 0px;
 }
 
-#floatingLabel {
-	position: 'relative';
-	top: 0px;
-	left: 0px;
-	width: 300px;
-	height: 15px;
-	color: #ffffff;
-	background: #555555;
-	padding: 2px;
+#tipperLabel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 300px;
+	height: 24px;
+    color: #ffffff;
+    background: #1446ff;
+    padding: 2px;
 }
 
-#floatingDescription {
-	position: 'relative';
-	top: 16px;
-	left: 0px;
-	width: 300px;
-	height: 150px;
-	color: #555555;
-	background: #ffffff;
-	padding: 2px;
+#tipperDescription {
+    position: absolute;
+    top: 16px;
+    left: 0px;
+    width: 300px;
+    height: 150px;
+    color: #555555;
+    background: #ffffff;
+    padding: 2px;
+}
+
+#targetframe {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#content {
+    overflow: hidden;
+    padding: 0px;
+    border: 0px;
+}
+
+#controls {
+    background: #ffffff;
+    border: 1px solid #1446ff;
+    height: 200px;
+    width: 400px;
+    /*	overflow: hidden; */
+    position: relative;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#toggleControls {
+    width: 120px;
+    height: 16px;
+    background: #1446ff;
+    color: #ffffff;
+    border: 1px solid #1446ff;
+    position: absolute;
+    top: 200px;
+    left: -1px;
+    padding: 2px 5px;
+    margin: 0px;
+    cursor: pointer;
+    z-index: 200;
+}
+
+#zoomLabel {
+    border: 0px solid #ff0000;
+    text-align: left;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    float: left;
+    display: block;
+}
+
+#zoomControl {
+    border: 0px solid #ffff00;
+    text-align: left;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    width: 300px;
+    height: 10px;
+    float: left;
 }
