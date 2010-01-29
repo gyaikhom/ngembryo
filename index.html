@@ -16,15 +16,14 @@
             };
         </script>
         <script type="text/javascript">
-            google.load("mootools", "1.2.1", {
-                uncompressed: false
-            });
             google.load("dojo", "1.4.0", {
                 uncompressed: false
             });
             google.load("yui", "2.7.0", {
                 uncompressed: false
             });
+        </script>
+        <script type="text/javascript" src="lib/mootools/mootools-1.2.1-core-jm.js">
         </script>
         <script type="text/javascript" src="lib/mootools/mootools-1.2.1-more-jm.js">
         </script>
@@ -87,7 +86,7 @@
         </script>
         <script type="text/javascript" src="lib/ngembryo/cookieManager.js">
         </script>
-        <script type="text/javascript" src="lib/ngembryo/ngembryoWoolz.js">
+        <script type="text/javascript" src="lib/ngembryo/overlays.js">
         </script>
         <script type="text/javascript" src="lib/ngembryo/IIPManager.js">
         </script>
@@ -102,6 +101,19 @@
         <script type="text/javascript" src="lib/ngembryo/content.js">
         </script>
         <script type="text/javascript" src="lib/ngembryo/ngembryo.js">
+        </script>
+        <link rel="stylesheet" type="text/css" media="all" href="resources/css/wlziip.css" />
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/reset-fonts-grids/reset-fonts-grids.css" />
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/assets/skins/sam/skin.css" />
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js">
+        </script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/slider/slider-min.js">
+        </script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/container/container_core-min.js">
+        </script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/menu/menu-min.js">
+        </script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/button/button-min.js">
         </script>
         <style type="text/css">
             @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.0/dojo/resources/dojo.css";
@@ -122,7 +134,153 @@
     <body class="soria">
         <script type="text/javascript">
             var ngembryo;
+            var woolz;
             dojo.addOnLoad(function(){
+                woolz = new WlzIIPViewer({
+                    source: "woolztargetframe",
+                    
+                    /*
+                     * Stack location is provided in the URL string.  Any other
+                     * variable listed here may be specified in a similar
+                     * manner.
+                     */
+                    stack: "/export/system1/MAWWW/html/mrciip/projects/wlziip/TS18Model.wlz",
+                    
+                    server: "http://192.168.1.65/fcgi-bin/wlziipsrv.fcgi",
+                    
+                    webpath: "/wlziip-projects/",
+                    
+                    fspath: "/export/system1/MAWWW/html/mrciip/projects/",
+                    
+                    initialdst: 123,
+                    
+                    assayid: "",
+                    
+                    imgtitle: "",
+                    
+                    external: "",
+                    
+                    /*
+                     * Loading animation
+                     */
+                    loading: {
+                        enable: false
+                    },
+                    
+                    /*
+                     * Main window.  I can't think of a reason why you'd want
+                     * to disable it, but the choice is yours.
+                     */
+                    tileframe: {
+                        enable: true
+                    },
+                    
+                    overlay: {
+                        enable: "",
+                        path: "fif=/export/system1/MAWWW/html/mrciip/projects/genex/overlays/overlay_pyr_t.tif",
+                        name: 'Overlay'
+                    },
+                    
+                    annotation: {
+                        enable: "",
+                        path: 'fif=/export/system1/MAWWW/html/mrciip/projects/genex/overlays/annotation_pyr_t.tif',
+                        name: 'Annotation'
+                    },
+                    
+                    
+                    /*
+                     * Thumbnail with draggable region.
+                     */
+                    locator: {
+                        enable: true
+                    },
+                    
+                    /*
+                     * Indicator of current pitch and yaw.
+                     */
+                    sectionplane: {
+                        enable: true,
+                        src: "/export/system1/MAWWW/html/mrciip/projects/wlziip/ts18_sectionMontage.tif",
+                        inc: 1,
+                        numpit: 180,
+                        numyaw: 180,
+                        title: 'Section Plane',
+                        bgcolor: 'black'
+                    },
+                    
+                    /*
+                     * Changes IIP resolution level or Woolz scale value.
+                     */
+                    zoomslider: {
+                        enable: false,
+                        pos: [-40, -40],
+                        invert: true,
+                        scale: 'log',
+                        name: 'Zoom'
+                    },
+                    
+                    /*
+                     * Allows section number to be modified in stacks and Woolz objects.
+                     */
+                    dstslider: {
+                        enable: false,
+                        pos: [-140, -40],
+                        invert: true,
+                        scale: 'lin',
+                        name: 'Offset'
+                    },
+                    
+                    overlayslider: {
+                        enable: false,
+                        pos: [-140, -30],
+                        invert: true,
+                        scale: 'sca',
+                        name: 'Transparency'
+                    },
+                    
+                    sliders: {
+                        enable: false,
+                        bgimg: "images/bar-1px.png",
+                        width: 50,
+                        height: 100,
+                        bgwidth: 22,
+                        bgheight: 1,
+                        thumbimg: "images/dot_small.png",
+                        thumbwidth: 30,
+                        thumbheight: 27
+                    },
+                    
+                    /*
+                     * Allows section number to be modified in stacks.
+                     */
+                    selector: {
+                        enable: false,
+                        maxSize: [200, 200],
+                        pos: [40, 40]
+                    },
+                    
+                    gallery: {
+                        enable: false,
+                        maxthumbwidth: 70,
+                        maxthumbheight: 70,
+                        pos: [-40, 40]
+                    },
+                    
+                    contextmenu: {
+                        enable: false,
+                        pos: [50, 50],
+                        name: 'ContextMenu'
+                    },
+                    
+                    /*
+                     * Displays some useful variables.
+                     */
+                    debugwin: {
+                        enable: false,
+                        pos: [-140, -30]
+                    }
+                });
+                
                 ngembryo = new NGEmbryo();
                 ngembryo.start();
             });

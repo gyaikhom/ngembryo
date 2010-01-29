@@ -6,21 +6,48 @@
 }
 
 .soria .dijitToolbar .dijitButtonChecked, .soria .dijitToolbar .dijitToggleButtonChecked {
-    background-color: #d8e5f8;
-    border: 0px solid #316ac5;
+    background-color: #ffdd55;
+    color: #000000 !important;
+    border: 0px;
     padding: 3px;
 }
 
 .soria .dijitToolbar .dijitButtonCheckedHover, .soria .dijitToolbar .dijitToggleButtonCheckedHover {
-    background-color: #9abbea;
-    border: 0px solid #316ac5;
+    background-color: #aaaaaa !important;
+    border: 0px !important;
     padding: 3px;
 }
 
 .soria .dijitToolbar .dijitButtonHover, .soria .dijitToolbar .dijitToggleButtonHover, .soria .dijitToolbar .dijitDropDownButtonHover, .soria .dijitToolbar .dijitComboButtonHover .dijitButtonContents, .soria .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton {
-    border: 0px solid #316ac5;
+    border: 0px;
     padding: 3px;
-    background-color: #9abbea;
+    background-color: #d4aa00;
+}
+
+.dijitToolbar {
+    background: #555555 !important;
+    color: #ffffff;
+    border: 0px !important;
+    /*border-bottom: 1px solid #aaaaaa !important;*/
+    /*border-top: 1px solid #aaaaaa !important;*/
+    top: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+}
+
+.dijitGutter {
+    background-image: url(http://www.ema-europe.org/css/kangleipak/hash_bottom.png) !important;
+    visibility: hidden;
+    top: 25px !important;
+    left: 0px !important;
+    right: 0px !important;
+}
+
+.dijitContentPane {
+    background: #fff !important;
+    top: 25px !important;
+    left: 0px !important;
+    right: 0px !important;
 }
 
 .dijitDialogUnderlay {
@@ -68,7 +95,7 @@
     top: 0px;
     left: 0px;
     width: 300px;
-	height: 24px;
+    height: 24px;
     color: #ffffff;
     background: #1446ff;
     padding: 2px;
@@ -90,7 +117,18 @@
     width: 100%;
     overflow: hidden;
     position: absolute;
-    top: 0px;
+    top: -9px;
+    left: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#woolztargetframe {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: -9px;
     left: 0px;
     padding: 0px;
     margin: 0px;
@@ -102,15 +140,40 @@
     border: 0px;
 }
 
+#tfshadow {
+    background-image: url(../images/shadow.png);
+    background-repeat: x-repeat;
+    filter: alpha(opacity = 80);
+    opacity: 0.80;
+    -moz-opacity: .80;
+    border: 0px;
+    height: 9px;
+    width: 100%;
+    position: relative;
+    float: right;
+    top: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+    padding: 0px;
+    margin: 0px;
+}
+
 #controls {
-    background: #ffffff;
-    border: 1px solid #1446ff;
-    height: 200px;
-    width: 400px;
+    color: #ffffff;
+    /*
+     filter: alpha(opacity = 80);
+     opacity: 0.80;
+     -moz-opacity: .80;
+     */
+    background-color: #333333;
+    border: 0px solid #333333;
+    height: 490px;
+    width: 530px;
     /*	overflow: hidden; */
     position: relative;
-    top: 0px;
-    left: 0px;
+    float: right;
+    top: -9px;
+    right: 0px;
     padding: 0px;
     margin: 0px;
 }
@@ -118,35 +181,134 @@
 #toggleControls {
     width: 120px;
     height: 16px;
-    background: #1446ff;
+    background-color: #0000d4;
     color: #ffffff;
-    border: 1px solid #1446ff;
+    border: 1px solid #0000d4;
     position: absolute;
-    top: 200px;
-    left: -1px;
+    float: right;
+    top: 490px;
+    right: -1px;
     padding: 2px 5px;
     margin: 0px;
     cursor: pointer;
-    z-index: 200;
 }
 
-#zoomLabel {
-    border: 0px solid #ff0000;
+#roiLabel {
+    color: #ffffff;
+    border: 0px solid #ff00ff;
     text-align: left;
-    position: relative;
+    font-weight: bold;
+    position: absolute;
     top: 10px;
     left: 10px;
     float: left;
     display: block;
 }
 
-#zoomControl {
+#roiControl {
+    color: #ffffff;
+    background-color: #000000;
     border: 0px solid #ffff00;
     text-align: left;
-    position: relative;
-    top: 10px;
+    position: absolute;
+    top: 30px;
     left: 10px;
-    width: 300px;
-    height: 10px;
+    width: 250px;
+    height: 250px;
     float: left;
+}
+
+#secLabel {
+    color: #ffffff;
+    border: 0px solid #ff00ff;
+    text-align: left;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 270px;
+    float: left;
+    display: block;
+}
+
+#secControl {
+    color: #ffffff;
+    background-color: #ff00ff;
+    border: 0px solid #ffff00;
+    text-align: left;
+    position: absolute;
+    top: 30px;
+    left: 270px;
+    width: 250px;
+    height: 250px;
+    float: none;
+}
+
+#yawControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 435px;
+    left: 10px;
+    float: left;
+}
+
+#pitchControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 390px;
+    left: 10px;
+    float: left;
+}
+
+#dstControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 345px;
+    left: 10px;
+    float: left;
+}
+
+#zoomControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 300px;
+    left: 10px;
+    float: left;
+}
+
+#zoomLabel, #yawLabel, #pitchLabel, #dstLabel {
+    border: 0px solid #ffff00;
+    position: relative;
+    float: left;
+    display: block;
+    font-weight: bold;
+}
+
+#zoomValue, #yawValue, #pitchValue, #dstValue {
+    border: 0px solid #ffff00;
+    position: relative;
+    left: 5px;
+    width: 30px;
+    float: left;
+    text-align: left;
+    display: block;
+}
+
+#zoomSliderControl, #yawSliderControl, #pitchSliderControl, #dstSliderControl, #width-area, #height-area {
+    /*background: #ff0000; /* url(horizontal.jpg) 0 8px no-repeat; */
+    border: 1px solid #ffffff;
+    height: 10px;
+    width: 400px;
+    left: 0px;
+    top: 20px;
+    position: absolute;
+    float: left;
+    display: block;
+}
+
+#zoomSlider, #yawSlider, #pitchSlider, #dstSlider, #width-slider, #height-slider {
+    background: #ffdd55; /* url(button-horizontal.jpg) no-repeat; */
+    width: 28px;
+    height: 10px;
+    cursor: pointer;
+    position: relative;
 }
