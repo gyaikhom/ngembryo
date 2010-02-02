@@ -1,7 +1,7 @@
 <form dojoType='dijit.form.Form' name='c2dr' id='c2dr' method='post'>
 	Polyline: <input type='text' name='polyline' id='polyline' value='<?php echo ($_GET[polyline]); ?>'>
 	<br>
-    Scale: <input type='text' dojoType='dijit.form.TextBox' trim='true' name='scale' id='scale' value='1'>
+    Scale: <input type='text' dojoType='dijit.form.TextBox' trim='true' name='scale' id='scale' value='<?php echo ($_GET[scale]); ?>'>
     Distance: <input type='text' dojoType='dijit.form.TextBox' trim='true' name='dst' id='dst' value='<?php echo ($_GET[dst]); ?>'>
     <br>
     Yaw: <input type='text' dojoType='dijit.form.TextBox' trim='true' name='yaw' id='yaw' value='<?php echo ($_GET[yaw]); ?>'>

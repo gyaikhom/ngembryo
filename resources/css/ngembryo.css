@@ -43,15 +43,28 @@
     right: 0px !important;
 }
 
-.dijitContentPane {
+.dijitBorderContainer-dijitContentPane {
     background: #fff !important;
     top: 25px !important;
     left: 0px !important;
     right: 0px !important;
 }
 
+.dijitDialog {
+    border: 0px solid #ffffff !important;
+}
+
+.dijitDialogTitleBar {
+    background: #2a2aff !important;
+    color: #ffffff !important;
+}
+
+.dijitDialogPaneContent {
+    color: #000000 !important;
+}
+
 .dijitDialogUnderlay {
-    background: #010101;
+    background: #48373e;
 }
 
 .addMarker2D {
@@ -85,8 +98,8 @@
     position: absolute;
     width: 300px;
     height: 165px;
-    overflow: hidden;
-    border: 1px solid #1446ff;
+    /*overflow: hidden;*/
+    border: 1px solid #2a2aff;
     padding: 0px;
 }
 
@@ -94,22 +107,25 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 300px;
-    height: 24px;
+    width: 290px;
+    height: 18px;
     color: #ffffff;
-    background: #1446ff;
-    padding: 2px;
+    background: #2a2aff;
+    padding: 2px 5px;
+    text-align: left;
+    font-weight: bold;
 }
 
 #tipperDescription {
     position: absolute;
-    top: 16px;
+    top: 22px;
     left: 0px;
-    width: 300px;
-    height: 150px;
-    color: #555555;
+    width: 290px;
+    height: 133px;
+    color: #000000;
     background: #ffffff;
-    padding: 2px;
+    padding: 5px 5px;
+    text-align: left;
 }
 
 #targetframe {
@@ -200,7 +216,7 @@
     font-weight: bold;
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 148px;
     float: left;
     display: block;
 }
@@ -212,7 +228,7 @@
     text-align: left;
     position: absolute;
     top: 30px;
-    left: 10px;
+    left: 148px;
     width: 250px;
     height: 250px;
     float: left;
@@ -225,7 +241,7 @@
     font-weight: bold;
     position: absolute;
     top: 10px;
-    left: 270px;
+    left: 10px;
     float: left;
     display: block;
 }
@@ -237,7 +253,7 @@
     text-align: left;
     position: absolute;
     top: 30px;
-    left: 270px;
+    left: 10px;
     width: 128px;
     height: 128px;
     float: none;
@@ -311,4 +327,85 @@
     height: 10px;
     cursor: pointer;
     position: relative;
+}
+
+#navigatorControl {
+    color: #ffffff;
+    border: 0px solid #ffff00;
+    text-align: left;
+    position: absolute;
+    top: 168px;
+    left: 10px;
+    width: 128px;
+    height: 128px;
+    float: none;
+}
+
+#navigatorLabel {
+    border: 0px solid #ff00ff;
+    text-align: left;
+    font-weight: bold;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    float: left;
+    display: block;
+}
+
+#navigatorButtons {
+    background-color: #000000;
+    border: 0px solid #ff0000;
+    text-align: left;
+    font-weight: bold;
+    position: relative;
+    top: 6px;
+    left: 0px;
+    width: 128px;
+    height: 90px;
+    float: left;
+    display: block;
+}
+
+#navigatorLeft {
+    background-color: #000000;
+    background-image: url(../images/left.png);
+    position: absolute;
+    top: 27px;
+    left: 14px;
+    width: 30px;
+    height: 36px;
+    cursor: pointer;
+}
+
+#navigatorRight {
+    background-color: #000000;
+    background-image: url(../images/right.png);
+    position: absolute;
+    top: 27px;
+    left: 83px;
+    width: 30px;
+    height: 36px;
+    cursor: pointer;
+}
+
+#navigatorUp {
+    background-color: #000000;
+    background-image: url(../images/up.png);
+    position: absolute;
+    top: 9px;
+    left: 46px;
+    width: 36px;
+    height: 30px;
+    cursor: pointer;
+}
+
+#navigatorDown {
+    background-color: #000000;
+    background-image: url(../images/down.png);
+    position: absolute;
+    top: 55px;
+    left: 46px;
+    width: 36px;
+    height: 30px;
+    cursor: pointer;
 }
