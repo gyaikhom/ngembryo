@@ -31,7 +31,7 @@ if (isset($polyline)) {
         mysql_select_db("ngembryo", $con);
         
         /* Create a 2D region. */
-        $sql_insert_region = "INSERT INTO 2Dregion (scale, tl_x, tl_y, br_x, br_y, label, description) VALUES ('$_POST[scale]', 0, 0, 0, 0, '$_POST[label]', '$_POST[description]')";
+        $sql_insert_region = "INSERT INTO 2Dregion (scale, dst, yaw, rol, pit, tl_x, tl_y, br_x, br_y, label, description) VALUES ('$_POST[scale]', '$_POST[dst]', '$_POST[yaw]', '$_POST[rol]', '$_POST[pit]', 0, 0, 0, 0, '$_POST[label]', '$_POST[description]')";
         if (!mysql_query($sql_insert_region, $con)) {
             die('Insert region: '.mysql_error());
         }
