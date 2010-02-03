@@ -91,6 +91,13 @@
     height: 16px;
 }
 
+.measure {
+    background-image: url(../images/measure.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 16px;
+    height: 16px;
+}
 /*
  * Following values are used by region2D.js etc.
  */
