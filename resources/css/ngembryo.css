@@ -190,9 +190,9 @@
      */
     background-color: #333333;
     border: 0px solid #333333;
-    height: 490px;
+    height: 550px;
     width: 408px;
-    /*	overflow: hidden; */
+    /*  overflow: hidden; */
     position: relative;
     float: right;
     top: -9px;
@@ -209,7 +209,7 @@
     border: 1px solid #0000d4;
     position: absolute;
     float: right;
-    top: 490px;
+    top: 550px;
     right: -1px;
     padding: 2px 5px;
     margin: 0px;
@@ -269,7 +269,7 @@
 #yawControl {
     border: 0px solid #ffff00;
     position: absolute;
-    top: 435px;
+    top: 400px;
     left: 10px;
     float: left;
 }
@@ -277,7 +277,15 @@
 #pitchControl {
     border: 0px solid #ffff00;
     position: absolute;
-    top: 390px;
+    top: 450px;
+    left: 10px;
+    float: left;
+}
+
+#rollControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 500px;
     left: 10px;
     float: left;
 }
@@ -285,7 +293,7 @@
 #dstControl {
     border: 0px solid #ffff00;
     position: absolute;
-    top: 345px;
+    top: 350px;
     left: 10px;
     float: left;
 }
@@ -298,7 +306,7 @@
     float: left;
 }
 
-#zoomLabel, #yawLabel, #pitchLabel, #dstLabel {
+#zoomLabel, #yawLabel, #pitchLabel, #rollLabel, #dstLabel {
     border: 0px solid #ffff00;
     position: relative;
     float: left;
@@ -306,29 +314,58 @@
     font-weight: bold;
 }
 
-#zoomValue, #yawValue, #pitchValue, #dstValue {
-    border: 0px solid #ffff00;
+#zoomValue, #yawValue, #pitchValue, #dstValue, #rollValue {
+    border: 1px solid #555555;
+    background-color: #2a2a2a;
+    color: #ffff00;
     position: relative;
     left: 5px;
+top: -2px;
+padding: 1px;
     width: 30px;
-    float: left;
+/*    float: left;
     text-align: left;
-    display: block;
+    display: block;*/
 }
 
-#zoomSliderControl, #yawSliderControl, #pitchSliderControl, #dstSliderControl, #width-area, #height-area {
+#zoomSliderDecrement, #dstSliderDecrement, #yawSliderDecrement, #pitchSliderDecrement, #rollSliderDecrement {
+position: absolute;
+left: 0x;
+top: 19px;
+height: 16px;
+width: 16px;
+float: left;
+border: 1px solid #777777;
+color: #ffff00;
+cursor: pointer;
+}
+
+#zoomSliderIncrement, #dstSliderIncrement, #yawSliderIncrement, #pitchSliderIncrement, #rollSliderIncrement {
+position: absolute;
+left: 370px;
+top: 19px;
+height: 16px;
+width: 16px;
+float: left;
+border: 1px solid #777777;
+color: #ffff00;
+cursor: pointer;
+}
+
+
+#zoomSliderControl, #yawSliderControl, #pitchSliderControl, #rollSliderControl, #dstSliderControl, #width-area, #height-area {
     /*background: #ff0000; /* url(horizontal.jpg) 0 8px no-repeat; */
     border: 1px solid #ffffff;
     height: 10px;
-    width: 388px;
-    left: 0px;
-    top: 20px;
+    width: 342px;
+    left: 22px;
+    top: 22px;
     position: absolute;
     float: left;
     display: block;
 }
 
-#zoomSlider, #yawSlider, #pitchSlider, #dstSlider, #width-slider, #height-slider {
+#zoomSlider, #yawSlider, #pitchSlider, #rollSlider, #dstSlider, #width-slider, #height-slider {
     background: #ffff00; /* url(button-horizontal.jpg) no-repeat; */
     width: 20px;
     height: 10px;
