@@ -46,4 +46,16 @@ REMARKS
 2. Create the mysql.lock file if it does not exists (as in Ubuntu)
 	$ ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
 
+
+Database management
+
+1. Transferring test data from one database (source) host to another (destination).
+
+	a) Dump database:
+	$ mysqldump -u <username> -p <dbname> > <dbname>.sql
+
+	b) Import database:
+	$ mysql -p -h <hostname> <dbname>  < <dbname>.sql
+
+
 END OF DOCUMENT		
