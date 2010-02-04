@@ -21,13 +21,13 @@ if ($_GET[format] == "json") {
     echo '[';
     if ($resource = mysql_fetch_array($result)) {
         $rid = $resource['rid'];
-        $temp = mysql_query("SELECT * FROM resource WHERE id = '$rid'");
+        $temp = mysql_query("SELECT * FROM resource WHERE id=$rid");
         $detail = mysql_fetch_array($temp);
         echo '{ id: '.$detail['id'].', title: "'.$detail['title'].'", summary: "'.$detail['abstract'].'", url: "'.$detail['url'].'"}';
     }
     while ($resource = mysql_fetch_array($result)) {
         $rid = $resource['rid'];
-        $temp = mysql_query("SELECT * FROM resource WHERE id = '$rid'");
+        $temp = mysql_query("SELECT * FROM resource WHERE id=$rid");
         $detail = mysql_fetch_array($temp);
         echo ', { id: '.$detail['id'].', title: "'.$detail['title'].'", summary: "'.$detail['abstract'].'", url: "'.$detail['url'].'"}';
     }
@@ -36,16 +36,16 @@ if ($_GET[format] == "json") {
     if ($_GET[format] == "csv") {
     	print('id,'.'title,'.'abstract,'.'url'."\n");
         while ($resource = mysql_fetch_array($result)) {
-            $rid = $resource['id'];
-            $temp = mysql_query("SELECT * FROM resource WHERE id = '$rid'");
+            $rid = $resource['rid'];
+            $temp = mysql_query("SELECT * FROM resource WHERE id=$rid");
             $detail = mysql_fetch_array($temp);
             print($detail['id'].',"'.$detail['title'].'","'.$detail['abstract'].'","'.$detail['url'].'"'."\n");
         }    	
     } else {
         echo '<resourcelist>';
         while ($resource = mysql_fetch_array($result)) {
-            $rid = $resource['id'];
-            $temp = mysql_query("SELECT * FROM resource WHERE id = '$rid'");
+            $rid = $resource['rid'];
+            $temp = mysql_query("SELECT * FROM resource WHERE id=$rid");
             $detail = mysql_fetch_array($temp);
             echo '<resource><id>'.$detail['id'].'</id><title>'.$detail['title'].'</title><abstract>'.$detail['abstract'].'</abstract><url>'.$detail['url'].'</url></resource>';
         }
