@@ -83,4 +83,4 @@ CREATE TABLE 2DregionResource (
 );
 
 CREATE USER 'ngembryo'@'localhost' IDENTIFIED BY 'ngembryo';
-GRANT SELECT,INSERT,UPDATE,DELETE ON ngembryo.* TO 'ngembryo'@'localhost';
+GRANT ALL PRIVILEGES ON ngembryo.* TO 'ngembryo'@'localhost';
