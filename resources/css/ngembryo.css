@@ -329,7 +329,7 @@
 }
 
 #zoomSlider, #yawSlider, #pitchSlider, #dstSlider, #width-slider, #height-slider {
-    background: #ffdd55; /* url(button-horizontal.jpg) no-repeat; */
+    background: #ffff00; /* url(button-horizontal.jpg) no-repeat; */
     width: 20px;
     height: 10px;
     cursor: pointer;
@@ -415,4 +415,17 @@
     width: 36px;
     height: 30px;
     cursor: pointer;
+}
+
+#resourceGrid {
+  height: 350px;
+  width: 100%;
+  overflow-y: none;
+  overflow-x: none;
+}
+
+#resourceDescription { 
+  text-align: left;
+  height: 100px;
+  width: 100%;
 }
