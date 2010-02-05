@@ -98,6 +98,7 @@
     width: 16px;
     height: 16px;
 }
+
 /*
  * Following values are used by region2D.js etc.
  */
@@ -320,42 +321,40 @@
     color: #ffff00;
     position: relative;
     left: 5px;
-top: -2px;
-padding: 1px;
+    top: -2px;
+    padding: 1px;
     width: 30px;
-/*    float: left;
-    text-align: left;
-    display: block;*/
 }
 
 #zoomSliderDecrement, #dstSliderDecrement, #yawSliderDecrement, #pitchSliderDecrement, #rollSliderDecrement {
-position: absolute;
-left: 0x;
-top: 19px;
-height: 16px;
-width: 16px;
-float: left;
-border: 1px solid #777777;
-color: #ffff00;
-cursor: pointer;
+    position: absolute;
+    left: 0px;
+    top: 19px;
+    height: 16px;
+    width: 16px;
+    float: left;
+    border: 1px solid #777777;
+    color: #ffff00;
+    cursor: pointer;
+    background-color: #222222;
 }
 
 #zoomSliderIncrement, #dstSliderIncrement, #yawSliderIncrement, #pitchSliderIncrement, #rollSliderIncrement {
-position: absolute;
-left: 370px;
-top: 19px;
-height: 16px;
-width: 16px;
-float: left;
-border: 1px solid #777777;
-color: #ffff00;
-cursor: pointer;
+    position: absolute;
+    left: 370px;
+    top: 19px;
+    height: 16px;
+    width: 16px;
+    float: left;
+    border: 1px solid #777777;
+    color: #ffff00;
+    cursor: pointer;
+    background-color: #222222;
 }
 
-
 #zoomSliderControl, #yawSliderControl, #pitchSliderControl, #rollSliderControl, #dstSliderControl, #width-area, #height-area {
-    /*background: #ff0000; /* url(horizontal.jpg) 0 8px no-repeat; */
-    border: 1px solid #ffffff;
+    background-color: #222222;
+    border: 1px solid #777777;
     height: 10px;
     width: 342px;
     left: 22px;
@@ -366,7 +365,7 @@ cursor: pointer;
 }
 
 #zoomSlider, #yawSlider, #pitchSlider, #rollSlider, #dstSlider, #width-slider, #height-slider {
-    background: #ffff00; /* url(button-horizontal.jpg) no-repeat; */
+    background: #ffff00;
     width: 20px;
     height: 10px;
     cursor: pointer;
@@ -455,14 +454,14 @@ cursor: pointer;
 }
 
 #resourceGrid {
-  height: 350px;
-  width: 100%;
-  overflow-y: none;
-  overflow-x: none;
+    height: 350px;
+    width: 100%;
+    overflow-y: none;
+    overflow-x: none;
 }
 
-#resourceDescription { 
-  text-align: left;
-  height: 100px;
-  width: 100%;
+#resourceDescription {
+    text-align: left;
+    height: 100px;
+    width: 100%;
 }
