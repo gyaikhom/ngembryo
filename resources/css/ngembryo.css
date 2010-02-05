@@ -465,3 +465,15 @@
     height: 100px;
     width: 100%;
 }
+
+#create2DMarkerCanvas {
+    cursor: url(../images/Handwriting.cur), crosshair, default;
+}
+
+#create2DRegionCanvas {
+    cursor: url(../images/Handwriting.cur), crosshair, default;
+}
+
+#createMeasurementCanvas {
+    cursor: url(../images/Precision.cur), crosshair, default;
+}
