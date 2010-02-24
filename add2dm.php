@@ -6,8 +6,11 @@ if (!$con) {
 
 mysql_select_db("ngembryo", $con);
 
-$sql = "INSERT INTO Layer2Dmarker (aid, lid) VALUES ('$_POST[aid]', '$_POST[lid]')";
-	
+/* Supplied by the client. */
+$aid = $_POST[aid];
+$lid = $_POST[lid];
+
+$sql = "INSERT INTO layer2Dmarker (aid, lid) VALUES ('$aid', '$lid')";	
 if (!mysql_query($sql, $con)) {
     die('Error: '.mysql_error());
 }

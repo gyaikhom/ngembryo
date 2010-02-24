@@ -6,8 +6,12 @@ if (!$con) {
 
 mysql_select_db("ngembryo", $con);
 
-$sql = "INSERT INTO Layer (title, abstract, description) VALUES ('$_POST[title]', '$_POST[abstract]', '$_POST[description]')";
-	
+/* Supplied by the client. */
+$title = $_POST[title];
+$summary = $_POST[summary];
+$description = $_POST[description];
+
+$sql = "INSERT INTO layer (title, summary, description) VALUES ('$title', '$summary', '$description')";	
 if (!mysql_query($sql, $con)) {
     die('Error: '.mysql_error());
 }

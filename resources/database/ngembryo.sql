@@ -3,11 +3,11 @@ CREATE DATABASE ngembryo;
 
 USE ngembryo;
 
-CREATE TABLE Layer (
+CREATE TABLE layer (
   id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   title VARCHAR(255) NOT NULL,
-  abstract TEXT NULL,
-  detail TEXT NULL,
+  summary TEXT NULL,
+  description TEXT NULL,
   PRIMARY KEY(id)
 );
 
@@ -90,24 +90,24 @@ CREATE TABLE 2DregionResource (
   FOREIGN KEY (rid) REFERENCES resource (id)
 );
 
-CREATE TABLE Layer2Dmarker (
+CREATE TABLE layer2Dmarker (
   id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   aid INTEGER UNSIGNED NOT NULL,
   lid INTEGER UNSIGNED NOT NULL,
   PRIMARY KEY(id),
   INDEX (aid, lid),
   FOREIGN KEY (aid) REFERENCES 2Dmarker (id),
-  FOREIGN KEY (lid) REFERENCES Layer (id)
+  FOREIGN KEY (lid) REFERENCES layer (id)
 );
 
-CREATE TABLE Layer2Dregion (
+CREATE TABLE layer2Dregion (
   id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   aid INTEGER UNSIGNED NOT NULL,
   lid INTEGER UNSIGNED NOT NULL,
   PRIMARY KEY(id),
   INDEX (aid, lid),
   FOREIGN KEY (aid) REFERENCES 2Dregion (id),
-  FOREIGN KEY (lid) REFERENCES Layer (id)
+  FOREIGN KEY (lid) REFERENCES layer (id)
 );
 
 CREATE USER 'ngembryo'@'localhost' IDENTIFIED BY 'ngembryo';

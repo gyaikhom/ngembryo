@@ -6,16 +6,17 @@ if (!$con) {
 
 mysql_select_db("ngembryo", $con);
 
+/* Supplied by the client. */
 $aid = $_POST[aid];
 $lid = $_POST[lid];
 
 /* For the moment, a region can only belong to a single layer. */
-$sql = "DELETE from Layer2Dregion WHERE aid='$aid'";
+$sql = "DELETE from layer2Dregion WHERE aid='$aid'";
 if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }
 
-$sql = "INSERT INTO Layer2Dregion (aid, lid) VALUES ('$aid', '$lid')";
+$sql = "INSERT INTO layer2Dregion (aid, lid) VALUES ('$aid', '$lid')";
 if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }

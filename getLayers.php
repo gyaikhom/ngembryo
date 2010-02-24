@@ -6,20 +6,20 @@ if (!$con) {
 
 mysql_select_db("ngembryo", $con);
 
-$result = mysql_query("SELECT * FROM Layer");
+$result = mysql_query("SELECT * FROM layer");
 
 if ($_GET[format] == "json") {
     echo '[';
     if ($row = mysql_fetch_array($result))
-        echo '{ id: '.$row['id'].', title: '.$row['title'].', abstract: '.$row['abstract'].', description: '.$row['description'].'" }';
+        echo '{ id: '.$row['id'].', title: '.$row['title'].', summary: '.$row['summary'].', description: '.$row['description'].'" }';
     while ($row = mysql_fetch_array($result)) {
-        echo ', { id: '.$row['id'].', title: '.$row['title'].', abstract: '.$row['abstract'].', description: '.$row['description'].'" }';
+        echo ', { id: '.$row['id'].', title: '.$row['title'].', summary: '.$row['summary'].', description: '.$row['description'].'" }';
     }
     echo ']';
 } else {
     echo '<layers>';
     while ($row = mysql_fetch_array($result)) {
-        echo '<layer><id>'.$row['id'].'</id>title>'.$row['title'].'</title><abstract>'.$row['abstract'].'</abstract><description>'.$row['description'].'</description></layer>';
+        echo '<layer><id>'.$row['id'].'</id>title>'.$row['title'].'</title><summary>'.$row['summary'].'</summary><description>'.$row['description'].'</description></layer>';
     }
     echo '</layers>';
 }
