@@ -36,7 +36,7 @@
 }
 
 .dijitGutter {
-    background-image: url(http://www.ema-europe.org/css/kangleipak/hash_bottom.png) !important;
+    background-image: url(../images/shadow.png) !important;
     visibility: hidden;
     top: 25px !important;
     left: 0px !important;
