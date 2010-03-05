@@ -1,20 +1,34 @@
-<?php 
+<?php
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
-    print('Could not connect: '.mysql_error());
-    die('Could not connect: '.mysql_error());
+    die('{success: false, message: "MySQL connection error:'.mysql_error().'", id: -1}');
 }
 
 mysql_select_db("ngembryo", $con);
 
-$sql = "INSERT INTO 2Dmarker (x, y, scale, dst, yaw, rol, pit, label, description) VALUES ('$_POST[x]', '$_POST[y]', '$_POST[scale]', '$_POST[dst]', '$_POST[yaw]', '$_POST[rol]', '$_POST[pit]', '$_POST[label]', '$_POST[description]')";
+/* Supplied by the client. */
+$x = $_POST[x];
+$y = $_POST[y];
+$scale = $_POST[scale];
+$label = $_POST[label];
+$description = $_POST[description];
+$lid = $_POST[lid];
 
-if (!mysql_query($sql, $con)) {
-    print('Error: '.mysql_error());
-    die('Error: '.mysql_error());
+/* First check if the layer exists. */
+$layer = mysql_query("SELECT id FROM layer WHERE id=$lid");
+if ($x = mysql_fetch_array($layer)) {
+    $lid = $x['id'];
+} else {
+    die('{success: false, message: "Invalid layer.", id: -2}');
 }
 
-mysql_close($con);
+/* Create a new 2D marker using this layer. */
+$sql = "INSERT INTO 2Dmarker (lid, x, y, scale, label, description) VALUES ('$lid', '$x', '$y', '$scale', '$label', '$description')";
+if (!mysql_query($sql, $con)) {
+    die('{success: false, message: "MySQL Query error:'.mysql_error().'", id: -3}');
+}
+$id = mysql_insert_id();
+echo '{success: true, message: "New 2D marker created.", id:'.$id.'}';
 
-print("Successfully added new 2D marker at (".'$_POST[x]'.", ".'$_POST[y]'.")");
+mysql_close($con);
 ?>
