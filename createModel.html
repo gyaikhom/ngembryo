@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Create 2D marker</title>
+    </head>
+    <body>
+        <form action="createModel.php" method="post" accept-charset="utf-8">
+        	  title: <input type='text' name='title' id='title' maxlength='255' value='TS18' style='width: 100%;' ><br>
+              description:  <textarea name='description' id='description' style='width: 100%; height: 300px;'></textarea><br>
+              stack: <input type='text' name='stack' id='stack' value='/export/system1/MAWWW/html/mrciip/projects/wlziip/TS18Model.wlz' style='width: 100%;' ><br>
+              server: <input type='text' name='server' id='server' value='http://127.0.0.1/fcgi-bin/wlziipsrv.fcgi' style='width: 100%;' ><br>
+              webpath: <input type='text' name='webpath' id='webpath' value='/wlziip-projects/' style='width: 100%;' ><br>
+              fspath: <input type='text' name='fspath' id='fspath' value='/export/system1/MAWWW/html/mrciip/projects/' style='width: 100%;' ><br>
+              initialdst: <input type='text' name='initialdst' id='initialdst' value='123' style='width: 100%;' ><br>
+              assayid: <input type='text' name='assayid' id='assayid' value='' style='width: 100%;' ><br>
+              imgtitle: <input type='text' name='imgtitle' id='imgtitle' value='' style='width: 100%;' ><br>
+              external: <input type='text' name='external' id='external' value='' style='width: 100%;' ><br>
+              tileframe: <input type='text' name='tileframe' id='tileframe' value='1' style='width: 100%;' ><br>
+              locator: <input type='text' name='locator' id='locator' value='1' style='width: 100%;' ><br>
+              sectionplane: <input type='text' name='sectionplane' id='sectionplane' value='1' style='width: 100%;' ><br>
+              sp_src: <input type='text' name='spsrc' id='spsrc' value='/export/system1/MAWWW/html/mrciip/projects/wlziip/ts18_sectionMontage.tif' style='width: 100%;' ><br>
+              sp_inc: <input type='text' name='spinc' id='spinc' value='1' style='width: 100%;' ><br>
+              sp_numpit: <input type='text' name='sppit' id='sppit' value='180' style='width: 100%;' ><br>
+              sp_numyaw: <input type='text' name='spyaw' id='spyaw' value='180' style='width: 100%;' ><br>
+              sp_title: <input type='text' name='sptitle' id='sptitle' value='Section plane' style='width: 100%;' ><br>
+              sp_bgcolor: <input type='text' name='spbgcolor' id='spbgcolor' value='black' style='width: 100%;' ><br>
+			<input type='submit' value='Create'>
+        </form>
+    </body>
+</html>
