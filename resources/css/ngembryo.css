@@ -183,6 +183,12 @@
 }
 
 #controls {
+    position: relative;
+    float: right;
+    top: -9px;
+    right: 0px;
+    padding: 0px;
+    margin: 0px;
     color: #ffffff;
     /*
      filter: alpha(opacity = 80);
@@ -191,119 +197,125 @@
      */
     background-color: #333333;
     border: 0px solid #333333;
-    height: 550px;
-    width: 408px;
+    border-left: 1px solid #222222;
+    height: 450px;
+    width: 407px;
     /*  overflow: hidden; */
-    position: relative;
-    float: right;
-    top: -9px;
-    right: 0px;
-    padding: 0px;
-    margin: 0px;
 }
 
 #toggleControls {
-    width: 120px;
-    height: 16px;
-    background-color: #0000d4;
-    color: #ffffff;
-    border: 1px solid #0000d4;
     position: absolute;
     float: right;
-    top: 550px;
-    right: -1px;
-    padding: 2px 5px;
+    top: 450px;
+    right: 0px;
+    height: 24px;
+    width: 408px;
+    border: 0px solid #0000d4;
+    border-top: 1px solid #777777;
+    padding: 0px;
+    padding-top: 4px;
     margin: 0px;
+    background-image: url(../images/toggleControl.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    font-weight: bold;
+    font-size: 9pt;
+    color: #010101;
+    text-shadow: #a1a1a1 0px 1px 0px;
     cursor: pointer;
 }
 
 #roiLabel {
-    color: #ffffff;
-    border: 0px solid #ff00ff;
-    text-align: left;
-    font-weight: bold;
     position: absolute;
+    float: left;
     top: 10px;
     left: 148px;
-    float: left;
     display: block;
+    border: 0px solid #ff00ff;
+    color: #cccccc;
+    text-align: left;
+    font-weight: bold;
+    font-size: 8pt;
+    text-shadow: #000000 0px 1px 0px;
 }
 
 #roiControl {
-    color: #ffffff;
-    background-color: #000000;
-    border: 0px solid #ffff00;
-    text-align: left;
     position: absolute;
+    float: left;
     top: 30px;
     left: 148px;
     width: 250px;
     height: 250px;
-    float: left;
+    border: 0px solid #ffff00;
+    color: #ffffff;
+    text-align: left;
+    background-color: #000000;
 }
 
 #secLabel {
-    color: #ffffff;
-    border: 0px solid #ff00ff;
-    text-align: left;
-    font-weight: bold;
     position: absolute;
     top: 10px;
     left: 10px;
     float: left;
     display: block;
+    border: 0px solid #ff00ff;
+    color: #cccccc;
+    text-align: left;
+    font-weight: bold;
+    font-size: 8pt;
+    text-shadow: #000000 0px 1px 0px;
 }
 
 #secControl {
-    color: #ffffff;
-    background-color: #ff00ff;
-    border: 0px solid #ffff00;
-    text-align: left;
     position: absolute;
+    float: none;
     top: 30px;
     left: 10px;
     width: 128px;
     height: 128px;
-    float: none;
-}
-
-#yawControl {
+    color: #ffffff;
+    background-color: #ff00ff;
     border: 0px solid #ffff00;
-    position: absolute;
-    top: 400px;
-    left: 10px;
-    float: left;
-}
-
-#pitchControl {
-    border: 0px solid #ffff00;
-    position: absolute;
-    top: 450px;
-    left: 10px;
-    float: left;
-}
-
-#rollControl {
-    border: 0px solid #ffff00;
-    position: absolute;
-    top: 500px;
-    left: 10px;
-    float: left;
-}
-
-#dstControl {
-    border: 0px solid #ffff00;
-    position: absolute;
-    top: 350px;
-    left: 10px;
-    float: left;
+    text-align: left;
 }
 
 #zoomControl {
     border: 0px solid #ffff00;
     position: absolute;
     top: 300px;
+    left: 26px;
+    float: left;
+}
+
+#dstControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 325px;
     left: 10px;
+    float: left;
+}
+
+#yawControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 350px;
+    left: 35px;
+    float: left;
+}
+
+#pitchControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 375px;
+    left: 29px;
+    float: left;
+}
+
+#rollControl {
+    border: 0px solid #ffff00;
+    position: absolute;
+    top: 400px;
+    left: 35px;
     float: left;
 }
 
@@ -313,63 +325,86 @@
     float: left;
     display: block;
     font-weight: bold;
+    font-size: 8pt;
+    color: #cccccc;
+    text-shadow: #000000 0px 1px 0px;
 }
 
 #zoomValue, #yawValue, #pitchValue, #dstValue, #rollValue {
-    border: 1px solid #555555;
-    background-color: #2a2a2a;
-    color: #ffff00;
     position: relative;
-    left: 5px;
-    top: -2px;
-    padding: 1px;
-    width: 30px;
+    float: left;
+    left: 6px;
+    top: 0px;
+    height: 17px;
+    width: 25px;
+    border: 0px solid #555555;
+    padding: 0px;
+    background-color: #2a2a2a;
+    background: url(../images/cvalue.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    font-weight: bold;
+    font-size: 8pt;
+    color: #ffffff;
 }
 
 #zoomSliderDecrement, #dstSliderDecrement, #yawSliderDecrement, #pitchSliderDecrement, #rollSliderDecrement {
-    position: absolute;
-    left: 0px;
-    top: 19px;
-    height: 16px;
-    width: 16px;
+    position: relative;
     float: left;
-    border: 1px solid #777777;
-    color: #ffff00;
+    left: 6px;
+    top: 0px;
+    height: 17px;
+    width: 17px;
+    border: 0px solid #555555;
+    padding: 0px;
+    background-color: #2a2a2a;
+    background: url(../images/cvalueDec.png);
+    background-repeat: no-repeat;
+    background-position: center center;
     cursor: pointer;
-    background-color: #222222;
 }
 
 #zoomSliderIncrement, #dstSliderIncrement, #yawSliderIncrement, #pitchSliderIncrement, #rollSliderIncrement {
-    position: absolute;
-    left: 370px;
-    top: 19px;
-    height: 16px;
-    width: 16px;
+    position: relative;
     float: left;
-    border: 1px solid #777777;
-    color: #ffff00;
+    left: 6px;
+    top: 0px;
+    height: 17px;
+    width: 17px;
+    border: 0px solid #555555;
+    padding: 0px;
+    background-color: #2a2a2a;
+    background: url(../images/cvalueInc.png);
+    background-repeat: no-repeat;
+    background-position: center center;
     cursor: pointer;
-    background-color: #222222;
 }
 
 #zoomSliderControl, #yawSliderControl, #pitchSliderControl, #rollSliderControl, #dstSliderControl, #width-area, #height-area {
-    background-color: #222222;
-    border: 1px solid #777777;
-    height: 10px;
-    width: 342px;
-    left: 22px;
-    top: 22px;
-    position: absolute;
+    position: relative;
     float: left;
     display: block;
+    top: 7px;
+    left: 16px;
+    height: 4px;
+    width: 260px;
+    border: 0px solid #777777;
+    background-color: #222222;
+    background: url(../images/slider.png);
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 #zoomSlider, #yawSlider, #pitchSlider, #rollSlider, #dstSlider, #width-slider, #height-slider {
-    background: #ffff00;
-    width: 20px;
-    height: 10px;
-    cursor: pointer;
     position: relative;
+    top: -6px;
+    height: 15px;
+    width: 15px;
+    background: #ffff00;
+    background: url(../images/sliderHandle.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor: pointer;
 }
 
 #navigatorControl {
@@ -388,6 +423,9 @@
     border: 0px solid #ff00ff;
     text-align: left;
     font-weight: bold;
+    font-size: 8pt;
+    color: #cccccc;
+    text-shadow: #000000 0px 1px 0px;
     position: relative;
     top: 0px;
     left: 0px;
