@@ -52,7 +52,7 @@
             dojo.require("dojox.data.CsvStore");
             dojo.require("dojo.fx");
             dojo.require("dojo.fx.easing");
-			dojo.require("dojo.dnd.move");
+            dojo.require("dojo.dnd.move");
             dojo.require("dojo.parser");
         </script>
         <!--
@@ -90,6 +90,10 @@
         <script type="text/javascript" src="lib/ngembryo/IIPManager.js">
         </script>
         <script type="text/javascript" src="lib/ngembryo/dialogManager.js">
+        </script>
+        <script type="text/javascript" src="lib/ngembryo/orientations.js">
+        </script>
+        <script type="text/javascript" src="lib/ngembryo/layers.js">
         </script>
         <script type="text/javascript" src="lib/ngembryo/toolbar.js">
         </script>
@@ -138,9 +142,9 @@
                 ngembryo = new NGEmbryo();
                 ngembryo.start();
             });
-			dojo.addOnUnload(function() {
-				destroyChildSubtree(dojo.body());
-			});
+            dojo.addOnUnload(function(){
+                destroyChildSubtree(dojo.body());
+            });
         </script>
     </body>
 </html>

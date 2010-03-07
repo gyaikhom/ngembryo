@@ -2,7 +2,7 @@
 
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
-	die('{success: false, message: "MySQL connection error:'.mysql_error().'", id: -1}');
+	die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", id: 0}');
 }
 
 mysql_select_db("ngembryo", $con);
@@ -18,7 +18,7 @@ function cleanup($con, $region_id, $reason) {
 	$sql_remove_region = "DELETE FROM 2Dpolyline WHERE 2Dregion_id = '$region_id'";
 	mysql_query($sql_remove_region, $con);
 
-	die('{success: false, message: "Failed to insert polyline: '.$reason.'", id: -2}');
+	die('{success: false, errcode: -1, message: "Failed to insert polyline: '.$reason.'", id: 0}');
 }
 
 /* Supplied by the client. */
@@ -30,10 +30,10 @@ $polyline = $_POST[polyline];
 
 /* First check if the layer exists. */
 $layer = mysql_query("SELECT id FROM layer WHERE id=$lid");
-if ($x = mysql_fetch_array($layer)) {
-	$lid = $x['id'];
+if ($temp = mysql_fetch_array($layer)) {
+	$lid = $temp['id'];
 } else {
-	die('{success: false, message: "Invalid layer.", id: -2}');
+	die('{success: false, errcode: -2, message: "Invalid layer.", id: 0}');
 }
 
 /*
@@ -42,12 +42,12 @@ if ($x = mysql_fetch_array($layer)) {
 if (isset($polyline)) {
 	$points = explode(':', $polyline);
 	if (sizeof($points) < 3) {
-		die('{success: false, message: "At least three points are required to create a region.", id: -3}');
+		die('{success: false, errcode: -3, message: "At least three points are required to create a region.", id: 0}');
 	} else {
 		/* Create a 2D region. */
 		$sql_insert_region = "INSERT INTO 2Dregion (lid, scale, tl_x, tl_y, br_x, br_y, label, description) VALUES ('$lid', '$scale', 0, 0, 0, 0, '$label', '$description')";
 		if (!mysql_query($sql_insert_region, $con)) {
-			die('{success: false, message: "MySQL query error:'.mysql_error().'", id: -4}');
+			die('{success: false, errcode: 1, message: "MySQL query error:'.mysql_error().'", id: 0}');
 		}
 		$region_id = mysql_insert_id();
 
@@ -84,9 +84,9 @@ if (isset($polyline)) {
 		mysql_close($con);
 	}
 } else {
-	echo "Invalid polyline.";
+	die('{success: false, errcode: -4, message: "Supplied polyline is invalid: '.$reason.'", id: 0}');
 }
-echo '{success: true, message: "New 2D region created.", id:'.$region_id.'}';
+echo '{success: true, errcode: 0, message: "New 2D region created.", id:'.$region_id.'}';
 
 mysql_close($con);
 ?>
