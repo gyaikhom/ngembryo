@@ -549,11 +549,11 @@
     background-color: #a9dfff;
 }
 
-#details {
+.details {
     border: 0px solid #777777;
 }
 
-#details td {
+.details td {
     padding: 0px 5px;
 }
 
@@ -566,18 +566,18 @@
     text-align: left;
 }
 
-#items {
+.items {
     border: 1px solid #777777;
 }
 
-#items th {
+.items th {
     padding: 3px;
     background-color: #aaaaaa;
     font-weight: bold;
     text-shadow: #d1d1d1 0px 1px 0px;
 }
 
-#items td {
+.items td {
     padding: 3px;
     font-weight: medium;
 }
@@ -592,4 +592,8 @@
 
 .evenRow {
     background-color: #eeeeee;
+}
+
+.selected {
+    background-color: #93c1ff;;
 }

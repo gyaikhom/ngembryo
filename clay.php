@@ -9,5 +9,5 @@
     Description (maximum 400 characters, no line breaks):<br>
     <textarea name='description' id='description' rows="10" cols="75" onKeyDown="reformatTextArea(this, 400);" onKeyUp="reformatTextArea(this, 400);"></textarea><br>
     <button dojoType="dijit.form.Button" type="submit">OK</button>
-    <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('layers-dialog').hide();">Cancel</button>
+    <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('create-layer-dialog').hide();">Cancel</button>
 </form>
