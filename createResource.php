@@ -1,16 +1,33 @@
-<?php 
+<?php
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
-    die('Could not connect: '.mysql_error());
+	die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", rid: 0}');
 }
 
 mysql_select_db("ngembryo", $con);
 
-$sql = "INSERT INTO resource (title, abstract, url) VALUES ('$_POST[title]', '$_POST[abstract]', '$_POST[url]')";
-	
-if (!mysql_query($sql, $con)) {
-    die('Error: '.mysql_error());
+/* Supplied by the client. */
+$title = $_POST[title];
+$author = $_POST[author];
+$abstract = $_POST[description];
+
+/* Check if a resource with the given title and author exists. */
+$sql = "SELECT * FROM resource WHERE author='$author' AND title='$title'";
+if ($result = mysql_query($sql, $con)) {
+	if ($temp = mysql_fetch_array($result)) {
+		die('{success: false, errcode: -2, message: "Resource with the given title already exists. No new resource created.", rid: '.$temp['id'].'}');
+	}
+} else {
+	die('{success: false, errcode: 3, message: "MySQL Query error:'.mysql_error().'", rid: 0}');
 }
+
+/* Create a new resource. */
+$sql = "INSERT INTO resource (title, author, abstract) VALUES ('$title', '$author', '$abstract')";
+if (!mysql_query($sql, $con)) {
+	die('{success: false, errcode: 6, message: "MySQL Query error:'.mysql_error().'", rid: 0}');
+}
+$rid = mysql_insert_id();
+echo '{success: true, errcode: 0, message: "New resource created.", rid:'.$rid.'}';
 
 mysql_close($con);
 ?>

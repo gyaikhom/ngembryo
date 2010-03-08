@@ -345,7 +345,7 @@
     background-position: center center;
     font-weight: bold;
     font-size: 8pt;
-	text-align: right;
+    text-align: right;
     color: #ffffff;
 }
 
@@ -517,38 +517,79 @@
     cursor: url(../images/Precision.cur), crosshair, default;
 }
 
-.oddRow {
-	cursor: pointer;
-	background-color: #aaaaaa;
-	border-top: 1px solid #777777;
+.author {
+    color: #000077;
+    font-weight: medium;
 }
 
-.evenRow {
-	cursor: pointer;
-    background-color: #dddddd;
-	border-top: 1px solid #777777;
+.title {
+    color: #000000;
+    font-weight: bold;
+}
+
+.abstract {
+    color: #007700;
+    font-weight: medium;
+    font-style: oblique;
+}
+
+.mime {
+}
+
+.link {
 }
 
 .oddRowSelected {
-	cursor: default;
+    cursor: default;
     background-color: #a9dfff;
 }
 
 .evenRowSelected {
-	cursor: default;
+    cursor: default;
     background-color: #a9dfff;
 }
 
-.layerBrowser, .orientationBrowser {
-	padding: 2px;
+#details {
+    border: 0px solid #777777;
 }
-.rowLabel {
-	text-align: right;
-	font-weight: bold;
-	padding: 5px;
+
+#details td {
+    padding: 0px 5px;
 }
- 
-.rowValue {
-	text-align: left;
-	   padding: 5px;
+
+.label {
+    text-align: right;
+    font-weight: bold;
+}
+
+.value {
+    text-align: left;
+}
+
+#items {
+    border: 1px solid #777777;
+}
+
+#items th {
+    padding: 3px;
+    background-color: #aaaaaa;
+    font-weight: bold;
+    text-shadow: #d1d1d1 0px 1px 0px;
+}
+
+#items td {
+    padding: 3px;
+    font-weight: medium;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.oddRow {
+    background-color: #dddddd;
+}
+
+.evenRow {
+    background-color: #eeeeee;
 }
