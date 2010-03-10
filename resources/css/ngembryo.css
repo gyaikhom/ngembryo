@@ -568,6 +568,11 @@
 
 .items {
     border: 1px solid #777777;
+	width: 100%;
+}
+
+.items tr:hover {
+background-color: #79a7ff;
 }
 
 .items th {
@@ -580,7 +585,9 @@
 .items td {
     padding: 3px;
     font-weight: medium;
+	text-align: left;
 }
+
 
 .clickable {
     cursor: pointer;
