@@ -604,3 +604,20 @@ background-color: #79a7ff;
 .selected {
     background-color: #93c1ff;;
 }
+
+.orientation-browser {
+	width: 300px;
+	height: 400px;
+    overflow: auto;
+}
+.layer-browser {
+    height: 400px;
+    overflow: auto;
+}
+.resource-browser {
+    height: 400px;
+    overflow: auto;
+}
+.form {
+	text-align: left;
+}

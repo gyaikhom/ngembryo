@@ -1,3 +1,4 @@
+<div class="form">
 <form dojoType='dijit.form.Form' name='c2dr' id='c2dr' method='post'>
     Layer: <input type='text' trim='true' name='lid' id='lid' value='<?php echo ($_GET[lid]); ?>'><br>
 	Polyline: <input type='text' name='polyline' id='polyline' value='<?php echo ($_GET[polyline]); ?>'><br>
@@ -14,3 +15,4 @@
         Cancel
     </button>
 </form>
+</div>

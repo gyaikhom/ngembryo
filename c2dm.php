@@ -1,3 +1,4 @@
+<div class="form">
 <form dojoType='dijit.form.Form' name='c2dm' id='c2dm' method='post'>
 Layer: <input type='text' trim='true' name='lid' id='lid' value='<?php echo ($_GET[lid]); ?>'><br></br>
 X:<input type='text' trim='true' name='x' id='x' value='<?php echo ($_GET[x]); ?>'>
@@ -14,3 +15,4 @@ Description (maximum 400 characters, no line breaks):<br>
 <button dojoType="dijit.form.Button" type="button"
 	onClick="dijit.byId('dialog').hide();">Cancel</button>
 </form>
+</div>

@@ -1,3 +1,4 @@
+<div class="form">
 <form dojoType='dijit.form.Form' name='clay' id='clay' method='post'>
     Model: <input type='text' trim='true' name='model' id='model' readonly='true' value='<?php echo ($_GET[model]); ?>'><br>
     Distance: <input type='text' trim='true' name='distance' id='distance' value='<?php echo ($_GET[distance]); ?>'><br>
@@ -11,3 +12,4 @@
     <button dojoType="dijit.form.Button" type="submit">OK</button>
     <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('create-layer-dialog').hide();">Cancel</button>
 </form>
+</div>

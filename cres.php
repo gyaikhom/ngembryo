@@ -1,3 +1,4 @@
+<div class="form">
 <form dojoType='dijit.form.Form' name='cres' id='cres' method='post'>
     Author:<br>
     <input type='text' trim='true' name='author' id='author' value='' style='width: 300px;'><br>
@@ -8,3 +9,4 @@
     <button dojoType="dijit.form.Button" type="submit">OK</button>
     <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('create-resource-dialog').hide();">Cancel</button>
 </form>
+</div>

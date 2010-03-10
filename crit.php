@@ -1,3 +1,4 @@
+<div class="form">
 <form dojoType='dijit.form.Form' name='crit' id='crit' method='post'>
     Resource: <input type='text' trim='true' name='rid' id='rid' readonly='true' value='<?php echo ($_GET[rid]); ?>'><br>
     Mime: <input type='text' trim='true' name='mime' id='mime' value=''><br>
@@ -9,3 +10,4 @@
     <button dojoType="dijit.form.Button" type="submit">OK</button>
     <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('add-resource-item-dialog').hide();">Cancel</button>
 </form>
+</div>
