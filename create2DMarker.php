@@ -23,7 +23,7 @@ if ($temp = mysql_fetch_array($layer)) {
 }
 
 /* Create a new 2D marker using this layer. */
-$sql = "INSERT INTO 2Dmarker (lid, x, y, scale, label, description) VALUES ('$lid', '$x', '$y', '$scale', '$label', '$description')";
+$sql = "INSERT INTO 2Dmarker (lid, x, y, scale, label, description, created_at) VALUES ('$lid', '$x', '$y', '$scale', '$label', '$description', NOW())";
 if (!mysql_query($sql, $con)) {
     die('{success: false, errcode: 1, message: "MySQL Query error:'.mysql_error().'", id: 0}');
 }

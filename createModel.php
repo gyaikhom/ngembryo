@@ -27,7 +27,7 @@ $sp_numyaw = $_POST[spyaw];
 $sp_title = $_POST[sptitle];
 $sp_bgcolor = $_POST[spbgcolor];
 
-$sql = "INSERT INTO model (title, description, stack, server, webpath, fspath, initialdst, assayid, imgtitle, external, tileframe, locator, sectionplane, sp_src, sp_inc, sp_numpit, sp_numyaw, sp_title, sp_bgcolor) VALUES ('$title', '$description', '$stack', '$server', '$webpath', '$fspath', '$initialdst', '$assayid', '$imgtitle', '$external', '$tileframe', '$locator', '$sectionplane', '$sp_src', '$sp_inc', '$sp_numpit', '$sp_numyaw', '$sp_title', '$sp_bgcolor')";
+$sql = "INSERT INTO model (title, description, stack, server, webpath, fspath, initialdst, assayid, imgtitle, external, tileframe, locator, sectionplane, sp_src, sp_inc, sp_numpit, sp_numyaw, sp_title, sp_bgcolor, created_at) VALUES ('$title', '$description', '$stack', '$server', '$webpath', '$fspath', '$initialdst', '$assayid', '$imgtitle', '$external', '$tileframe', '$locator', '$sectionplane', '$sp_src', '$sp_inc', '$sp_numpit', '$sp_numyaw', '$sp_title', '$sp_bgcolor', NOW())";
 if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }

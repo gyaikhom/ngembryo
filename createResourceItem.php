@@ -34,7 +34,7 @@ if ($result = mysql_query($sql, $con)) {
 }
 
 /* Create a new resource item. */
-$sql = "INSERT INTO resourceItem (rid, title, abstract, mime, link) VALUES ('$rid', '$title', '$abstract', '$mime', '$link')";
+$sql = "INSERT INTO resourceItem (rid, title, abstract, mime, link, created_at) VALUES ('$rid', '$title', '$abstract', '$mime', '$link', NOW())";
 if (!mysql_query($sql, $con)) {
 	die('{success: false, errcode: 6, message: "MySQL Query error:'.mysql_error().'", rid: 0}');
 }

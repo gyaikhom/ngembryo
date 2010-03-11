@@ -23,7 +23,7 @@ if ($x = mysql_fetch_array($orientations)) {
 	echo '{success: false, message: "Orientation already exists.", oid:'.$oid.'}';
 } else {
 	/* Create a new orientation. */
-	$sql = "INSERT INTO orientation (mid, title, description, yaw, pitch, roll, distance) VALUES ('$model', '$title', '$description', '$yaw', '$pitch', '$roll', '$distance')";
+	$sql = "INSERT INTO orientation (mid, title, description, yaw, pitch, roll, distance, created_at) VALUES ('$model', '$title', '$description', '$yaw', '$pitch', '$roll', '$distance', NOW())";
 	if (!mysql_query($sql, $con)) {
 		die('{success: false, message: "MySQL Query error:'.mysql_error().'", oid: -1}');
 	}

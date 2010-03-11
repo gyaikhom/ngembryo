@@ -22,7 +22,7 @@ if ($result = mysql_query($sql, $con)) {
 }
 
 /* Create a new resource. */
-$sql = "INSERT INTO resource (title, author, abstract) VALUES ('$title', '$author', '$abstract')";
+$sql = "INSERT INTO resource (title, author, abstract, created_at) VALUES ('$title', '$author', '$abstract', NOW())";
 if (!mysql_query($sql, $con)) {
 	die('{success: false, errcode: 6, message: "MySQL Query error:'.mysql_error().'", rid: 0}');
 }

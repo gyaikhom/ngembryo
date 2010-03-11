@@ -50,7 +50,7 @@ if ($temp = mysql_fetch_array($already)) {
 }
 
 /* Add resource to annotation */
-$sql = "INSERT INTO $table (aid, rid) VALUES ('$aid', '$rid')";
+$sql = "INSERT INTO $table (aid, rid, created_at) VALUES ('$aid', '$rid', NOW())";
 if (!mysql_query($sql, $con)) {
     die('{success: false, errcode: 1, message: "MySQL Query error:'.mysql_error().'", id: 0}');
 }

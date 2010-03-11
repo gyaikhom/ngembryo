@@ -33,7 +33,7 @@ if ($result = mysql_query($sql, $con)) {
 		}
 	} else {
 		/* Create a new orientation. */
-		$sql = "INSERT INTO orientation (mid, yaw, pitch, roll, distance) VALUES ('$model', '$yaw', '$pitch', '$roll', '$distance')";
+		$sql = "INSERT INTO orientation (mid, yaw, pitch, roll, distance, created_at) VALUES ('$model', '$yaw', '$pitch', '$roll', '$distance', NOW())";
 		if (!mysql_query($sql, $con)) {
 			die('{success: false, errcode: 4, message: "MySQL Query error:'.mysql_error().'", lid: 0}');
 		}
@@ -44,7 +44,7 @@ if ($result = mysql_query($sql, $con)) {
 }
 
 /* Create a new layer using this orientation. */
-$sql = "INSERT INTO layer (oid, title, summary, description) VALUES ('$oid', '$title', '$summary', '$description')";
+$sql = "INSERT INTO layer (oid, title, summary, description, created_at) VALUES ('$oid', '$title', '$summary', '$description', NOW())";
 if (!mysql_query($sql, $con)) {
 	die('{success: false, errcode: 6, message: "MySQL Query error:'.mysql_error().'", lid: 0}');
 }

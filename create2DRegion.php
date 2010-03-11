@@ -45,7 +45,7 @@ if (isset($polyline)) {
 		die('{success: false, errcode: -3, message: "At least three points are required to create a region.", id: 0}');
 	} else {
 		/* Create a 2D region. */
-		$sql_insert_region = "INSERT INTO 2Dregion (lid, scale, tl_x, tl_y, br_x, br_y, label, description) VALUES ('$lid', '$scale', 0, 0, 0, 0, '$label', '$description')";
+		$sql_insert_region = "INSERT INTO 2Dregion (lid, scale, tl_x, tl_y, br_x, br_y, label, description, created_at) VALUES ('$lid', '$scale', 0, 0, 0, 0, '$label', '$description', NOW())";
 		if (!mysql_query($sql_insert_region, $con)) {
 			die('{success: false, errcode: 1, message: "MySQL query error:'.mysql_error().'", id: 0}');
 		}
@@ -61,7 +61,7 @@ if (isset($polyline)) {
 			if (count($point) != 2)
 			cleanup($con, $region_id, "invalid point".$points[$i]);
 			else {
-				$sql_insert_point = "INSERT INTO 2Dpolyline (x, y, 2Dregion_id, rank) VALUES ('$point[0]', '$point[1]', '$region_id', '$i')";
+				$sql_insert_point = "INSERT INTO 2Dpolyline (x, y, 2Dregion_id, rank, created_at) VALUES ('$point[0]', '$point[1]', '$region_id', '$i', NOW())";
 
 				/* If the polyline insertion was unsuccessful, clean up. */
 				if (!mysql_query($sql_insert_point, $con))

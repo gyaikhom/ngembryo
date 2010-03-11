@@ -6,7 +6,7 @@ if (!$con) {
 
 mysql_select_db("ngembryo", $con);
 
-$sql = "INSERT INTO 3Dmarker (x, y, z, scale, label, description) VALUES ('$_POST[x]', '$_POST[y]', '$_POST[z]', '$_POST[scale]', '$_POST[label]', '$_POST[description]')";
+$sql = "INSERT INTO 3Dmarker (x, y, z, scale, label, description, created_at) VALUES ('$_POST[x]', '$_POST[y]', '$_POST[z]', '$_POST[scale]', '$_POST[label]', '$_POST[description]', NOW())";
 	
 if (!mysql_query($sql, $con)) {
     die('Error: '.mysql_error());

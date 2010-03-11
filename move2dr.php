@@ -16,7 +16,7 @@ if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }
 
-$sql = "INSERT INTO layer2Dregion (aid, lid) VALUES ('$aid', '$lid')";
+$sql = "INSERT INTO layer2Dregion (aid, lid, created_at) VALUES ('$aid', '$lid', NOW())";
 if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }
