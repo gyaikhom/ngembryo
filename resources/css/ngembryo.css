@@ -26,7 +26,8 @@
 
 .dijitToolbar {
     background: #555555 !important;
-    color: #ffffff;
+    color: #ffffff !important;
+    text-shadow: #ffffff 0px 1px 0px !important;
     border: 0px !important;
     /*border-bottom: 1px solid #aaaaaa !important;*/
     /*border-top: 1px solid #aaaaaa !important;*/
@@ -51,12 +52,13 @@
 }
 
 .dijitDialog {
-    border: 0px solid #ffffff !important;
+    border: 1px solid #777777 !important;
 }
 
 .dijitDialogTitleBar {
-    background: #2a2aff !important;
-    color: #ffffff !important;
+    background: #777777 url(../images/titleBar.png) repeat-x top left !important;
+    color: #222222 !important;
+    text-shadow: #ffffff 0px 1px 0px !important;
 }
 
 .dijitDialogPaneContent {
@@ -220,8 +222,9 @@
     background-position: top center;
     font-weight: bold;
     font-size: 9pt;
-    color: #010101;
-    text-shadow: #a1a1a1 0px 1px 0px;
+    text-align: center;
+    color: #050505;
+    text-shadow: #9f9f9f 0px 1px 0px;
     cursor: pointer;
 }
 
@@ -567,12 +570,13 @@
 }
 
 .items {
-    border: 1px solid #777777;
-	width: 100%;
+    border: 0px solid #777777;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .items tr:hover {
-background-color: #79a7ff;
+    background-color: #79a7ff;
 }
 
 .items th {
@@ -580,14 +584,14 @@ background-color: #79a7ff;
     background-color: #aaaaaa;
     font-weight: bold;
     text-shadow: #d1d1d1 0px 1px 0px;
+    border-bottom: 1px solid #777777;
 }
 
 .items td {
     padding: 3px;
     font-weight: medium;
-	text-align: left;
+    text-align: left;
 }
-
 
 .clickable {
     cursor: pointer;
@@ -606,18 +610,35 @@ background-color: #79a7ff;
 }
 
 .orientation-browser {
-	width: 300px;
-	height: 400px;
+    border: 1px solid #777777;
+    width: 350px;
+    height: 400px;
     overflow: auto;
 }
+
 .layer-browser {
+    border: 1px solid #777777;
     height: 400px;
     overflow: auto;
 }
+
 .resource-browser {
+    border: 1px solid #777777;
     height: 400px;
     overflow: auto;
 }
+
+.resource-item-browser {
+    border: 1px solid #777777;
+    height: 300px;
+    overflow: auto;
+}
+
 .form {
-	text-align: left;
+    text-align: left;
+}
+
+textarea {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
 }

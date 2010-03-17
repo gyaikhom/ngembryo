@@ -4,7 +4,7 @@ if (!$con) {
 	die('Could not connect: '.mysql_error());
 }
 mysql_select_db("ngembryo", $con);
-$result = mysql_query("SELECT * FROM model");
+$result = mysql_query("SELECT * FROM model ORDER BY title ASC");
 if ($_GET[format] == "json") {
 	echo '[';
 	if ($row = mysql_fetch_array($result))
