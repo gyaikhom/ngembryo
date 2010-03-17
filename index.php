@@ -1,1 +1,1 @@
-<img src='http://127.0.0.1/fcgi-bin/wlziipsrv.fcgi?wlz=/export/system1/MAWWW/html/mrciip/projects/wlziip/TS18Model.wlz&mod=zeta&fxp=328,238,317&scl=0.2&dst=40.712468193384225&pit=78&yaw=0&rol=0&qlt=80&cvt=jpeg'></img>
+<?php  phpinfo(); ?>

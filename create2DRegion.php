@@ -1,8 +1,10 @@
 <?php
 
+include 'utils.php';
+
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
-	die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", id: 0}');
+	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
 }
 
 mysql_select_db("ngembryo", $con);
@@ -29,8 +31,8 @@ $lid = $_POST[lid];
 $polyline = $_POST[polyline];
 
 /* Escape quotes etc. */
-$label = mysql_escape_string($label);
-$description = mysql_escape_string($description);
+$label = return_well_formed($label);
+$description = return_well_formed($description);
 
 /* First check if the layer exists. */
 $layer = mysql_query("SELECT id FROM layer WHERE id=$lid");
@@ -49,9 +51,9 @@ if (isset($polyline)) {
 		die('{success: false, errcode: -3, message: "At least three points are required to create a region.", id: 0}');
 	} else {
 		/* Create a 2D region. */
-		$sql_insert_region = "INSERT INTO 2Dregion (lid, scale, tl_x, tl_y, br_x, br_y, label, description, created_at) VALUES ('$lid', '$scale', 0, 0, 0, 0, '$label', '$description', NOW())";
+		$sql_insert_region = "INSERT INTO 2Dregion (layer_id, scale, tl_x, tl_y, br_x, br_y, label, description, created_at) VALUES ('$lid', '$scale', 0, 0, 0, 0, '$label', '$description', NOW())";
 		if (!mysql_query($sql_insert_region, $con)) {
-			die('{success: false, errcode: 1, message: "MySQL query error:'.mysql_error().'", id: 0}');
+			die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
 		}
 		$region_id = mysql_insert_id();
 

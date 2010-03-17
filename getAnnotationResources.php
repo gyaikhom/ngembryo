@@ -36,7 +36,7 @@ if ($temp = mysql_fetch_array($annotation)) {
 
 function printResource($resource) {
 	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', resourceItems: ';
-	$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE rid='".$resource['resource.id']."'");
+	$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE resource_id='".$resource['resource.id']."'");
 	if ($item = mysql_fetch_array($resourceItems)) {
 		$count = 1;
 		echo '[{title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
@@ -54,10 +54,10 @@ function printResource($resource) {
 /* Get all of the resources linked (or not linked) to this annotation. */
 $table = $table."Resource";
 if ($exclude) {
-	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.rid=resource.id WHERE $table.aid=$aid)";
+	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE $table.annotation_id=$aid)";
 }
 else {
-	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.rid=resource.id WHERE $table.aid IS NOT NULL AND $table.aid=$aid";
+	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
 }
 
 /* For each of the resources, retrieve the resource details. */
@@ -81,7 +81,7 @@ if (($resources = mysql_query($sql, $con))) {
 			echo '<response><success>true</success><errcode>0</errcode><message>Resources retrieved successfully.</message><resources>';
 			while ($resource = mysql_fetch_array($resources)) {
 				echo '<resource><id>'.$resource['id'].'</id><author>'.$resource['author'].'</author><title>'.$resource['title'].'</title><description>'.$resource['abstract'].'</description><resourceItems>';
-				$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE rid='".$resource['id']."'");
+				$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE resource_id='".$resource['id']."'");
 				while ($item = mysql_fetch_array($resourceItems)) {
 					echo '<item><title>'.$item['title'].'</title><description>'.$item['abstract'].'</description><mime>'.$item['mime'].'</mime><link>'.$item['link'].'</link></item>';
 				}

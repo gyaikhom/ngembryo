@@ -1,9 +1,9 @@
 <div class="form">
 <form dojoType='dijit.form.Form' name='c2dm' id='c2dm' method='post'>
-Layer: <input type='text' trim='true' name='lid' id='lid' value='<?php echo ($_GET[lid]); ?>'><br></br>
-X:<input type='text' trim='true' name='x' id='x' value='<?php echo ($_GET[x]); ?>'>
-Y: <input type='text' trim='true' name='y' id='y' value='<?php echo ($_GET[y]); ?>'> <br>
-Scale: <input type='text' trim='true' name='scale' id='scale' value='<?php echo ($_GET[scale]); ?>'><br>
+<input type='hidden' trim='true' name='lid' id='lid' value='<?php echo ($_GET[lid]); ?>'>
+<input type='hidden' trim='true' name='x' id='x' value='<?php echo ($_GET[x]); ?>'>
+<input type='hidden' trim='true' name='y' id='y' value='<?php echo ($_GET[y]); ?>'>
+<input type='hidden' trim='true' name='scale' id='scale' value='<?php echo ($_GET[scale]); ?>'>
 Label (maximum 40 characters):<br>
 <input type='text' trim='true' name='label' id='label' maxlength='40'
 	value='' style='width: 300px;'> <br>

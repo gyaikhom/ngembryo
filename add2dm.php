@@ -10,7 +10,7 @@ mysql_select_db("ngembryo", $con);
 $aid = $_POST[aid];
 $lid = $_POST[lid];
 
-$sql = "INSERT INTO layer2Dmarker (aid, lid, created_at) VALUES ('$aid', '$lid', NOW())";	
+$sql = "INSERT INTO layer2Dmarker (annotation_id, layer_id, created_at) VALUES ('$aid', '$lid', NOW())";	
 if (!mysql_query($sql, $con)) {
     die('Error: '.mysql_error());
 }

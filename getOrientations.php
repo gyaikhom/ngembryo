@@ -2,21 +2,21 @@
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
 	if ($_GET[format] == "json") {
-		die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", orientations: null}');
+		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', orientations: null}');
 	} else {
-		echo '<response><success>false</success><errcode>1</errcode><message>MySQL connection error:'.mysql_error().'</message><orientations></orientations></response>';
+		echo '<response><success>false</success><errcode>1</errcode><message>'.mysql_error().'</message><orientations></orientations></response>';
 	}
 }
 mysql_select_db("ngembryo", $con);
 $model = $_GET[model];
 
 /* Find all of the orientations for this model. */
-$sql = "SELECT * FROM orientation WHERE mid=$model";
+$sql = "SELECT * FROM orientation WHERE model_id=$model";
 if (!($result = mysql_query($sql, $con))) {
 	if ($_GET[format] == "json") {
-		die('{success: false, errcode: 2, message: "MySQL Query error:'.mysql_error().'", orientations: null}');
+		die('{success: false, errcode: 2, message: '.json_encode(mysql_error()).', orientations: null}');
 	} else {
-        echo '<response><success>false</success></errcode>2</errcode><message>MySQL Query error:'.mysql_error().'</message><orientations></orientations></response>';
+        echo '<response><success>false</success></errcode>2</errcode><message>'.mysql_error().'</message><orientations></orientations></response>';
 	}
 }
 

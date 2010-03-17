@@ -1,7 +1,10 @@
 <?php
+
+include 'utils.php';
+
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
-    die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", id: 0}');
+    die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
 }
 
 mysql_select_db("ngembryo", $con);
@@ -15,8 +18,8 @@ $description = $_POST[description];
 $lid = $_POST[lid];
 
 /* Escape quotes etc. */
-$label = mysql_escape_string($label);
-$description = mysql_escape_string($description);
+$label = return_well_formed($label);
+$description = return_well_formed($description);
 
 /* First check if the layer exists. */
 $layer = mysql_query("SELECT id FROM layer WHERE id=$lid");
@@ -27,9 +30,9 @@ if ($temp = mysql_fetch_array($layer)) {
 }
 
 /* Create a new 2D marker using this layer. */
-$sql = "INSERT INTO 2Dmarker (lid, x, y, scale, label, description, created_at) VALUES ('$lid', '$x', '$y', '$scale', '$label', '$description', NOW())";
+$sql = "INSERT INTO 2Dmarker (layer_id, x, y, scale, label, description, created_at) VALUES ('$lid', '$x', '$y', '$scale', '$label', '$description', NOW())";
 if (!mysql_query($sql, $con)) {
-    die('{success: false, errcode: 1, message: "MySQL Query error:'.mysql_error().'", id: 0}');
+    die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
 }
 $id = mysql_insert_id();
 echo '{success: true, errcode: 0, message: "New 2D marker created.", id:'.$id.'}';

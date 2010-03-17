@@ -11,12 +11,12 @@ $aid = $_POST[aid];
 $lid = $_POST[lid];
 
 /* For the moment, a region can only belong to a single layer. */
-$sql = "DELETE from layer2Dregion WHERE aid='$aid'";
+$sql = "DELETE from layer2Dregion WHERE annotation_id='$aid'";
 if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }
 
-$sql = "INSERT INTO layer2Dregion (aid, lid, created_at) VALUES ('$aid', '$lid', NOW())";
+$sql = "INSERT INTO layer2Dregion (annotation_id, layer_id, created_at) VALUES ('$aid', '$lid', NOW())";
 if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }

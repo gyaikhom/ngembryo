@@ -11,12 +11,12 @@ $aid = $_POST[aid];
 $lid = $_POST[lid];
 
 /* For the moment, a marker can only belong to a single layer. */
-$sql = "DELETE from layer2Dmarker WHERE aid='$aid'";
+$sql = "DELETE from layer2Dmarker WHERE annotation_id='$aid'";
 if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }
 
-$sql = "INSERT INTO layer2Dmarker (aid, lid, created_at) VALUES ('$aid', '$lid', NOW())";
+$sql = "INSERT INTO layer2Dmarker (annotation_id, layer_id, created_at) VALUES ('$aid', '$lid', NOW())";
 if (!mysql_query($sql, $con)) {
 	die('Error: '.mysql_error());
 }
