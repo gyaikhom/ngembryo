@@ -11,6 +11,11 @@ $title = $_POST[title];
 $author = $_POST[author];
 $abstract = $_POST[description];
 
+/* Escape quotes etc. */
+$title = mysql_escape_string($title);
+$author = mysql_escape_string($author);
+$abstract = mysql_escape_string($abstract);
+
 /* Check if a resource with the given title and author exists. */
 $sql = "SELECT * FROM resource WHERE author='$author' AND title='$title'";
 if ($result = mysql_query($sql, $con)) {

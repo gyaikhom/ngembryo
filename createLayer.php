@@ -16,6 +16,11 @@ $pitch = $_POST[pitch];
 $roll = $_POST[roll];
 $distance = $_POST[distance];
 
+/* Escape quotes etc. */
+$title = mysql_escape_string($title);
+$summary = mysql_escape_string($summary);
+$description = mysql_escape_string($description);
+
 /* Check if the orientation exists. */
 $sql = "SELECT * FROM orientation WHERE mid='$model' AND yaw='$yaw' AND pitch='$pitch' AND roll='$roll' AND distance='$distance'";
 if ($result = mysql_query($sql, $con)) {

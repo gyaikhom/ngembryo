@@ -14,6 +14,10 @@ $label = $_POST[label];
 $description = $_POST[description];
 $lid = $_POST[lid];
 
+/* Escape quotes etc. */
+$label = mysql_escape_string($label);
+$description = mysql_escape_string($description);
+
 /* First check if the layer exists. */
 $layer = mysql_query("SELECT id FROM layer WHERE id=$lid");
 if ($temp = mysql_fetch_array($layer)) {

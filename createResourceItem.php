@@ -13,6 +13,12 @@ $abstract = $_POST[description];
 $mime = $_POST[mime];
 $link = $_POST[link];
 
+/* Escape quotes etc. */
+$title = mysql_escape_string($title);
+$abstract = mysql_escape_string($abstract);
+$mime = mysql_escape_string($mime);
+$link = mysql_escape_string($link);
+
 /* Check if the resource exists. */
 $sql = "SELECT * FROM resource WHERE id='$rid'";
 if ($result = mysql_query($sql, $con)) {
