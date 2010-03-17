@@ -9,7 +9,7 @@
     <textarea name='description' id='description' rows="10" cols="75" onKeyDown="reformatTextArea(this, 400);" onKeyUp="reformatTextArea(this, 400);"></textarea>
     <br><br>
     <button type="submit">Create</button>
-    <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('dialog').hide();">
+    <button type="button" onClick="dijit.byId('dialog').hide();">
         Cancel
     </button>
 </form>
