@@ -2,7 +2,7 @@
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
 	if ($_GET[format] == "json") {
-		die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", regions: null}');
+		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', regions: null}');
 	} else {
 		echo '<response><success>false</success><errcode>1</errcode><message>MySQL connection error:'.mysql_error().'</message><regions></regions></response>';
 	}
@@ -26,14 +26,14 @@ if ($temp = mysql_fetch_array($layer)) {
 $sql = "SELECT * FROM 2Dregion WHERE lid='$lid' AND scale <= '$_GET[scale_high]' AND scale >= '$_GET[scale_low]' AND ((tl_x >= '$_GET[x_low]' AND tl_x <= '$_GET[x_high]' AND tl_y >= '$_GET[y_low]' AND tl_y <= '$_GET[y_high]') OR (br_x >= '$_GET[x_low]' AND br_x <= '$_GET[x_high]' AND br_y >= '$_GET[y_low]' AND br_y <= '$_GET[y_high]') OR (tl_x < '$_GET[x_low]' AND br_x > '$_GET[x_high]' AND ((br_y >= '$_GET[y_low]' AND br_y <= '$_GET[y_high]') OR (tl_y >= '$_GET[y_low]' AND tl_y <= '$_GET[y_high]') OR (tl_y < '$_GET[y_low]' AND br_y > '$_GET[y_high]'))) OR (tl_y < '$_GET[y_low]' AND br_y > '$_GET[y_high]' AND ((br_x >= '$_GET[x_low]' AND br_x <= '$_GET[x_high]') OR (tl_x >= '$_GET[x_low]' AND tl_x <= '$_GET[x_high]') OR (tl_x < '$_GET[x_low]' AND br_x > '$_GET[x_high]'))))";
 if (!($result = mysql_query($sql, $con))) {
 	if ($_GET[format] == "json") {
-		die('{success: false, errcode: 1, message: "MySQL Query error:'.mysql_error().'", regions: null}');
+		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', regions: null}');
 	} else {
 		echo '<response><success>false</success><errcode>1</errcode><message>MySQL Query error:'.mysql_error().'</message><regions></regions></response>';
 	}
 }
 
 function printRegion($region) {
-	echo '{ id: '.$region['id'].', scale: '.$region['scale'].', tl_x: '.$region['tl_x'].', tl_y: '.$region['tl_y'].', br_x: '.$region['br_x'].', br_y: '.$region['br_y'].', label: "'.$region['label'].'", description: "'.$region['description'].'", polyline: ';
+	echo '{ id: '.$region['id'].', scale: '.$region['scale'].', tl_x: '.$region['tl_x'].', tl_y: '.$region['tl_y'].', br_x: '.$region['br_x'].', br_y: '.$region['br_y'].', label: '.json_encode($region['label']).', description: '.json_encode($region['description']).', polyline: ';
 	$polyline = mysql_query("SELECT * FROM 2Dpolyline WHERE 2Dregion_id='".$region['id']."' ORDER BY rank ASC");
 	if ($point = mysql_fetch_array($polyline)) {
 		$count = 1;

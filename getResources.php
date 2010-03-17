@@ -5,7 +5,7 @@ $format = $_GET['format'];
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
 	if ($format == "json") {
-		die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", resources: null}');
+		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
 	} else {
 		echo '<response><success>false</success><errcode>1</errcode><message>MySQL connection error:'.mysql_error().'</message><resources></resources></response>';
 	}
@@ -24,22 +24,22 @@ if ($rid == "") {
 
 if (!($result = mysql_query($sql, $con))) {
 	if ($format == "json") {
-		die('{success: false, errcode: 1, message: "MySQL Query error:'.mysql_error().'", resources: null}');
+		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
 	} else {
 		echo '<response><success>false</success><errcode>1</errcode><message>MySQL Query error:'.mysql_error().'</message><resources></resources></response>';
 	}
 }
 
 function printResource($items, $resource) {
-	echo '{ id: '.$resource['id'].', author: "'.$resource['author'].'", title: "'.$resource['title'].'", description: "'.$resource['abstract'].'"';
+	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']);
 	if ($items == true) {
 		echo ', resourceItems: '; 
 		$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE rid='".$resource['id']."'");
 		if ($item = mysql_fetch_array($resourceItems)) {
 			$count = 1;
-			echo '[{title: "'.$item['title'].'", description: "'.$item['abstract'].'", mime: "'.$item['mime'].'", link: "'.$item['link'].'"}';
+			echo '[{title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
 			while ($item = mysql_fetch_array($resourceItems)) {
-				echo ', {title: "'.$item['title'].'", description: "'.$item['abstract'].'", mime: "'.$item['mime'].'", link: "'.$item['link'].'"}';
+				echo ', {title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
 				$count++;
 			}
 			echo ']';

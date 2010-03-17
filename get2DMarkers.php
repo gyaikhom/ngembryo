@@ -2,7 +2,7 @@
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
 	if ($_GET[format] == "json") {
-		die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", markers: null}');
+		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', markers: null}');
 	} else {
 		echo '<response><success>false</success><errcode>1</errcode><message>MySQL connection error:'.mysql_error().'</message><markers></markers></response>';
 	}
@@ -26,7 +26,7 @@ if ($temp = mysql_fetch_array($layer)) {
 $sql = "SELECT * FROM 2Dmarker WHERE lid=$lid AND x >= '$_GET[x_low]' AND x <= '$_GET[x_high]' AND y >= '$_GET[y_low]' AND y <= '$_GET[y_high]' AND scale <= '$_GET[scale_high]' AND scale >= '$_GET[scale_low]'";
 if (!($result = mysql_query($sql, $con))) {
 	if ($_GET[format] == "json") {
-		die('{success: false, errcode: 1, message: "MySQL Query error:'.mysql_error().'", markers: null}');
+		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', markers: null}');
 	} else {
 		echo '<response><success>false</success><errcode>1</errcode><message>MySQL Query error:'.mysql_error().'</message><markers></markers></response>';
 	}
@@ -35,9 +35,9 @@ if (!($result = mysql_query($sql, $con))) {
 if ($_GET[format] == "json") {
 	echo '{success: true, errcode: 0, message: "Markers retrieved successfully.", markers: [';
 	if ($row = mysql_fetch_array($result))
-	echo '{ id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: "'.$row['label'].'", description: "'.$row['description'].'" }';
+	echo '{ id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: '.json_encode($row['label']).', description: '.json_encode($row['description']).' }';
 	while ($row = mysql_fetch_array($result)) {
-		echo ', { id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: "'.$row['label'].'", description: "'.$row['description'].'" }';
+		echo ', { id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: '.json_encode($row['label']).', description: '.json_encode($row['description']).' }';
 	}
 	echo ']}';
 } else {
@@ -47,6 +47,5 @@ if ($_GET[format] == "json") {
 	}
 	echo '</markers></response>';
 }
-
 mysql_close($con);
 ?>

@@ -2,7 +2,7 @@
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
 	if ($_GET[format] == "json") {
-		die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", layers: null}');
+		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', layers: null}');
 	} else {
 		echo '<response><success>false</success><errcode>1</errcode><message>MySQL connection error:'.mysql_error().'</message><layers></layers></response>';
 	}
@@ -24,14 +24,14 @@ if ($result = mysql_query($sql, $con)) {
 		die('{success: false, errcode: -3, message: "Found no orientation with the supplied parameters.", layers: null}');
 	}
 } else {
-	die('{success: false, errcode: 2, message: "MySQL Query error:'.mysql_error().'", layers: null}');
+	die('{success: false, errcode: 2, message: '.json_encode(mysql_error()).', layers: null}');
 }
 
 /* Find all of the layers for this orientation. */
 $sql = "SELECT * FROM layer WHERE oid=$oid";
 if (!($result = mysql_query($sql, $con))) {
 	if ($_GET[format] == "json") {
-		die('{success: false, errcode: 2, message: "MySQL Query error:'.mysql_error().'", layers: null}');
+		die('{success: false, errcode: 2, message: '.json_encode(mysql_error()).', layers: null}');
 	} else {
 		echo '<response><success>false</success><errcode>2</errcode><message>MySQL Query error:'.mysql_error().'</message><layers></layers></response>';
 	}
@@ -40,10 +40,10 @@ if (!($result = mysql_query($sql, $con))) {
 if ($_GET[format] == "json") {
 	echo '{success: true, errcode: 0, message: "Layers retrieved successfully.", layers: [';
 	if ($row = mysql_fetch_array($result)) {
-		echo '{ id: '.$row['id'].', title: "'.$row['title'].'", summary: "'.$row['summary'].'", description: "'.$row['description'].'" }';
+		echo '{ id: '.$row['id'].', title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
 	}
 	while ($row = mysql_fetch_array($result)) {
-		echo ', { id: '.$row['id'].', title: "'.$row['title'].'", summary: "'.$row['summary'].'", description: "'.$row['description'].'" }';
+		echo ', { id: '.$row['id'].', title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
 	}
 	echo ']}';
 } else {

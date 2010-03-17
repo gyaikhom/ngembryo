@@ -1,7 +1,7 @@
 <?php
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
-	die('{success: false, errcode: 1, message: "MySQL connection error:'.mysql_error().'", id: 0}');
+	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
 }
 
 mysql_select_db("ngembryo", $con);
@@ -35,13 +35,13 @@ if ($temp = mysql_fetch_array($annotation)) {
 }
 
 function printResource($resource) {
-	echo '{ id: '.$resource['id'].', author: "'.$resource['author'].'", title: "'.$resource['title'].'", description: "'.$resource['abstract'].'", resourceItems: ';
+	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', resourceItems: ';
 	$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE rid='".$resource['resource.id']."'");
 	if ($item = mysql_fetch_array($resourceItems)) {
 		$count = 1;
-		echo '[{title: "'.$item['title'].'", description: "'.$item['abstract'].'", mime: "'.$item['mime'].'", link: "'.$item['link'].'"}';
+		echo '[{title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
 		while ($item = mysql_fetch_array($resourceItems)) {
-			echo ', {title: "'.$item['title'].'", description: "'.$item['abstract'].'", mime: "'.$item['mime'].'", link: "'.$item['link'].'"}';
+			echo ', {title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
 			$count++;
 		}
 		echo ']';
@@ -91,7 +91,7 @@ if (($resources = mysql_query($sql, $con))) {
 		}
 	}
 } else {
-	die('{success: false, errcode: 1, message: "MySQL Query error:'.mysql_error().'", resources: null}');
+	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
 }
 
 mysql_close($con);

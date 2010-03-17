@@ -23,10 +23,10 @@ if (!($result = mysql_query($sql, $con))) {
 if ($_GET[format] == "json") {
 	echo '{success: true, errcode: 0, message: "Orientations retrieved successfully.", orientations: [';
 	if ($row = mysql_fetch_array($result)) {
-		echo '{ id: '.$row['id'].', title: "'.$row['title'].'", description: "'.$row['description'].'", yaw: '.$row['yaw'].', pitch: '.$row['pitch'].', roll: '.$row['roll'].', distance: '.$row['distance'].'}';
+		echo '{ id: '.$row['id'].', title: '.json_encode($row['title']).', description: '.json_encode($row['description']).', yaw: '.$row['yaw'].', pitch: '.$row['pitch'].', roll: '.$row['roll'].', distance: '.$row['distance'].'}';
 	}
 	while ($row = mysql_fetch_array($result)) {
-		echo ', { id: '.$row['id'].', title: "'.$row['title'].'", description: "'.$row['description'].'", yaw: '.$row['yaw'].', pitch: '.$row['pitch'].', roll: '.$row['roll'].', distance: '.$row['distance'].'}';
+		echo ', { id: '.$row['id'].', title: '.json_encode($row['title']).', description: '.json_encode($row['description']).', yaw: '.$row['yaw'].', pitch: '.$row['pitch'].', roll: '.$row['roll'].', distance: '.$row['distance'].'}';
 	}
 	echo ']}';
 } else {
