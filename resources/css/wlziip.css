@@ -9,25 +9,29 @@ body
 	font-family: "Trebuchet MS", "Verdana", "Arial", sans-serif;
 	color: gray;
 }
+/*
 div #targetframe
 {
-	position: absolute;
+	position: relative;
 	overflow: hidden;
 	margin: 0px;
 	padding: 0px;
 	left: 0px;
 	top: 0px;
-	/*
+	
 	background: 'black';
 	border: '2px inset gray';
-	*/
+	
 }
+*/
+
 div #tileframecontainer
 {
 	position: absolute;
 	margin: 0px;
 	padding: 0px;
 	z-index: 0;
+	border: 0px solid #00ff00;
 }
 div #tileframe
 {
@@ -36,6 +40,7 @@ div #tileframe
 	padding: 0px;
 	z-index: 0;
 	cursor: move;
+	border: 0px solid #ff0000;
 }
 div .overlaycontainer
 {
