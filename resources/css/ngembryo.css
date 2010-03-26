@@ -1,4 +1,9 @@
-
+html, body {
+    height: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
 .soria .dijitToolbar .dijitButton, .soria .dijitToolbar .dijitToggleButton, .soria .dijitToolbar .dijitDropDownButton, .soria .dijitToolbar .dijitComboButton .dijitButtonContents, .soria .dijitToolbar .dijitComboButton .dijitDownArrowButton {
     background: none;
@@ -642,3 +647,231 @@ textarea {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10pt;
 }
+
+body
+{
+  margin: 0px;
+  padding: 0px;
+    /*
+    background: 'black';
+    font: 12px verdana,arial,sans-serif;
+    */
+    font-family: "Trebuchet MS", "Verdana", "Arial", sans-serif;
+    color: gray;
+}
+/*
+div #targetframe
+{
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    left: 0px;
+    top: 0px;
+    
+    background: 'black';
+    border: '2px inset gray';
+    
+}
+*/
+
+div #tileframecontainer
+{
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    z-index: 0;
+    border: 0px solid #00ff00;
+}
+div #tileframe
+{
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    z-index: 0;
+    cursor: move;
+    border: 0px solid #ff0000;
+}
+div .overlaycontainer
+{
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    z-index: 0;
+    /*opacity: 0.6;
+    filter: alpha(opacity=60;)*/
+}
+div .overlayframe
+{
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    z-index: 0;
+    cursor: move;
+    /*opacity: 0.6;
+    filter: alpha(opacity=60);*/
+}
+div .zone
+{
+    background: gray;
+    cursor: move;
+    /* Safari, Firefox */
+    opacity: 0.4;
+    /* IE */
+    filter: alpha(opacity=40);
+}
+div .imagecontainer
+{
+    position: absolute;
+}
+div #tileframe .tile
+{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    position: absolute;
+    background-repeat: no-repeat;
+}
+div #tileframe area
+{
+    cursor: pointer;
+}
+div .overlayframe .tile
+{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    position: absolute;
+    background-repeat: no-repeat;
+}
+div .overlayframe area
+{
+    cursor: pointer;
+}
+div #overlayframe .tile
+{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    position: absolute;
+    background-repeat: no-repeat;
+}
+div #overlayframe area
+{
+    cursor: pointer;
+}
+div .draggable-container
+{
+    position: absolute;
+}
+div .draggable-container .corner
+{
+    position: absolute;
+    /* Safari, Firefox */
+    opacity: 0.6;
+    /* IE */
+    filter: alpha(opacity=60);
+}
+div .draggable-container .edge
+{
+    position: absolute;
+    background: #929292;
+    /* Safari, Firefox */
+    opacity: 0.6;
+    /* IE */
+    filter: alpha(opacity=60);
+}
+div .draggable-container .corner-tl
+{
+    left: 0px;
+    top: 0px;
+}
+div .draggable-container .corner-tr
+{
+    right: 0px;
+    top: 0px;
+}
+div .draggable-container .corner-bl
+{
+    left: 0px;
+    bottom: 0px;
+}
+div .draggable-container .corner-br
+{
+    right: 0px;
+    bottom: 0px;
+}
+div .draggable-handle
+{
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    color: black;
+    cursor: move;
+    /* Safari, Firefox */
+    opacity: 0.6;
+    /* IE maze:block does not allow draggable in ie 7*/
+    /*filter: alpha(opacity=60);*/
+
+}
+div .draggable-handle h4
+{
+    margin: 0px;
+}
+div .draggable-win
+{
+    position: absolute;
+    background: white;
+    text-align: left;
+}
+div #loading-win
+{
+    position: absolute;
+    width: 128px;
+    height: 64px;
+    z-index: 5;
+}
+div #loading-message
+{
+    position: absolute;
+    text-align: center;
+    left: 0px;
+    top: 48px;
+}
+img #loading-image
+{
+    position: absolute;
+    left: 48px;
+    top: 0px;
+}
+/*maze popupmenu*/
+.p-shadow {
+  width: 20%;
+  float:left;
+  background: url(../images/contextmenu/shadowAlpha.png) no-repeat bottom right !important;
+  background: url(../images/contextmenu/shadow.gif) no-repeat bottom right;
+  margin: 10px 0 0 10px !important;
+  margin: 10px 0 0 5px;
+  }
+
+.p-shadow div {
+  background: none !important;
+  background: url(../images/contextmenu/shadow2.gif) no-repeat left top;
+  padding: 0 !important;
+  padding: 0 6px 6px 0;
+  }
+
+.p-shadow ul {
+  color: #777;
+  background-color: #fff;
+  /*font: italic 1em georgia, serif;*/
+  font-size: 13px;
+  border: 1px solid #a9a9a9;
+  padding: 4px;
+  margin: -6px 6px 6px -6px !important;
+  margin: 0;
+  list-style-type: none;
+  text-align: left;
+  }
+
+
