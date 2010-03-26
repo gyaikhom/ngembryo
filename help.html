@@ -1,2 +1,146 @@
 <h1>Help on using the NGEmbryo web-portal</h1>
 <hr>
+
+<span style="color: rgb(255, 0, 0);">NOTE: This is a first draft of the users' manual.</span>
+
+<p>Preliminary work flow for using the NG-Embryo prototype portal is as follows:</p>
+
+<h2>Select a model</h2>
+<p>Several Woolz models have been added to the system. Choose one of these models by clicking
+on the <span style="font-family: monospace;">Embryo</span> button on the toolbar. If the model is loaded successfully, this will create the controls panel and initialise the
+available orientations for this model. To initialise the layers, select one of the orientations (as
+discussed in seciton III). To change the orientation arbitrarily, use the controls panel.</p>
+
+<h2>I. Adding Resources (collection of teaching materials)<br></h2>
+<p>Before resources can be linked to annotations, they should be registered with the system. There are
+two phases for doing this.</p>
+
+
+<ol>
+	<li>Add the resource to the DSpace repository. This is where the actual resources are stored.
+[Refer to DSpace manual for details.]</li>
+
+<li>
+    Register meta-data for the resource with the NG-Embryo system.
+</li>
+</ol>
+
+<span style="color: rgb(255, 0, 0);">NOTE: When resource discovery is added to the NG-Embryo system, step 2. will be done automatically.</span>
+
+<p>To register a resource, click on the <span style="font-family: monospace;">Resource</span> menu at the toolbar. This will show two menu items:</p>
+<ol><li><span style="font-family: monospace;">Display</span> - Click on this to display all of the resources currently registered with the system.</li>
+<li><span style="font-family: monospace;">Create</span> - Click on this to register a new resource with the system.</li>
+</ol>
+
+<h2>II. Adding a resource item (slides, books, papers etc.)</h2>
+
+<p>After a resource has been registered, it is now time to actually add the
+resource items. This is important because every resource could be provided in many forms. For instance,
+teaching materials could be provided as .doc, .pdf, .rtf etc. Each of these are referred to as resource items.</p><p>To display the resource items currently provided under a resource, check the resource details. This is done
+by clicking on the <span style="font-family: monospace;">Resource &gt; Display</span> on the toolbar, and then by clicking on the row which corresponds to the resource.
+This will display the resource details. In addition to the author, title, and abstract, resource items are also
+displayed. To obtain the actual material available under the resource item, click on the <span style="font-family: monospace;">open</span> link.</p><p>To
+add a new resource item, click on the <span style="font-family: monospace;">Add resource item</span> button. This will open the create resource item
+form. Fill in the details and click on <span style="font-family: monospace;">submit</span>. The resource item will now be added. In order to add a resource item, you will need
+the title, abstract, mime-type (for instance, .doc, .pdf etc.), and the URL. If a DSpace repository is being used, the url should
+be the URI provided by DSpace when the material was added to the repository.</p>
+
+<h2>III. Adding Orientations (the angle from which the model is viewed)</h2>
+
+<p>In order to add annotations, it is important to know how the model is being observed. This angle of
+observation is parameterised with the yaw, roll, pitch and distance. Since it is easy to loose an annotation if the corresponding orientation (angle of view) was not saved, it is mandatory that an orientation is
+created before adding layers and annotations.</p>
+
+<ul><li>To check the existing orientations for a given model, click on <span style="font-family: monospace;">Orientation &gt; Display</span> on the toolbar. This will show a preview of all the
+orientations that have been saved.</li>
+
+<li>To register a new orientation for the current model, first adjust the required viewing angle by using the controls
+panel. Once you are satisfied with the orientation, click on <span style="font-family: monospace;">Orientation &gt; Create</span> on the toolbar. This will open up
+a form dialog. Provide a title and a short description (if necessary), and then click ok. The new orientation will
+now be registered with the system.</li>
+</ul>
+
+<span style="color: rgb(255, 0, 0);">NOTE: Orientations are unique, and each can be identified using the yaw, pitch, roll and distance. Hence,
+when a new orientation is created with parameters that are already registered with the system, no new orientation will
+be created.</span>
+
+<h2>IV. Adding Layers (annotation groups)</h2>
+
+<p>In a given orientation, one would like to group annotations according to topics, categories, etc.. To achieve
+this efficiently, the NG-Embryo portal uses layers. Layers are groups that are associated with a given
+orientation. No layer can exists without a corresponding orientation. All annotations are created using a
+layer as the anchor.</p>
+
+<ol><li>To see the layers that are available for a given orientation, click on <span style="font-family: monospace;">Layer &gt; Display</span> on the toolbar. This will list
+all of the layers that are currently associated with a given orientation. In order to select a given layer,
+click on the row which corresponds to the layer.</li>
+
+<li>To create a new layer, first select the orientation. Then click <span style="font-family: monospace;">Layer &gt; Create</span> on the toolbar. This will open up the
+layer creation form dialog. Enter the details, and click ok. The new layer will be now registered with the system.</li>
+</ol>
+<span style="color: rgb(255, 0, 0);">NOTE:
+
+<ul><li>If a layer is created without selecting an orientation, a new orientation will be created automatically
+if no orientation with the current parameters already exists.</li>
+
+<li>The title of a layer must be unique.</li>
+</ul></span>
+
+<h2>V. Visiting an Annotation</h2>
+
+<p>When a layer is selected, all of the annotations that are defined on that layer is displayed. There are two
+types of annotations that can be defined on a layer:</p>
+
+<ul><li>Markers - These annotations mark points on the layer surface.</li>
+<li>Regions - These annotations mark regions on the layer surface.</li></ul>
+
+<p>When the mouse point hovers over an annotation, the title and brief description of the annotation is
+displayed. To get further details about the annotation, and to get the resources that are linked to this
+annotation, click on the annotation. This will open up a dialog box which shows the resources that are
+currently linked to this annotation. Click on the row which corresponds to the resource, and the details
+of that resource will be displayed to the user. From here, the user can select one of the resource items.</p>
+
+<span style="color: rgb(255, 0, 0);">NOTE: One can toggle display of specific annotation types by clicking on the <span style="font-family: monospace;">Markers</span> and <span style="font-family: monospace;">Regions</span>
+toggle buttons on the toolbar.</span>
+
+<h2>VI. Creating an Annotation</h2>
+
+<p>To create an annotation, first select the layer which will contain the new annotation. If the current orientation is not suitable, change the parameters and create a new
+orientation, and add a layer. Then click on the <span style="font-family: monospace;">2Dmarker</span> or <span style="font-family: monospace;">2Dregion</span> button on the toolbar to create markers or regions respectively. This will fill up the
+screen with a translucent screen and the controls panel will disappear. The existing annotations are
+displayed underneath this screen for reference.</p>
+
+<ul><li>To create a 2D marker, click on the point where the marker should be placed. This will open up
+the create marker form dialog. Enter the appropriate values, and click ok. The new marker will be
+displayed underneath the screen. Continue adding markers, and when done, click on 2Dmarker to
+exit from marker creation mode. This will clear the translucent screen, and the controls panel will
+re-appear.</li>
+
+<li>To create a 2D region, you have to create a region using a polyline. When the mouse button is
+clicked for the first time, the first point of the polyline is created. This will be marked with a circle.
+Any subsequent clicks will add a new point to the polyline. The polyline will be visible immediately
+when it is being created. When the required regions have been covered, click on the circle which
+marks the first point. The circle will change colour, which means that a ploygonal region can now
+be created. Click on the circle, and this will open up the create region form dialog. Enter the appropriate
+values, and click ok. The new region will be visible underneath the translucent screen. Continue
+adding regions, and when done, click on the 2Dregion button on the toolbar to exit the region
+creation mode. This will clear the translucent screen, and the controls panel will re-appear.</li></ul>
+
+<h2>VII. Linking Resources to Annotations</h2>
+
+<p>To link resources to a given annotation, click on the annotation. This will open up a dialog box which
+lists all of the resources that are currently linked with that annotation. To link a new resource, click
+on the <span style="font-family: monospace;">Add resource</span> button. This will open up a dialog which list all of the resources that
+are registered with the system, but are currently not linked to the annotation. Click on the row
+which corresponds to the resource that you want to link. When a resource has been linked to an
+annotation, the row containing the resource will disappear from the list. Continue linking resource until done.</p><p>
+
+<span style="color: rgb(255, 0, 0);">NOTE: Dialog boxes can be closed by clicking on the cross icon displayed on the top-right corner.</span></p>
+
+
+<h3>ONGOING WORK</h3>
+<ul><li>Editing and deleting resources, annotations etc..</li>
+<li>The formatting and visual representation is preliminary. This may be changed later.</li>
+<li>Automatic resource discovery from a DSpace repository is being investigated.</li>
+<li>We are trying to implemented model comparison where the user selects two models that can be viewed simultaneously side-by-side.</li>
+</ul>
