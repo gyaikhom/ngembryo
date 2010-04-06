@@ -28,6 +28,7 @@ CREATE TABLE model (
   sp_bgcolor TEXT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id)
 );
 
@@ -45,6 +46,7 @@ CREATE TABLE orientation (
   distance INTEGER NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY (model_id) REFERENCES model (id)
 );
@@ -58,6 +60,7 @@ CREATE TABLE layer (
   description TEXT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY (orientation_id) REFERENCES orientation (id)
 );
@@ -73,6 +76,7 @@ CREATE TABLE 2Dmarker (
   description TEXT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY (layer_id) REFERENCES layer (id)
 );
@@ -86,6 +90,7 @@ CREATE TABLE 2Dpolyline (
   rank INTEGER UNSIGNED NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id, 2Dregion_id),
   INDEX 2Dpolyline_FKIndex1(2Dregion_id)
 );
@@ -103,6 +108,7 @@ CREATE TABLE 2Dregion (
   description TEXT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY (layer_id) REFERENCES layer (id)
 );
@@ -119,6 +125,7 @@ CREATE TABLE 3Dmarker (
   description TEXT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY (layer_id) REFERENCES layer (id)
 );
@@ -131,6 +138,7 @@ CREATE TABLE resource (
   abstract TEXT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id)
 );
 
@@ -144,6 +152,7 @@ CREATE TABLE resourceItem (
   link TEXT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY (resource_id) REFERENCES resource (id)
 );
@@ -157,6 +166,7 @@ CREATE TABLE 2DmarkerResource (
   INDEX (annotation_id, resource_id),
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   FOREIGN KEY (annotation_id) REFERENCES 2Dmarker (id),
   FOREIGN KEY (resource_id) REFERENCES resource (id)
 );
@@ -168,6 +178,7 @@ CREATE TABLE 2DregionResource (
   resource_id INTEGER UNSIGNED NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   INDEX (annotation_id, resource_id),
   FOREIGN KEY (annotation_id) REFERENCES 2Dregion (id),
@@ -181,6 +192,7 @@ CREATE TABLE layer2Dmarker (
   layer_id INTEGER UNSIGNED NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   INDEX (annotation_id, layer_id),
   FOREIGN KEY (annotation_id) REFERENCES 2Dmarker (id),
@@ -194,13 +206,17 @@ CREATE TABLE layer2Dregion (
   layer_id INTEGER UNSIGNED NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
+  deleted_at DATETIME DEFAULT NULL,
   PRIMARY KEY(id),
   INDEX (annotation_id, layer_id),
   FOREIGN KEY (annotation_id) REFERENCES 2Dregion (id),
   FOREIGN KEY (layer_id) REFERENCES layer (id)
 );
 
-
+/*
 DROP USER 'ngembryo'@'localhost';
 CREATE USER 'ngembryo'@'localhost' IDENTIFIED BY 'ngembryo';
+*/
+
 GRANT ALL PRIVILEGES ON ngembryo.* TO 'ngembryo'@'localhost';
+
