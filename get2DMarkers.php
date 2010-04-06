@@ -23,7 +23,7 @@ if ($temp = mysql_fetch_array($layer)) {
 }
 
 /* Find all of the markers for this layer. */
-$sql = "SELECT * FROM 2Dmarker WHERE layer_id=$lid AND x >= '$_GET[x_low]' AND x <= '$_GET[x_high]' AND y >= '$_GET[y_low]' AND y <= '$_GET[y_high]' AND scale <= '$_GET[scale_high]' AND scale >= '$_GET[scale_low]'";
+$sql = "SELECT * FROM 2Dmarker WHERE deleted_at IS NULL AND layer_id=$lid AND x >= '$_GET[x_low]' AND x <= '$_GET[x_high]' AND y >= '$_GET[y_low]' AND y <= '$_GET[y_high]' AND scale <= '$_GET[scale_high]' AND scale >= '$_GET[scale_low]'";
 if (!($result = mysql_query($sql, $con))) {
 	if ($_GET[format] == "json") {
 		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', markers: null}');
