@@ -15,10 +15,10 @@ mysql_select_db("ngembryo", $con);
 /* Find the resources. */
 $items = false;
 if ($rid == "") {
-	$sql = "SELECT * FROM resource";
+	$sql = "SELECT * FROM resource WHERE deleted_at IS NULL";
 	$items = false;
 } else {
-	$sql = "SELECT * FROM resource WHERE id=$rid";
+	$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND id=$rid";
 	$items = true;
 }
 
@@ -34,12 +34,12 @@ function printResource($items, $resource) {
 	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']);
 	if ($items == true) {
 		echo ', resourceItems: '; 
-		$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE resource_id='".$resource['id']."'");
+		$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."'");
 		if ($item = mysql_fetch_array($resourceItems)) {
 			$count = 1;
-			echo '[{title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
+			echo '[{id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
 			while ($item = mysql_fetch_array($resourceItems)) {
-				echo ', {title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
+				echo ', {id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
 				$count++;
 			}
 			echo ']';
@@ -65,9 +65,9 @@ if ($format == "json") {
 		echo '<resource><id>'.$resource['id'].'</id><author>'.$resource['author'].'</author><title>'.$resource['title'].'</title><description>'.$resource['abstract'].'</description>';
 		if ($items == true) {
 			echo '<resourceItems>';
-			$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE resource_id='".$resource['id']."'");
+			$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."'");
 			while ($item = mysql_fetch_array($resourceItems)) {
-				echo '<item><title>'.$item['title'].'</title><description>'.$item['abstract'].'</description><mime>'.$item['mime'].'</mime><link>'.$item['link'].'</link></item>';
+				echo '<item><id>'.$item['id'].'</id><title>'.$item['title'].'</title><description>'.$item['abstract'].'</description><mime>'.$item['mime'].'</mime><link>'.$item['link'].'</link></item>';
 			}
 			echo '</resourceItems>';
 		}
