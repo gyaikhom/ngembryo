@@ -1,7 +1,7 @@
 <?php
 $con = mysql_connect("localhost", "ngembryo", "ngembryo");
 if (!$con) {
-	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
+	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
 }
 
 mysql_select_db("ngembryo", $con);
@@ -21,7 +21,7 @@ if ($type == "2dmarker") {
 		if ($type == "3dmarker") {
 			$table = "3Dmarker";
 		} else {
-			die('{success: false, errcode: 2, message: "Unknown annotation type.", id: 0}');
+			die('{success: false, errcode: 2, message: "Unknown annotation type.", resources: null}');
 		}
 	}
 }
@@ -31,7 +31,7 @@ $annotation = mysql_query("SELECT id FROM $table WHERE id=$aid");
 if ($temp = mysql_fetch_array($annotation)) {
 	$aid = $temp['id'];
 } else {
-	die('{success: false, errcode: -1, message: "Supplied annotation does not exists.", id: 0}');
+	die('{success: false, errcode: -1, message: "Supplied annotation does not exists.", resources: null}');
 }
 
 function printResource($resource) {
