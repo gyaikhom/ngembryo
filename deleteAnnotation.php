@@ -30,7 +30,7 @@ if (!mysql_query($sql, $con)) {
 }
 
 $table = $table.Resource;
-$sql = mysql_query("UPDATE $table SET deleted_at=NOW() WHERE annotation_id=$aid");
+$sql = "UPDATE $table SET deleted_at=NOW() WHERE annotation_id=$aid";
 if (!mysql_query($sql, $con)) {
     die('{success: false, errcode: -2, message: '.json_encode(mysql_error()).'}');
 }
