@@ -11,7 +11,7 @@ mysql_select_db("ngembryo", $con);
 $model = $_GET[model];
 
 /* Find all of the orientations for this model. */
-$sql = "SELECT * FROM orientation WHERE model_id=$model";
+$sql = "SELECT * FROM orientation WHERE deleted_at IS NULL AND model_id=$model";
 if (!($result = mysql_query($sql, $con))) {
 	if ($_GET[format] == "json") {
 		die('{success: false, errcode: 2, message: '.json_encode(mysql_error()).', orientations: null}');
