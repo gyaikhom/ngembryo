@@ -16,7 +16,7 @@ $roll = $_GET[roll];
 $distance = $_GET[distance];
 
 /* Find the orientation. */
-$sql = "SELECT * FROM orientation WHERE model_id='$model' AND yaw='$yaw' AND pitch='$pitch' AND roll='$roll' AND distance='$distance'";
+$sql = "SELECT * FROM orientation WHERE deleted_at IS NULL AND model_id='$model' AND yaw='$yaw' AND pitch='$pitch' AND roll='$roll' AND distance='$distance'";
 if ($result = mysql_query($sql, $con)) {
 	if ($x = mysql_fetch_array($result)) {
 		$orientation_id = $x['id'];
@@ -28,7 +28,7 @@ if ($result = mysql_query($sql, $con)) {
 }
 
 /* Find all of the layers for this orientation. */
-$sql = "SELECT * FROM layer WHERE orientation_id=$orientation_id";
+$sql = "SELECT * FROM layer WHERE deleted_at IS NULL AND orientation_id=$orientation_id";
 if (!($result = mysql_query($sql, $con))) {
 	if ($_GET[format] == "json") {
 		die('{success: false, errcode: 2, message: '.json_encode(mysql_error()).', layers: null}');
