@@ -27,7 +27,7 @@ if ($type == "2dmarker") {
 }
 
 /* Check if the annotation exists. */
-$annotation = mysql_query("SELECT id FROM $table WHERE id=$aid");
+$annotation = mysql_query("SELECT id FROM $table WHERE deleted_at IS NULL AND id=$aid");
 if ($temp = mysql_fetch_array($annotation)) {
 	$aid = $temp['id'];
 } else {
@@ -36,7 +36,7 @@ if ($temp = mysql_fetch_array($annotation)) {
 
 function printResource($resource) {
 	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', resourceItems: ';
-	$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE resource_id='".$resource['resource.id']."'");
+	$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['resource.id']."'");
 	if ($item = mysql_fetch_array($resourceItems)) {
 		$count = 1;
 		echo '[{id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
@@ -81,7 +81,7 @@ if (($resources = mysql_query($sql, $con))) {
 			echo '<response><success>true</success><errcode>0</errcode><message>Resources retrieved successfully.</message><resources>';
 			while ($resource = mysql_fetch_array($resources)) {
 				echo '<resource><id>'.$resource['id'].'</id><author>'.$resource['author'].'</author><title>'.$resource['title'].'</title><description>'.$resource['abstract'].'</description><resourceItems>';
-				$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE resource_id='".$resource['id']."'");
+				$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."'");
 				while ($item = mysql_fetch_array($resourceItems)) {
 					echo '<item><id>'.$item['id'].'</id><title>'.$item['title'].'</title><description>'.$item['abstract'].'</description><mime>'.$item['mime'].'</mime><link>'.$item['link'].'</link></item>';
 				}
