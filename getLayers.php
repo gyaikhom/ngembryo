@@ -40,16 +40,16 @@ if (!($result = mysql_query($sql, $con))) {
 if ($_GET[format] == "json") {
 	echo '{success: true, errcode: 0, message: "Layers retrieved successfully.", layers: [';
 	if ($row = mysql_fetch_array($result)) {
-		echo '{ id: '.$row['id'].', title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
+		echo '{ id: '.$row['id'].', visible: true, title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
 	}
 	while ($row = mysql_fetch_array($result)) {
-		echo ', { id: '.$row['id'].', title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
+		echo ', { id: '.$row['id'].', visible: true, title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
 	}
 	echo ']}';
 } else {
 	echo '<response><success>true</success><errcode>0</errcode><message>Layers retrieved successfully.</message><layers>';
 	while ($row = mysql_fetch_array($result)) {
-		echo '<layer><id>'.$row['id'].'</id><title>'.$row['title'].'</title><summary>'.$row['summary'].'</summary><description>'.$row['description'].'</description></layer>';
+		echo '<layer><id>'.$row['id'].'</id><visible>true</visible><title>'.$row['title'].'</title><summary>'.$row['summary'].'</summary><description>'.$row['description'].'</description></layer>';
 	}
 	echo '</layers></response>';
 }
