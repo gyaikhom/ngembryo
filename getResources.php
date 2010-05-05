@@ -22,6 +22,12 @@ if ($rid == "") {
 	$items = true;
 }
 
+/**
+ * Get the first resource item always.
+ * NOTE: Changes to requirement. Flat resource listing. No resource items.
+ */
+$items = true;
+
 if (!($result = mysql_query($sql, $con))) {
 	if ($format == "json") {
 		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
@@ -30,11 +36,14 @@ if (!($result = mysql_query($sql, $con))) {
 	}
 }
 
+/**
+ * Old version with resource items.
+ * 
 function printResource($items, $resource) {
 	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']);
 	if ($items == true) {
 		echo ', resourceItems: '; 
-		$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."'");
+		$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."' LIMIT 1");
 		if ($item = mysql_fetch_array($resourceItems)) {
 			$count = 1;
 			echo '[{id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
@@ -48,8 +57,22 @@ function printResource($items, $resource) {
 		}
 	}
 	echo ' }';
-}
+}*/
 
+/**
+ * This is the new version according to the requirement from April 30, meeting at NCL.
+ * No more resource items. Only a flat list of resources.
+ */
+function printResource($items, $resource) {
+    echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', link: ';
+    $resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."' LIMIT 1");
+    if ($item = mysql_fetch_array($resourceItems)) {
+        echo json_encode($item['link']);
+    } else {
+        echo 'null';
+    }
+    echo ' }';
+}
 if ($format == "json") {
 	echo '{success: true, errcode: 0, message: "Resources retrieved successfully.", resources: [';
 	if ($resource = mysql_fetch_array($result))

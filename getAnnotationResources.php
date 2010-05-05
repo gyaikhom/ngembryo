@@ -34,17 +34,36 @@ if ($temp = mysql_fetch_array($annotation)) {
 	die('{success: false, errcode: -1, message: "Supplied annotation does not exists.", resources: null}');
 }
 
+/**
+ * This is the old version with resource items.
+ *
+ function printResource($resource) {
+ echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', resourceItems: ';
+ $resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['resource.id']."'");
+ if ($item = mysql_fetch_array($resourceItems)) {
+ $count = 1;
+ echo '[{id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
+ while ($item = mysql_fetch_array($resourceItems)) {
+ echo ', {id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
+ $count++;
+ }
+ echo ']';
+ } else {
+ echo 'null';
+ }
+ echo ' }';
+ }
+ */
+
+/**
+ * This is the new version according to the requirement from April 30, meeting at NCL.
+ * No more resource items. Only a flat list of resources.
+ */
 function printResource($resource) {
-	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', resourceItems: ';
-	$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['resource.id']."'");
+	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', link: ';
+	$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."' LIMIT 1");
 	if ($item = mysql_fetch_array($resourceItems)) {
-		$count = 1;
-		echo '[{id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
-		while ($item = mysql_fetch_array($resourceItems)) {
-			echo ', {id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
-			$count++;
-		}
-		echo ']';
+		echo json_encode($item['link']);
 	} else {
 		echo 'null';
 	}

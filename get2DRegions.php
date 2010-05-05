@@ -13,13 +13,13 @@ $lid = $_GET[lid];
 /* First check if the layer exists. */
 $layer = mysql_query("SELECT id FROM layer WHERE deleted_at IS NULL AND id=$lid");
 if ($temp = mysql_fetch_array($layer)) {
-    $lid = $temp['id'];
+	$lid = $temp['id'];
 } else {
-   if ($_GET[format] == "json") {
-        die('{success: false, errcode: -1, message: "Invalid layer.", regions: null}');
-    } else {
-        echo '<response><success>false</success><errcode>-1</errcode><message>Invalid layer</message><regions></regions></response>';
-    }
+	if ($_GET[format] == "json") {
+		die('{success: false, errcode: -1, message: "Invalid layer.", regions: null}');
+	} else {
+		echo '<response><success>false</success><errcode>-1</errcode><message>Invalid layer</message><regions></regions></response>';
+	}
 }
 
 /* Find all of the regions for this layer. */
@@ -32,8 +32,34 @@ if (!($result = mysql_query($sql, $con))) {
 	}
 }
 
+/**
+ * This is the new version according to the requirement from April 30, meeting at NCL.
+ * No more resource items. Only a flat list of resources.
+ */
+function listResources($aid) {
+	echo ', resources: { count: ';
+	$count = mysql_query("SELECT DISTINCT COUNT(*) FROM resource LEFT JOIN 2DregionResource ON 2DregionResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DregionResource.annotation_id IS NOT NULL AND 2DregionResource.annotation_id=$aid");
+	if ($temp = mysql_fetch_array($count)) {
+		echo $temp['COUNT(*)'];
+	} else {
+		echo '0';
+	}
+
+	echo ', resources: [';
+	$resources = mysql_query("SELECT DISTINCT resource.title, resource.author FROM resource LEFT JOIN 2DregionResource ON 2DregionResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DregionResource.annotation_id IS NOT NULL AND 2DregionResource.annotation_id=$aid LIMIT 5");
+	if ($resource = mysql_fetch_array($resources)) {
+		echo "{ title: ".json_encode($resource['title']).", author: ".json_encode($resource['author'])."}";
+	}
+	while ($resource = mysql_fetch_array($resources)) {
+		echo ", { title: ".json_encode($resource['title']).", author: ".json_encode($resource['author'])."}";
+	}
+	echo ']}';
+}
+
 function printRegion($region) {
-	echo '{ id: '.$region['id'].', scale: '.$region['scale'].', tl_x: '.$region['tl_x'].', tl_y: '.$region['tl_y'].', br_x: '.$region['br_x'].', br_y: '.$region['br_y'].', label: '.json_encode($region['label']).', description: '.json_encode($region['description']).', polyline: ';
+	echo '{ id: '.$region['id'].', scale: '.$region['scale'].', tl_x: '.$region['tl_x'].', tl_y: '.$region['tl_y'].', br_x: '.$region['br_x'].', br_y: '.$region['br_y'].', label: '.json_encode($region['label']).', description: '.json_encode($region['description']);
+	listResources($region['id']);
+	echo ', polyline: ';
 	$polyline = mysql_query("SELECT * FROM 2Dpolyline WHERE deleted_at IS NULL AND 2Dregion_id='".$region['id']."' ORDER BY rank ASC");
 	if ($point = mysql_fetch_array($polyline)) {
 		$count = 1;

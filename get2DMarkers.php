@@ -32,14 +32,51 @@ if (!($result = mysql_query($sql, $con))) {
 	}
 }
 
+/**
+ * This is the new version according to the requirement from April 30, meeting at NCL.
+ * No more resource items. Only a flat list of resources.
+ */
+function listResources($aid) {
+    echo ', resources: { count: ';
+	$count = mysql_query("SELECT DISTINCT COUNT(*) FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid");
+    if ($temp = mysql_fetch_array($count)) {
+    	echo $temp['COUNT(*)'];
+    } else {
+    	echo '0';
+    }
+    echo ', resources: [';
+	$resources = mysql_query("SELECT DISTINCT resource.title, resource.author FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid LIMIT 5");
+	if ($resource = mysql_fetch_array($resources)) {
+		echo "{ title: ".json_encode($resource['title']).", author: ".json_encode($resource['author'])."}";
+	}
+	while ($resource = mysql_fetch_array($resources)) {
+		echo ", { title: ".json_encode($resource['title']).", author: ".json_encode($resource['author'])."}";
+	}
+	echo ']}}';
+}
+
 if ($_GET[format] == "json") {
 	echo '{success: true, errcode: 0, message: "Markers retrieved successfully.", markers: [';
-	if ($row = mysql_fetch_array($result))
-	echo '{ id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: '.json_encode($row['label']).', description: '.json_encode($row['description']).' }';
-	while ($row = mysql_fetch_array($result)) {
+	if ($row = mysql_fetch_array($result)) {
+		echo '{ id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: '.json_encode($row['label']).', description: '.json_encode($row['description']);
+		listResources($row['id']);
+	}
+
+	/**
+	 * Old version.
+	 *
+	 echo '{ id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: '.json_encode($row['label']).', description: '.json_encode($row['description']).' }';
+	 while ($row = mysql_fetch_array($result)) {
 		echo ', { id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: '.json_encode($row['label']).', description: '.json_encode($row['description']).' }';
+		}
+		echo ']}';*/
+
+	while ($row = mysql_fetch_array($result)) {
+		echo ', { id: '.$row['id'].', x: '.$row['x'].', y: '.$row['y'].', scale: '.$row['scale'].', label: '.json_encode($row['label']).', description: '.json_encode($row['description']);
+		listResources($row['id']);
 	}
 	echo ']}';
+
 } else {
 	echo '<response><success>true</success><errcode>0</errcode><message>Markers retrieved successfully.</message><markers>';
 	while ($row = mysql_fetch_array($result)) {

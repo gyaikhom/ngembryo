@@ -143,6 +143,11 @@ html, body {
     text-align: left;
 }
 
+#tipperDescription ul {
+	margin: 0px;
+    padding: 0px 15px;
+}
+
 #targetframe {
     height: 100%;
     width: 100%;

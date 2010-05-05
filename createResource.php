@@ -12,6 +12,7 @@ mysql_select_db("ngembryo", $con);
 /* Supplied by the client. */
 $title = $_POST[title];
 $author = $_POST[author];
+$link = $_POST[link]; /* New requirement: Just a flat list of resources. */
 $abstract = $_POST[description];
 
 /* Escape quotes etc. */
@@ -35,6 +36,18 @@ if (!mysql_query($sql, $con)) {
 	die('{success: false, errcode: 6, message: '.json_encode(mysql_error()).', rid: 0}');
 }
 $rid = mysql_insert_id();
+
+/* Create a new resource item.
+ * 
+ * NOTE: This is according to the new requirement from April 30 meeting at NCL.
+ * We have attempted to minimise changes to the existing database. So, every resource will
+ * now have only one resource item. User cannot add new resource items.
+ */
+$sql = "INSERT INTO resourceItem (resource_id, title, abstract, link, created_at) VALUES ('$rid', '$title', '$abstract', '$link', NOW())";
+if (!mysql_query($sql, $con)) {
+    die('{success: false, errcode: 6, message: '.json_encode(mysql_error()).', rid: 0}');
+}
+
 echo '{success: true, errcode: 0, message: "New resource created.", rid:'.$rid.'}';
 
 mysql_close($con);
