@@ -187,7 +187,9 @@ html, body {
 #content {
     overflow: hidden;
     padding: 0px;
-    border: 0px;
+    border: 0px solid #ff0000;
+    width: 100%;
+    height: 95%;
 }
 
 #tfshadow {
@@ -209,9 +211,9 @@ html, body {
 }
 
 #controls {
-    position: relative;
+    position: absolute;
     float: right;
-    top: -9px;
+    top: 0px;
     right: 0px;
     padding: 0px;
     margin: 0px;
@@ -224,38 +226,36 @@ html, body {
     background-color: #333333;
     border: 0px solid #333333;
     border-left: 1px solid #222222;
-    height: 450px;
+    height: 435px;
     width: 407px;
     /*  overflow: hidden; */
 }
 
 #toggleControls {
-    position: absolute;
-    float: right;
-    top: 450px;
-    right: 0px;
-    height: 24px;
-    width: 408px;
-    border: 0px solid #0000d4;
-    border-top: 1px solid #777777;
-    padding: 0px;
-    padding-top: 4px;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    height: 15px;
+    width: 390px;
+    border: 0px;
+    padding: 1px;
+    padding-right: 15px;
     margin: 0px;
-    background-image: url(../images/toggleControl.png);
-    background-repeat: no-repeat;
-    background-position: top center;
+    background: url(../images/cvalue.png);
+    background-repeat: x-repeat;
+	border-bottom: 1px solid #555555;
     font-weight: bold;
-    font-size: 9pt;
-    text-align: center;
-    color: #050505;
-    text-shadow: #9f9f9f 0px 1px 0px;
-    cursor: pointer;
+    font-size: 8pt;
+    text-align: right;
+    color: #AAAAAA;
+    text-shadow: #000000 0px 1px 0px;
+    cursor: move;
 }
 
 #roiLabel {
     position: absolute;
     float: left;
-    top: 10px;
+    top: 57px;
     left: 148px;
     display: block;
     border: 0px solid #ff00ff;
@@ -269,7 +269,7 @@ html, body {
 #roiControl {
     position: absolute;
     float: left;
-    top: 30px;
+    top: 75px;
     left: 148px;
     width: 250px;
     height: 250px;
@@ -281,7 +281,7 @@ html, body {
 
 #secLabel {
     position: absolute;
-    top: 10px;
+    top: 57px;
     left: 10px;
     float: left;
     display: block;
@@ -296,7 +296,7 @@ html, body {
 #secControl {
     position: absolute;
     float: none;
-    top: 30px;
+    top: 75px;
     left: 10px;
     width: 128px;
     height: 128px;
@@ -309,47 +309,48 @@ html, body {
 #zoomControl {
     border: 0px solid #ffff00;
     position: absolute;
-    top: 300px;
-    left: 26px;
-    float: left;
+    top: 330px;
+    right: 10px;
+    float: right;
 }
 
 #dstControl {
     border: 0px solid #ffff00;
     position: absolute;
-    top: 325px;
-    left: 10px;
-    float: left;
+    top: 350px;
+    right: 10px;
+    float: right;
 }
 
 #yawControl {
     border: 0px solid #ffff00;
     position: absolute;
-    top: 350px;
-    left: 35px;
-    float: left;
+    top: 370px;
+    right: 10px;
+    float: right;
 }
 
 #pitchControl {
     border: 0px solid #ffff00;
     position: absolute;
-    top: 375px;
-    left: 29px;
-    float: left;
+    top: 390px;
+    right: 10px;
+    float: right;
 }
 
 #rollControl {
     border: 0px solid #ffff00;
     position: absolute;
-    top: 400px;
-    left: 35px;
-    float: left;
+    top: 410px;
+    right: 10px;
+    float: right;
 }
 
 #zoomLabel, #yawLabel, #pitchLabel, #rollLabel, #dstLabel {
     border: 0px solid #ffff00;
     position: relative;
     float: right;
+    right: 15px;
     display: block;
     font-weight: bold;
     font-size: 8pt;
@@ -360,7 +361,7 @@ html, body {
 #zoomValue, #yawValue, #pitchValue, #dstValue, #rollValue {
     position: relative;
     float: right;
-    left: 6px;
+    right: 10px;
     top: 0px;
     height: 17px;
     width: 25px;
@@ -370,16 +371,16 @@ html, body {
     background: url(../images/cvalue.png);
     background-repeat: no-repeat;
     background-position: center center;
-    font-weight: bold;
+    font-family: "Trebuchet MS";
     font-size: 8pt;
     text-align: right;
-    color: #ffffff;
+    color: #ffff00;
 }
 
 #zoomSliderDecrement, #dstSliderDecrement, #yawSliderDecrement, #pitchSliderDecrement, #rollSliderDecrement {
     position: relative;
     float: right;
-    left: 6px;
+    right: 10px;
     top: 0px;
     height: 17px;
     width: 17px;
@@ -395,7 +396,7 @@ html, body {
 #zoomSliderIncrement, #dstSliderIncrement, #yawSliderIncrement, #pitchSliderIncrement, #rollSliderIncrement {
     position: relative;
     float: right;
-    left: 6px;
+    right: 10px;
     top: 0px;
     height: 17px;
     width: 17px;
@@ -413,9 +414,9 @@ html, body {
     float: right;
     display: block;
     top: 7px;
-    left: 16px;
+    right: 0px;
     height: 4px;
-    width: 260px;
+    width: 265px;
     border: 0px solid #777777;
     background-color: #222222;
     background: url(../images/slider.png);
@@ -440,7 +441,7 @@ html, body {
     border: 0px solid #ffff00;
     text-align: left;
     position: absolute;
-    top: 168px;
+    top: 215px;
     left: 10px;
     width: 128px;
     height: 128px;
@@ -891,4 +892,60 @@ img #loading-image {
     text-align: left;
 }
 
+#control-model {
+    position: relative;
+    top: 23px;
+}
 
+#control-model-label {
+    position: relative;
+    top: 0px;
+    left: 10px;
+    float: left;
+    font-weight: bold;
+    font-size: 8pt;
+    color: #cccccc;
+    text-shadow: #000000 0px 1px 0px;
+}
+
+#control-model-value {
+    position: relative;
+    top: 0px;
+    left: 15px;
+    float: left;
+    font-size: 8pt;
+    color: #FFFF00;
+}
+
+#control-layer {
+    position: absolute;
+    top: 40px;
+}
+
+#control-layer-label {
+    position: relative;
+    top: 0px;
+    left: 10px;
+    float: left;
+    font-weight: bold;
+    font-size: 8pt;
+    color: #cccccc;
+    text-shadow: #000000 0px 1px 0px;
+}
+
+#control-layer-value {
+    position: relative;
+    top: 0px;
+    left: 15px;
+    float: left;
+    font-size: 8pt;
+    color: #FFFF00;
+}
+
+#ngembryo-application {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+}
