@@ -32,20 +32,7 @@ two phases for doing this.</p>
 <li><span style="font-family: monospace;">Create</span> - Click on this to register a new resource with the system.</li>
 </ol>
 
-<h2>II. Adding a resource item (slides, books, papers etc.)</h2>
-
-<p>After a resource has been registered, it is now time to actually add the
-resource items. This is important because every resource could be provided in many forms. For instance,
-teaching materials could be provided as .doc, .pdf, .rtf etc. Each of these are referred to as resource items.</p><p>To display the resource items currently provided under a resource, check the resource details. This is done
-by clicking on the <span style="font-family: monospace;">Resource &gt; Display</span> on the toolbar, and then by clicking on the row which corresponds to the resource.
-This will display the resource details. In addition to the author, title, and abstract, resource items are also
-displayed. To obtain the actual material available under the resource item, click on the <span style="font-family: monospace;">open</span> link.</p><p>To
-add a new resource item, click on the <span style="font-family: monospace;">Add resource item</span> button. This will open the create resource item
-form. Fill in the details and click on <span style="font-family: monospace;">submit</span>. The resource item will now be added. In order to add a resource item, you will need
-the title, abstract, mime-type (for instance, .doc, .pdf etc.), and the URL. If a DSpace repository is being used, the url should
-be the URI provided by DSpace when the material was added to the repository.</p>
-
-<h2>III. Adding Orientations (the angle from which the model is viewed)</h2>
+<h2>II. Adding Orientations (the angle from which the model is viewed)</h2>
 
 <p>In order to add annotations, it is important to know how the model is being observed. This angle of
 observation is parameterised with the yaw, roll, pitch and distance. Since it is easy to loose an annotation if the corresponding orientation (angle of view) was not saved, it is mandatory that an orientation is
@@ -64,7 +51,7 @@ now be registered with the system.</li>
 when a new orientation is created with parameters that are already registered with the system, no new orientation will
 be created.</span>
 
-<h2>IV. Adding Layers (annotation groups)</h2>
+<h2>III. Adding Layers (annotation groups)</h2>
 
 <p>In a given orientation, one would like to group annotations according to topics, categories, etc.. To achieve
 this efficiently, the NG-Embryo portal uses layers. Layers are groups that are associated with a given
@@ -86,7 +73,11 @@ if no orientation with the current parameters already exists.</li>
 <li>The title of a layer must be unique.</li>
 </ul></span>
 
-<h2>V. Visiting an Annotation</h2>
+The visibility of layers can be set by clicking on <span style="font-family: monospace;">Layer &gt; Display</span> on the toolbar, and checking the visibility checkboxes. When a layer is hidden, all of the annotations attached to that layer will also be hidden. It is possible to set the visibility of multiple layers.
+
+When the list of layers is refreshed, perhaps due to selection of a new model etc., the visibility settings of the current model will be lost. In these cases, all of the layers in the new model will be set to visible. Since multiple users could set the visibility of layers differently, the layer visibility set by users are not saved on the portal server. This means that this facility is only a client-side feature implemented temporarily on the browser. 
+
+<h2>IV. Visiting an Annotation</h2>
 
 <p>When a layer is selected, all of the annotations that are defined on that layer is displayed. There are two
 types of annotations that can be defined on a layer:</p>
@@ -103,7 +94,7 @@ of that resource will be displayed to the user. From here, the user can select o
 <span style="color: rgb(255, 0, 0);">NOTE: One can toggle display of specific annotation types by clicking on the <span style="font-family: monospace;">Markers</span> and <span style="font-family: monospace;">Regions</span>
 toggle buttons on the toolbar.</span>
 
-<h2>VI. Creating an Annotation</h2>
+<h2>V. Creating an Annotation</h2>
 
 <p>To create an annotation, first select the layer which will contain the new annotation. If the current orientation is not suitable, change the parameters and create a new
 orientation, and add a layer. Then click on the <span style="font-family: monospace;">2Dmarker</span> or <span style="font-family: monospace;">2Dregion</span> button on the toolbar to create markers or regions respectively. This will fill up the
@@ -126,7 +117,7 @@ values, and click ok. The new region will be visible underneath the translucent 
 adding regions, and when done, click on the 2Dregion button on the toolbar to exit the region
 creation mode. This will clear the translucent screen, and the controls panel will re-appear.</li></ul>
 
-<h2>VII. Linking Resources to Annotations</h2>
+<h2>VI. Linking Resources to Annotations</h2>
 
 <p>To link resources to a given annotation, click on the annotation. This will open up a dialog box which
 lists all of the resources that are currently linked with that annotation. To link a new resource, click
@@ -139,7 +130,7 @@ annotation, the row containing the resource will disappear from the list. Contin
 
 
 <h3>ONGOING WORK</h3>
-<ul><li>Editing and deleting resources, annotations etc..</li>
+<ul><li>Editing resources, annotations etc..</li>
 <li>The formatting and visual representation is preliminary. This may be changed later.</li>
 <li>Automatic resource discovery from a DSpace repository is being investigated.</li>
 <li>We are trying to implemented model comparison where the user selects two models that can be viewed simultaneously side-by-side.</li>
