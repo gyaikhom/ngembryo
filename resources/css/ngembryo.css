@@ -243,13 +243,28 @@ html, body {
     margin: 0px;
     background: url(../images/cvalue.png);
     background-repeat: x-repeat;
-	border-bottom: 1px solid #555555;
+    border-bottom: 1px solid #555555;
     font-weight: bold;
     font-size: 8pt;
     text-align: right;
     color: #AAAAAA;
     text-shadow: #000000 0px 1px 0px;
     cursor: move;
+}
+
+#minimiseControls {
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    height: 12px;
+    width: 12px;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+    background-color: #777777;
+    background: url(../images/tabClose.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 #roiLabel {
