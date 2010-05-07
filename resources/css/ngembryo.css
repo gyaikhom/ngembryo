@@ -226,9 +226,18 @@ html, body {
     background-color: #333333;
     border: 0px solid #333333;
     border-left: 1px solid #222222;
-    height: 435px;
+    height: 455px;
     width: 407px;
     /*  overflow: hidden; */
+}
+
+#resetControls {
+    position: absolute;
+    float: right;
+    top: 432px;
+    right: 10px;
+    padding: 0px;
+    margin: 0px;
 }
 
 #toggleControls {
