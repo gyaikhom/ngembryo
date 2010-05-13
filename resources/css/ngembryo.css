@@ -106,6 +106,24 @@ html, body {
     height: 16px;
 }
 
+#feedback {
+    position: absolute;
+	top: 10px;
+	left: 10px; 
+    width: 300px;
+    height: 50px; /*ie6 */
+    min-height:50px; /*ff*/
+    height: auto !important; /*ie7 */
+	filter: alpha(opacity = 70);
+    opacity: 0.70;
+    -moz-opacity: .70;
+	-moz-border-radius: 10px;
+     -webkit-border-radius: 10px;
+    overflow: hidden;
+    border: 0px;
+    padding: 5px;
+}
+
 /*
  * Following values are used by region2D.js etc.
  */
