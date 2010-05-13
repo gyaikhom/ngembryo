@@ -24,7 +24,7 @@ $abstract = return_well_formed($abstract);
 $sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND author='$author' AND title='$title'";
 if ($result = mysql_query($sql, $con)) {
 	if ($temp = mysql_fetch_array($result)) {
-		die('{success: false, errcode: -2, message: "Resource with the given title already exists. No new resource created.", rid: '.$temp['id'].'}');
+		die('{success: false, errcode: -2, message: "Resource \''.$title.'\' already exists. No new resource created.", rid: '.$temp['id'].'}');
 	}
 } else {
 	die('{success: false, errcode: 3, message: '.json_encode(mysql_error()).', rid: 0}');
@@ -48,7 +48,7 @@ if (!mysql_query($sql, $con)) {
     die('{success: false, errcode: 6, message: '.json_encode(mysql_error()).', rid: 0}');
 }
 
-echo '{success: true, errcode: 0, message: "New resource created.", rid:'.$rid.'}';
+echo '{success: true, errcode: 0, message: "New resource \''.$title.'\' has been created.", rid:'.$rid.'}';
 
 mysql_close($con);
 ?>

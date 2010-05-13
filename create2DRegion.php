@@ -87,12 +87,11 @@ if (isset($polyline)) {
 		if (!mysql_query($sql_update_regionbb, $con)) {
 			cleanup($con, $region_id, "region could not be updated.");
 		}
-		mysql_close($con);
 	}
 } else {
 	die('{success: false, errcode: -4, message: "Supplied polyline is invalid: '.$reason.'", id: 0}');
 }
-echo '{success: true, errcode: 0, message: "New 2D region created.", id:'.$region_id.'}';
+echo '{success: true, errcode: 0, message: "New region \''.$label.'\' has been created.", id:'.$region_id.'}';
 
 mysql_close($con);
 ?>

@@ -35,7 +35,7 @@ if (!mysql_query($sql, $con)) {
     die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
 }
 $id = mysql_insert_id();
-echo '{success: true, errcode: 0, message: "New 2D marker created.", id:'.$id.'}';
+echo '{success: true, errcode: 0, message: "New marker \''.$label.'\' has been created.", id:'.$id.'}';
 
 mysql_close($con);
 ?>

@@ -34,7 +34,7 @@ if ($result = mysql_query($sql, $con)) {
 		$sql = "SELECT * FROM layer WHERE deleted_at IS NULL AND orientation_id='$orientation_id' AND title='$title'";
 		if ($result = mysql_query($sql, $con)) {
 			if ($x = mysql_fetch_array($result)) {
-				die('{success: false, errcode: -2, message: "Layer with the given title already exists. No new layer created.", lid: '.$x['id'].'}');
+				die('{success: false, errcode: -2, message: "Layer \''.$title.'\' already exists. No new layer created.", lid: '.$x['id'].'}');
 			}
 		} else {
 			die('{success: false, errcode: 3, message: '.json_encode(mysql_error()).', lid: 0}');
@@ -57,7 +57,7 @@ if (!mysql_query($sql, $con)) {
 	die('{success: false, errcode: 6, message: '.json_encode(mysql_error()).', lid: 0}');
 }
 $lid = mysql_insert_id();
-echo '{success: true, errcode: 0, message: "New layer created.", lid:'.$lid.'}';
+echo '{success: true, errcode: 0, message: "New layer \''.$title.'\' has been created.", lid:'.$lid.'}';
 
 mysql_close($con);
 ?>

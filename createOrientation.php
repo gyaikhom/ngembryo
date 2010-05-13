@@ -26,7 +26,7 @@ $description = return_well_formed($description);
 $orientations = mysql_query("SELECT id FROM orientation WHERE deleted_at IS NULL AND model_id=$model AND yaw=$yaw AND pitch=$pitch AND roll=$roll AND distance=$distance");
 if ($x = mysql_fetch_array($orientations)) {
 	$orientation_id = $x['id'];
-	echo '{success: false, message: "Orientation already exists.", oid:'.$orientation_id.'}';
+	echo '{success: false, message: "Orientation \''.$title.'\' already exists.", oid:'.$orientation_id.'}';
 } else {
 	/* Create a new orientation. */
 	$sql = "INSERT INTO orientation (model_id, title, description, yaw, pitch, roll, distance, created_at) VALUES ('$model', '$title', '$description', '$yaw', '$pitch', '$roll', '$distance', NOW())";
@@ -34,7 +34,7 @@ if ($x = mysql_fetch_array($orientations)) {
 		die('{success: false, message: '.json_encode(mysql_error()).', oid: -1}');
 	}
 	$orientation_id = mysql_insert_id();
-	echo '{success: true, message: "New orientation created.", oid:'.$orientation_id.'}';
+	echo '{success: true, message: "New orientation \''.$title.'\' has been created.", oid:'.$orientation_id.'}';
 }
 
 mysql_close($con);

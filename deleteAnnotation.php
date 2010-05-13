@@ -35,6 +35,6 @@ if (!mysql_query($sql, $con)) {
     die('{success: false, errcode: -2, message: '.json_encode(mysql_error()).'}');
 }
 
-echo '{success: true, errcode: 0, message: "Annotation deleted."}';
+echo '{success: true, errcode: 0, message: "Annotation has been deleted."}';
 mysql_close($con);
 ?>
