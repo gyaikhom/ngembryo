@@ -23,7 +23,7 @@ $title = return_well_formed($title);
 $description = return_well_formed($description);
 
 /* First check if the current orientation exists. */
-$orientations = mysql_query("SELECT id FROM orientation WHERE model_id=$model AND yaw=$yaw AND pitch=$pitch AND roll=$roll AND distance=$distance");
+$orientations = mysql_query("SELECT id FROM orientation WHERE deleted_at IS NULL AND model_id=$model AND yaw=$yaw AND pitch=$pitch AND roll=$roll AND distance=$distance");
 if ($x = mysql_fetch_array($orientations)) {
 	$orientation_id = $x['id'];
 	echo '{success: false, message: "Orientation already exists.", oid:'.$orientation_id.'}';

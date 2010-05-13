@@ -21,7 +21,7 @@ $author = return_well_formed($author);
 $abstract = return_well_formed($abstract);
 
 /* Check if a resource with the given title and author exists. */
-$sql = "SELECT * FROM resource WHERE author='$author' AND title='$title'";
+$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND author='$author' AND title='$title'";
 if ($result = mysql_query($sql, $con)) {
 	if ($temp = mysql_fetch_array($result)) {
 		die('{success: false, errcode: -2, message: "Resource with the given title already exists. No new resource created.", rid: '.$temp['id'].'}');

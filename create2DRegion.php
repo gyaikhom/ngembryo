@@ -13,11 +13,11 @@ function cleanup($con, $region_id, $reason) {
 	$err_msg = mysql_error();
 
 	/* Remove the region which we inserted just now. */
-	$sql_remove_region = "DELETE FROM 2Dregion WHERE id = '$region_id'";
+	$sql_remove_region = "DELETE FROM 2Dregion WHERE deleted_at IS NULL AND id = '$region_id'";
 	mysql_query($sql_remove_region, $con);
 
 	/* Remove any existing polyline point associated with this region. */
-	$sql_remove_region = "DELETE FROM 2Dpolyline WHERE 2Dregion_id = '$region_id'";
+	$sql_remove_region = "DELETE FROM 2Dpolyline WHERE deleted_at IS NULL AND 2Dregion_id = '$region_id'";
 	mysql_query($sql_remove_region, $con);
 
 	die('{success: false, errcode: -1, message: "Failed to insert polyline: '.$reason.'", id: 0}');
@@ -35,7 +35,7 @@ $label = return_well_formed($label);
 $description = return_well_formed($description);
 
 /* First check if the layer exists. */
-$layer = mysql_query("SELECT id FROM layer WHERE id=$lid");
+$layer = mysql_query("SELECT id FROM layer WHERE deleted_at IS NULL AND id=$lid");
 if ($temp = mysql_fetch_array($layer)) {
 	$lid = $temp['id'];
 } else {

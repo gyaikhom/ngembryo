@@ -22,7 +22,7 @@ $label = return_well_formed($label);
 $description = return_well_formed($description);
 
 /* First check if the layer exists. */
-$layer = mysql_query("SELECT id FROM layer WHERE id=$lid");
+$layer = mysql_query("SELECT id FROM layer WHERE deleted_at IS NULL AND id=$lid");
 if ($temp = mysql_fetch_array($layer)) {
     $lid = $temp['id'];
 } else {

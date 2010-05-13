@@ -27,7 +27,7 @@ if ($type == "2dmarker") {
 }
 
 /* Check if the resource exists. */
-$resource = mysql_query("SELECT id FROM resource WHERE id=$rid");
+$resource = mysql_query("SELECT id FROM resource WHERE deleted_at IS NULL AND id=$rid");
 if ($temp = mysql_fetch_array($resource)) {
 	$rid = $temp['id'];
 } else {
@@ -35,7 +35,7 @@ if ($temp = mysql_fetch_array($resource)) {
 }
 
 /* Check if the annotation exists. */
-$annotation = mysql_query("SELECT id FROM $table WHERE id=$aid");
+$annotation = mysql_query("SELECT id FROM $table WHERE deleted_at IS NULL AND id=$aid");
 if ($temp = mysql_fetch_array($annotation)) {
 	$aid = $temp['id'];
 } else {
@@ -44,7 +44,7 @@ if ($temp = mysql_fetch_array($annotation)) {
 
 /* Check if the resource is already linked to the annotation. */
 $table = $table."Resource";
-$already = mysql_query("SELECT id FROM $table WHERE annotation_id=$aid AND resource_id=$rid");
+$already = mysql_query("SELECT id FROM $table WHERE deleted_at IS NULL AND annotation_id=$aid AND resource_id=$rid");
 if ($temp = mysql_fetch_array($already)) {
     die('{success: false, errcode: -1, message: "Resource already linked to the annotation.", id: 0}');
 }

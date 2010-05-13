@@ -23,7 +23,7 @@ $mime = return_well_formed($mime);
 $link = return_well_formed($link);
 
 /* Check if the resource exists. */
-$sql = "SELECT * FROM resource WHERE id='$rid'";
+$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND id='$rid'";
 if ($result = mysql_query($sql, $con)) {
 	if (!mysql_fetch_array($result)) {
 		die('{success: false, errcode: -2, message: "Resource does not exists. No new resource item can be created.", rid: 0}');
@@ -33,7 +33,7 @@ if ($result = mysql_query($sql, $con)) {
 }
 
 /* Check if a resource item with the given title, mime, and link exists. */
-$sql = "SELECT * FROM resourceItem WHERE resource_id='$rid' AND title='$title' AND mime='$mime' AND link='$link'";
+$sql = "SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='$rid' AND title='$title' AND mime='$mime' AND link='$link'";
 if ($result = mysql_query($sql, $con)) {
 	if ($temp = mysql_fetch_array($result)) {
 		die('{success: false, errcode: -2, message: "Resource item already exists. No new resource item created.", rid: '.$temp['id'].'}');

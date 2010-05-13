@@ -25,13 +25,13 @@ $summary = return_well_formed($summary);
 $description = return_well_formed($description);
 
 /* Check if the orientation exists. */
-$sql = "SELECT * FROM orientation WHERE model_id='$model' AND yaw='$yaw' AND pitch='$pitch' AND roll='$roll' AND distance='$distance'";
+$sql = "SELECT * FROM orientation WHERE deleted_at IS NULL AND model_id='$model' AND yaw='$yaw' AND pitch='$pitch' AND roll='$roll' AND distance='$distance'";
 if ($result = mysql_query($sql, $con)) {
 	if ($x = mysql_fetch_array($result)) {
 		$orientation_id = $x['id'];
 
 		/* Check if a layer with the given title exists. */
-		$sql = "SELECT * FROM layer WHERE orientation_id='$orientation_id' AND title='$title'";
+		$sql = "SELECT * FROM layer WHERE deleted_at IS NULL AND orientation_id='$orientation_id' AND title='$title'";
 		if ($result = mysql_query($sql, $con)) {
 			if ($x = mysql_fetch_array($result)) {
 				die('{success: false, errcode: -2, message: "Layer with the given title already exists. No new layer created.", lid: '.$x['id'].'}');
