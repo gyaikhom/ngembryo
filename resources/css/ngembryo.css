@@ -106,7 +106,7 @@ html, body {
     height: 16px;
 }
 
-#feedback {
+.feedback {
     position: absolute;
 	top: 10px;
 	left: 10px; 
@@ -114,14 +114,31 @@ html, body {
     height: 50px; /*ie6 */
     min-height:50px; /*ff*/
     height: auto !important; /*ie7 */
-	filter: alpha(opacity = 70);
-    opacity: 0.70;
-    -moz-opacity: .70;
+	filter: alpha(opacity = 50);
+    opacity: 0.50;
+    -moz-opacity: .50;
 	-moz-border-radius: 10px;
      -webkit-border-radius: 10px;
     overflow: hidden;
     border: 0px;
-    padding: 5px;
+    padding: 10px;
+	visibility: visible;
+	z-index: 9999;
+}
+
+.feedback-error {
+	color: #FFFFFF;
+	background-color: #FF0000;
+}
+
+.feedback-warn {
+    color: #FFFFFF;
+    background-color: #005500;
+}
+
+.feedback-info {
+    color: #FFFFFF;
+    background-color: #000000;
 }
 
 /*
