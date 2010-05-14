@@ -110,7 +110,7 @@ html, body {
     position: absolute;
     top: 35px;
     left: 10px; 
-    width: auto;
+    width: 250px;
     height: 50px; /*ie6 */
     min-height:10px; /*ff*/
     height: auto !important; /*ie7 */
@@ -124,6 +124,7 @@ html, body {
     padding: 10px;
     visibility: visible;
     z-index: 9999;
+	text-align: center;
 }
 
 .feedback-error {
