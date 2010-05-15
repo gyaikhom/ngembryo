@@ -57,7 +57,8 @@ function listResources($aid) {
 }
 
 function printRegion($region) {
-	echo '{ id: '.$region['id'].', scale: '.$region['scale'].', tl_x: '.$region['tl_x'].', tl_y: '.$region['tl_y'].', br_x: '.$region['br_x'].', br_y: '.$region['br_y'].', label: '.json_encode($region['label']).', description: '.json_encode($region['description']);
+    /* echo '{ id: '.$region['id'].', scale: '.$region['scale'].', tl_x: '.$region['tl_x'].', tl_y: '.$region['tl_y'].', br_x: '.$region['br_x'].', br_y: '.$region['br_y'].', label: '.json_encode($region['label']).', description: '.json_encode($region['description']); */
+	echo '{ id: '.$region['id'].', scale: '.$region['scale'].', label: '.json_encode($region['label']).', description: '.json_encode($region['description']);
 	listResources($region['id']);
 	echo ', polyline: ';
 	$polyline = mysql_query("SELECT * FROM 2Dpolyline WHERE deleted_at IS NULL AND 2Dregion_id='".$region['id']."' ORDER BY rank ASC");
