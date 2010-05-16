@@ -12,17 +12,13 @@ $aid = $_GET[aid];
 $type = $_GET[type];
 $table = "";
 
-if ($type == "2dmarker") {
+if ($type == "m") {
 	$table = "2Dmarker";
 } else {
-	if ($type == "2dregion") {
+	if ($type == "r") {
 		$table = "2Dregion";
 	} else {
-		if ($type == "3dmarker") {
-			$table = "3Dmarker";
-		} else {
-			die('{success: false, errcode: 2, message: "Unknown annotation type.", id: 0}');
-		}
+		die('{success: false, errcode: 2, message: "Unknown annotation type.", id: 0}');
 	}
 }
 
@@ -46,13 +42,13 @@ if ($temp = mysql_fetch_array($annotation)) {
 $table = $table."Resource";
 $already = mysql_query("SELECT id FROM $table WHERE deleted_at IS NULL AND annotation_id=$aid AND resource_id=$rid");
 if ($temp = mysql_fetch_array($already)) {
-    die('{success: false, errcode: -1, message: "Resource already linked to the annotation.", id: 0}');
+	die('{success: false, errcode: -1, message: "Resource already linked to the annotation.", id: 0}');
 }
 
 /* Add resource to annotation */
 $sql = "INSERT INTO $table (annotation_id, resource_id, created_at) VALUES ('$aid', '$rid', NOW())";
 if (!mysql_query($sql, $con)) {
-    die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
+	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
 }
 $id = mysql_insert_id();
 echo '{success: true, errcode: 0, message: "Resource added to annotation.", id:'.$id.'}';

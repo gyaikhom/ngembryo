@@ -74,24 +74,16 @@ html, body {
     background: #48373e;
 }
 
-.addMarker2D {
-    background-image: url(../images/addMarker2D.png);
+.addMarker {
+    background-image: url(../images/addMarker.png);
     background-repeat: no-repeat;
     background-position: center center;
     width: 16px;
     height: 16px;
 }
 
-.addMarker3D {
-    background-image: url(../images/addMarker3D.png);
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 16px;
-    height: 16px;
-}
-
-.addRegion2D {
-    background-image: url(../images/addRegion2D.png);
+.addRegion {
+    background-image: url(../images/addRegion.png);
     background-repeat: no-repeat;
     background-position: center center;
     width: 16px;
@@ -143,7 +135,7 @@ html, body {
 }
 
 /*
- * Following values are used by region2D.js etc.
+ * Following values are used by region.js etc.
  */
 #tipper {
     position: absolute;
@@ -588,11 +580,11 @@ border: 1px solid #B1B1B1;
     width: 100%;
 }
 
-#create2DMarkerCanvas {
+#createMarkerCanvas {
     cursor: url(../images/Handwriting.cur), crosshair, default;
 }
 
-#create2DRegionCanvas {
+#createRegionCanvas {
     cursor: url(../images/Handwriting.cur), crosshair, default;
 }
 

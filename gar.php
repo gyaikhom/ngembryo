@@ -12,17 +12,13 @@ $exclude = $_GET[exclude];
 $format = $_GET[format];
 $table = "";
 
-if ($type == "2dmarker") {
+if ($type == "m") {
 	$table = "2Dmarker";
 } else {
-	if ($type == "2dregion") {
+	if ($type == "r") {
 		$table = "2Dregion";
 	} else {
-		if ($type == "3dmarker") {
-			$table = "3Dmarker";
-		} else {
-			die('{success: false, errcode: 2, message: "Unknown annotation type.", resources: null}');
-		}
+		die('{success: false, errcode: 2, message: "Unknown annotation type.", resources: null}');
 	}
 }
 
