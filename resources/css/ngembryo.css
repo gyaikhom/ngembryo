@@ -183,6 +183,18 @@ border: 1px solid #B1B1B1;
     overflow: hidden;
 }
 
+#tipperS {
+    position: absolute;
+    top: 140px;
+    left: 5px;
+    width: 299px;
+    height: 20px;
+    background-image: url(../images/bfade.png);
+    background-repeat: x-repeat;
+    padding: 0px;
+    text-align: left;
+}
+
 #tipperM {
     position: absolute;
     top: 154px;
@@ -264,7 +276,7 @@ border: 1px solid #B1B1B1;
     background-color: #333333;
     border: 0px solid #333333;
     border-left: 1px solid #222222;
-    height: 455px;
+    height: 460px;
     width: 407px;
     /*  overflow: hidden; */
 }
@@ -272,7 +284,7 @@ border: 1px solid #B1B1B1;
 #resetControls {
     position: absolute;
     float: right;
-    top: 432px;
+    top: 430px;
     right: 10px;
     padding: 0px;
     margin: 0px;
