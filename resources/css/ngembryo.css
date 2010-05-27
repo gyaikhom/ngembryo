@@ -26,7 +26,7 @@ html, body {
 .soria .dijitToolbar .dijitButtonHover, .soria .dijitToolbar .dijitToggleButtonHover, .soria .dijitToolbar .dijitDropDownButtonHover, .soria .dijitToolbar .dijitComboButtonHover .dijitButtonContents, .soria .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton {
     border: 0px;
     padding: 3px;
-    background-color: #d4aa00;
+    background-color: #c3f6ff;
 }
 
 .dijitToolbar {
@@ -98,25 +98,33 @@ html, body {
     height: 16px;
 }
 
+.search {
+    background-image: url(../images/search.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 16px;
+    height: 16px;
+}
+
 .feedback {
     position: absolute;
     top: 35px;
-    left: 10px; 
+    left: 10px;
     width: 250px;
     height: 50px; /*ie6 */
-    min-height:10px; /*ff*/
+    min-height: 10px; /*ff*/
     height: auto !important; /*ie7 */
     filter: alpha(opacity = 50);
     opacity: 0.50;
     -moz-opacity: .50;
     -moz-border-radius: 10px;
-     -webkit-border-radius: 10px;
+    -webkit-border-radius: 10px;
     overflow: hidden;
     border: 0px solid #ffff00;
     padding: 10px;
     visibility: visible;
     z-index: 9999;
-	text-align: center;
+    text-align: center;
 }
 
 .feedback-error {
@@ -148,8 +156,7 @@ html, body {
     border: 1px solid #555555;
     padding: 5px;
     -moz-border-radius: 10px;
-     -webkit-border-radius: 10px;
-
+    -webkit-border-radius: 10px;
 }
 
 #tipperL {
@@ -164,10 +171,10 @@ html, body {
     text-align: left;
     font-weight: bold;
     -moz-border-radius: 9px;
-     -webkit-border-radius: 9px;
-text-align: center;
+    -webkit-border-radius: 9px;
+    text-align: center;
     text-shadow: #EEEEEE 0px 1px 0px !important;
-border: 1px solid #B1B1B1;
+    border: 1px solid #B1B1B1;
 }
 
 #tipperD {
@@ -275,10 +282,11 @@ border: 1px solid #B1B1B1;
      */
     background-color: #333333;
     border: 0px solid #333333;
-    border-left: 1px solid #222222;
     height: 460px;
     width: 407px;
-    /*  overflow: hidden; */
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    overflow: hidden;
 }
 
 #resetControls {
@@ -292,24 +300,22 @@ border: 1px solid #B1B1B1;
 
 #dragControls {
     position: relative;
-    top: 0px;
-    left: 0px;
-    height: 15px;
-    width: 390px;
+    top: 1px;
+    left: 2px;
+    height: 16px;
+    width: 386px;
     border: 0px;
-    padding: 1px;
+    padding: 2px;
     padding-right: 15px;
     margin: 0px;
-    background: url(../images/cvalue.png);
-    background-repeat: x-repeat;
-    border-bottom: 1px solid #555555;
+    border-bottom: 1px solid #2A2A2A;
     font-weight: bold;
     font-size: 8pt;
     text-align: right;
-    color: #AAAAAA;
+    color: #DDDDDD;
     cursor: move;
+    text-shadow: #000000 0px 1px 0px;
 }
-
 
 #roiLabel {
     position: absolute;
