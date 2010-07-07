@@ -65,9 +65,25 @@ switch($type) {
 		}
 		echo '{success: true, errcode: 0, message: "Search was successful.", type:1, results: [';
 		if ($temp = mysql_fetch_array($resources))
-		echo "{i:".$temp['id'].",a:".json_encode($temp['author']).",t:".json_encode($temp['title']).",d:".json_encode($temp['abstract'])."}";
+		echo "{i:".$temp['id'].",a:".json_encode($temp['author']).",t:".json_encode($temp['title']).",d:".json_encode($temp['abstract']).",l:";
+
+		$resourceItem = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$temp['id']."' LIMIT 1");
+		if ($link = mysql_fetch_array($resourceItem)) {
+			echo json_encode($link['link']);
+		} else {
+			echo 'null';
+		}
+		echo "}";
+
 		while ($temp = mysql_fetch_array($resources)) {
-			echo ",{i:".$temp['id'].",a:".json_encode($temp['author']).",t:".json_encode($temp['title']).",d:".json_encode($temp['abstract'])."}";
+			echo ",{i:".$temp['id'].",a:".json_encode($temp['author']).",t:".json_encode($temp['title']).",d:".json_encode($temp['abstract']).",l:";
+			$resourceItem = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$temp['id']."' LIMIT 1");
+			if ($link = mysql_fetch_array($resourceItem)) {
+				echo json_encode($link['link']);
+			} else {
+				echo 'null';
+			}
+			echo "}";
 		}
 		echo ']}';
 
