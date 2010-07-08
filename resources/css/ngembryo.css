@@ -106,6 +106,17 @@ html, body {
     height: 16px;
 }
 
+#search {
+background: #26b9ff !important;
+padding: 0px 15px;
+margin: 0px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+#search:hover {
+background: #c3f6ff !important;
+}
 .feedback {
     position: absolute;
     top: 35px;
