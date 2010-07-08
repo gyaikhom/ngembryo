@@ -15,44 +15,126 @@ if (!$start)
 $start = 0;
 switch($type) {
 	case "marker":
-		$sql = "SELECT DISTINCT id,label,description FROM 2Dmarker WHERE deleted_at IS NULL AND (label like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
+		$sql = "SELECT DISTINCT id,layer_id,scale,label,description FROM 2Dmarker WHERE deleted_at IS NULL AND (label like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
 		if (!($markers = mysql_query($sql, $con))) {
 			die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', results: null}');
 		}
 		echo '{success: true, errcode: 0, message: "Search was successful.", type:3, results: [';
 		if ($temp = mysql_fetch_array($markers))
-		echo "{i:".$temp['id'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description'])."}";
+		echo "{i:".$temp['id'].",s:".$temp['scale'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description']).",l:".$temp['layer_id'].",o:";
+
+		$foo = mysql_query("SELECT orientation_id FROM layer WHERE deleted_at IS NULL AND id='".$temp['layer_id']."' LIMIT 1");
+		if ($orientation = mysql_fetch_array($foo)) {
+			echo $orientation['orientation_id'];
+		} else {
+			echo '0';
+		}
+
+		echo ",m:";
+		$foo = mysql_query("SELECT model_id FROM orientation WHERE deleted_at IS NULL AND id='".$orientation['orientation_id']."' LIMIT 1");
+		if ($model = mysql_fetch_array($foo)) {
+			echo $model['model_id'];
+		} else {
+			echo '0';
+		}
+		echo "}";
+
 		while ($temp = mysql_fetch_array($markers)) {
-			echo ",{i:".$temp['id'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description'])."}";
+			echo ",{i:".$temp['id'].",s:".$temp['scale'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description']).",l:".$temp['layer_id'].",o:";
+
+			$foo = mysql_query("SELECT orientation_id FROM layer WHERE deleted_at IS NULL AND id='".$temp['layer_id']."' LIMIT 1");
+			if ($orientation = mysql_fetch_array($foo)) {
+				echo $orientation['orientation_id'];
+			} else {
+				echo '0';
+			}
+
+			echo ",m:";
+			$foo = mysql_query("SELECT model_id FROM orientation WHERE deleted_at IS NULL AND id='".$orientation['orientation_id']."' LIMIT 1");
+			if ($model = mysql_fetch_array($foo)) {
+				echo $model['model_id'];
+			} else {
+				echo '0';
+			}
+			echo "}";
+
 		}
 		echo ']}';
 		break;
 
 	case "region":
-		$sql = "SELECT DISTINCT id,label,description FROM 2Dregion WHERE deleted_at IS NULL AND (label like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
+		$sql = "SELECT DISTINCT id,layer_id,scale,label,description FROM 2Dregion WHERE deleted_at IS NULL AND (label like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
 		if (!($regions = mysql_query($sql, $con))) {
 			die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', results: null}');
 		}
 		echo '{success: true, errcode: 0, message: "Search was successful.", type:4, results: [';
 		if ($temp = mysql_fetch_array($regions))
-		echo "{i:".$temp['id'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description'])."}";
+		echo "{i:".$temp['id'].",s:".$temp['scale'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description']).",l:".$temp['layer_id'].",o:";
+
+		$foo = mysql_query("SELECT orientation_id FROM layer WHERE deleted_at IS NULL AND id='".$temp['layer_id']."' LIMIT 1");
+		if ($orientation = mysql_fetch_array($foo)) {
+			echo $orientation['orientation_id'];
+		} else {
+			echo '0';
+		}
+
+		echo ",m:";
+		$foo = mysql_query("SELECT model_id FROM orientation WHERE deleted_at IS NULL AND id='".$orientation['orientation_id']."' LIMIT 1");
+		if ($model = mysql_fetch_array($foo)) {
+			echo $model['model_id'];
+		} else {
+			echo '0';
+		}
+		echo "}";
+
 		while ($temp = mysql_fetch_array($regions)) {
-			echo ",{i:".$temp['id'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description'])."}";
+			echo ",{i:".$temp['id'].",s:".$temp['scale'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description']).",l:".$temp['layer_id'].",o:";
+
+			$foo = mysql_query("SELECT orientation_id FROM layer WHERE deleted_at IS NULL AND id='".$temp['layer_id']."' LIMIT 1");
+			if ($orientation = mysql_fetch_array($foo)) {
+				echo $orientation['orientation_id'];
+			} else {
+				echo '0';
+			}
+
+			echo ",m:";
+			$foo = mysql_query("SELECT model_id FROM orientation WHERE deleted_at IS NULL AND id='".$orientation['orientation_id']."' LIMIT 1");
+			if ($model = mysql_fetch_array($foo)) {
+				echo $model['model_id'];
+			} else {
+				echo '0';
+			}
+			echo "}";
 		}
 		echo ']}';
 
 		break;
 
 	case "layer":
-		$sql = "SELECT DISTINCT id,title,description FROM layer WHERE deleted_at IS NULL AND (title like '%$key%' OR summary like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
+		$sql = "SELECT DISTINCT id,orientation_id,title,description FROM layer WHERE deleted_at IS NULL AND (title like '%$key%' OR summary like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
 		if (!($layers = mysql_query($sql, $con))) {
 			die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', results: null}');
 		}
 		echo '{success: true, errcode: 0, message: "Search was successful.", type:2, results: [';
 		if ($temp = mysql_fetch_array($layers))
-		echo "{i:".$temp['id'].",t:".json_encode($temp['title']).",d:".json_encode($temp['description'])."}";
+		echo "{i:".$temp['id'].",s:0,t:".json_encode($temp['title']).",d:".json_encode($temp['description']).",l:".$temp['id'].",o:".$temp['orientation_id'].",m:";
+		$foo = mysql_query("SELECT model_id FROM orientation WHERE deleted_at IS NULL AND id='".$temp['orientation_id']."' LIMIT 1");
+		if ($model = mysql_fetch_array($foo)) {
+			echo $model['model_id'];
+		} else {
+			echo '0';
+		}
+		echo "}";
+
 		while ($temp = mysql_fetch_array($layers)) {
-			echo ",{i:".$temp['id'].",t:".json_encode($temp['title']).",d:".json_encode($temp['description'])."}";
+			echo ",{i:".$temp['id'].",s:0,t:".json_encode($temp['title']).",d:".json_encode($temp['description']).",l:".$temp['id'].",o:".$temp['orientation_id'].",m:";
+			$foo = mysql_query("SELECT model_id FROM orientation WHERE deleted_at IS NULL AND id='".$temp['orientation_id']."' LIMIT 1");
+			if ($model = mysql_fetch_array($foo)) {
+				echo $model['model_id'];
+			} else {
+				echo '0';
+			}
+			echo "}";
 		}
 		echo ']}';
 
