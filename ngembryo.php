@@ -128,7 +128,7 @@ if (!$logged_in) {
             var ngembryo;
             var woolz;
             dojo.addOnLoad(function(){
-                ngembryo = new NGEmbryo();
+                ngembryo = new NGEmbryo("<?php echo $_SESSION['username']; ?>");
                 ngembryo.start();
             });
             dojo.addOnUnload(function(){
