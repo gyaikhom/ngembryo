@@ -11,7 +11,7 @@ html, body {
 }
 
 .soria .dijitToolbar .dijitButtonChecked, .soria .dijitToolbar .dijitToggleButtonChecked {
-    background-color: #ffdd55;
+    background-color: #ffff00;
     color: #000000 !important;
     border: 0px;
     padding: 3px;
@@ -26,16 +26,14 @@ html, body {
 .soria .dijitToolbar .dijitButtonHover, .soria .dijitToolbar .dijitToggleButtonHover, .soria .dijitToolbar .dijitDropDownButtonHover, .soria .dijitToolbar .dijitComboButtonHover .dijitButtonContents, .soria .dijitToolbar .dijitComboButtonDownArrowHover .dijitDownArrowButton {
     border: 0px;
     padding: 3px;
-    background-color: #c3f6ff;
+    color: #ff0000 !important;
+	background-color: #b0d3ff;
 }
 
 .dijitToolbar {
-    background: #555555 !important;
-    color: #ffffff !important;
+     color: #000 !important;
     text-shadow: #ffffff 0px 1px 0px !important;
     border: 0px !important;
-    /*border-bottom: 1px solid #aaaaaa !important;*/
-    /*border-top: 1px solid #aaaaaa !important;*/
     top: 0px !important;
     left: 0px !important;
     right: 0px !important;
@@ -106,17 +104,30 @@ html, body {
     height: 16px;
 }
 
-#search {
-background: #26b9ff !important;
-padding: 0px 15px;
-margin: 0px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+.help {
+    background-image: url(../images/help.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 16px;
+    height: 16px;
 }
 
-#search:hover {
-background: #c3f6ff !important;
+.about {
+    background-image: url(../images/about.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 16px;
+    height: 16px;
 }
+
+.logout {
+    background-image: url(../images/user.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 16px;
+    height: 16px;
+}
+
 .feedback {
     position: absolute;
     top: 35px;
