@@ -19,6 +19,9 @@ switch($type) {
 		if (!($markers = mysql_query($sql, $con))) {
 			die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', results: null}');
 		}
+		if (mysql_num_rows($markers) <= 0) {
+			die('{success: true, errcode: 0, message: "Search was successful.", type:3, results: []}');
+		}
 		echo '{success: true, errcode: 0, message: "Search was successful.", type:3, results: [';
 		if ($temp = mysql_fetch_array($markers))
 		echo "{i:".$temp['id'].",s:".$temp['scale'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description']).",l:".$temp['layer_id'].",o:";
@@ -67,6 +70,10 @@ switch($type) {
 		if (!($regions = mysql_query($sql, $con))) {
 			die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', results: null}');
 		}
+		if (mysql_num_rows($regions) <= 0) {
+			die('{success: true, errcode: 0, message: "Search was successful.", type:4, results: []}');
+		}
+
 		echo '{success: true, errcode: 0, message: "Search was successful.", type:4, results: [';
 		if ($temp = mysql_fetch_array($regions))
 		echo "{i:".$temp['id'].",s:".$temp['scale'].",t:".json_encode($temp['label']).",d:".json_encode($temp['description']).",l:".$temp['layer_id'].",o:";
@@ -115,6 +122,10 @@ switch($type) {
 		if (!($layers = mysql_query($sql, $con))) {
 			die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', results: null}');
 		}
+		if (mysql_num_rows($layers) <= 0) {
+			die('{success: true, errcode: 0, message: "Search was successful.", type:2, results: []}');
+		}
+
 		echo '{success: true, errcode: 0, message: "Search was successful.", type:2, results: [';
 		if ($temp = mysql_fetch_array($layers))
 		echo "{i:".$temp['id'].",s:0,t:".json_encode($temp['title']).",d:".json_encode($temp['description']).",l:".$temp['id'].",o:".$temp['orientation_id'].",m:";
@@ -145,6 +156,10 @@ switch($type) {
 		if (!($resources = mysql_query($sql, $con))) {
 			die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', results: null}');
 		}
+		if (mysql_num_rows($resources) <= 0) {
+			die('{success: true, errcode: 0, message: "Search was successful.", type:1, results: []}');
+		}
+
 		echo '{success: true, errcode: 0, message: "Search was successful.", type:1, results: [';
 		if ($temp = mysql_fetch_array($resources))
 		echo "{i:".$temp['id'].",a:".json_encode($temp['author']).",t:".json_encode($temp['title']).",d:".json_encode($temp['abstract']).",l:";
