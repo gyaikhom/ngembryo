@@ -4,7 +4,7 @@ body {
     margin: 50px;
 }
 
-.loginForm {
+#loginForm {
     background-color: #e0ecff;
     color: #333333;
     border: 1px solid #ccd7ff;
@@ -44,7 +44,7 @@ body {
     font-size: 9pt;
 }
 
-.info {
+#loginInfo {
     background-color: #fff;
     color: #333333;
     border: 0px solid #ccd7ff;
@@ -53,4 +53,17 @@ body {
     line-height: 150%;
     height: auto;
     float: left;
+}
+
+#loginLogo {
+	position: relative;
+    background-color: #fff;
+    border: 0px solid #ccd7ff;
+    padding: 15px;
+    width: 100%;
+    float: left;
+}
+
+img {
+	border: 0px;
 }
