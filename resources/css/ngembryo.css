@@ -27,11 +27,11 @@ html, body {
     border: 0px;
     padding: 3px;
     color: #ff0000 !important;
-	background-color: #b0d3ff;
+    background-color: #b0d3ff;
 }
 
 .dijitToolbar {
-     color: #000 !important;
+    color: #000 !important;
     text-shadow: #ffffff 0px 1px 0px !important;
     border: 0px !important;
     top: 0px !important;
@@ -1035,4 +1035,120 @@ img #loading-image {
     left: 0px;
     height: 100%;
     width: 100%;
+}
+
+.search-result {
+    width: 100%;
+    margin: 10px 0px;
+    border-collapse: collapse;
+}
+
+.search-listing {
+    margin: 10px 0px;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.search-match-count {
+}
+
+.search-item {
+    text-shadow: 0px 1px 0px #fff;
+    padding: 2px;
+    text-align: center;
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    border-bottom: 1px solid #adc7e4;
+    display: block;
+    cursor: pointer;
+}
+
+.search-item-selected {
+    text-shadow: 0px 1px 0px #fff;
+    padding: 2px;
+    text-align: center;
+    background-color: #fff;
+    border-left: 1px solid #adc7e4;
+    border-right: 1px solid #adc7e4;
+    border-top: 1px solid #adc7e4;
+    border-bottom: 1px solid #fff;
+}
+
+.separator {
+    padding: 2px;
+    border-bottom: 1px solid #adc7e4;
+}
+
+.header {
+    background-color: #fff !important;
+    text-shadow: 0px 0px 0px #fff !important;
+    border-bottom: 1px solid #bbb !important;
+}
+
+.prev {
+    color: #00f;
+    padding: 5px 10px;
+    position: relative;
+    float: left;
+    text-align: left;
+    cursor: pointer;
+    width: 40%;
+}
+
+.next {
+    color: #00f;
+    padding: 5px 10px;
+    position: relative;
+    float: right;
+    text-align: right;
+    cursor: pointer;
+    width: 40%;
+}
+
+.prev:hover {
+    background-color: #d3e8ff;
+}
+
+.next:hover {
+    background-color: #d3e8ff;
+}
+
+.title {
+    float: left;
+    max-width: 30%;
+    overflow: hidden;
+}
+
+.abstract {
+    float: left;
+    padding-left: 5px;
+    max-width: 70%;
+    overflow: hidden;
+}
+
+.rtitle {
+    padding: 5px;
+    float: left;
+    padding-left: 5px;
+    max-width: 40%;
+    overflow: hidden;
+    color: #00a;
+}
+
+.rauthor {
+    padding: 5px;
+    float: left;
+    max-width: 30%;
+    overflow: hidden;
+    font-weight: bold;
+    color: #000;
+}
+
+.rdesc {
+    padding: 5px;
+    float: left;
+    padding-left: 5px;
+    max-width: 40%;
+    overflow: hidden;
+    color: #060;
 }
