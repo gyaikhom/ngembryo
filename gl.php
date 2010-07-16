@@ -40,10 +40,10 @@ if (!($result = mysql_query($sql, $con))) {
 if ($_GET[format] == "json") {
 	echo '{success: true, errcode: 0, message: "Layers retrieved successfully.", layers: [';
 	if ($row = mysql_fetch_array($result)) {
-		echo '{ id: '.$row['id'].', visible: false, title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
+		echo '{ id: '.$row['id'].', visible: true, title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
 	}
 	while ($row = mysql_fetch_array($result)) {
-		echo ', { id: '.$row['id'].', visible: false, title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
+		echo ', { id: '.$row['id'].', visible: true, title: '.json_encode($row['title']).', summary: '.json_encode($row['summary']).', description: '.json_encode($row['description']).' }';
 	}
 	echo ']}';
 } else {
