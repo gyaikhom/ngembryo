@@ -688,7 +688,7 @@ html, body {
 }
 
 .items tr:hover {
-    background-color: #79a7ff;
+    background-color: #c7dfff;
 }
 
 .items th {
@@ -1113,17 +1113,23 @@ img #loading-image {
     background-color: #d3e8ff;
 }
 
-.title {
+.stitle {
     float: left;
     max-width: 30%;
     overflow: hidden;
+    font-weight: bold;
 }
 
-.abstract {
+.search-listing {
+    border: 1px solid #ccc;
+}
+
+.sabstract {
     float: left;
     padding-left: 5px;
     max-width: 70%;
     overflow: hidden;
+    color: #213bb2;
 }
 
 .rtitle {
