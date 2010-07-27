@@ -27,6 +27,13 @@ function delete_annotation($table, $aid) {
 	if (!mysql_query($sql, $con)) {
 		die_error(-1, json_encode(mysql_error()));
 	}
+	$sql = "SELECT label FROM $table WHERE id=$aid LIMIT 1";
+	if ($temp = mysql_query($sql, $con)) {
+		$row = mysql_fetch_array($temp);
+		return $row[0];
+	} else {
+		die_error(-2, json_encode(mysql_error()));
+	}
 }
 
 /* Unlink resources from the annotation. */
@@ -35,7 +42,7 @@ function unlink_annotation_resources($table, $aid) {
 	$table = $table.Resource;
 	$sql = "UPDATE $table SET deleted_at=NOW() WHERE annotation_id=$aid";
 	if (!mysql_query($sql, $con)) {
-		die_error(-2, json_encode(mysql_error()));
+		die_error(-3, json_encode(mysql_error()));
 	}
 }
 
@@ -55,12 +62,12 @@ if (!$logged_in) {
 		if ($type == "r") {
 			$table = "2Dregion";
 		} else {
-			die_error(-3, "Unknown annotation type.");
+			die_error(-4, "Unknown annotation type.");
 		}
 	}
-	delete_annotation($table, $aid);
+	$t = delete_annotation($table, $aid);
 	unlink_annotation_resources($table, $aid);
-	echo_success("Annotation has been deleted.");
+	echo_success("Annotation \'$t\' has been deleted.");
 }
 
 mysql_close($con);
