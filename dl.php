@@ -1,44 +1,76 @@
 <?php
-$con = mysql_connect("localhost", "ngembryo", "ngembryo");
-if (!$con) {
-	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).'}');
+/**
+ * @projectDescription The Next-Generation Embryology Project
+ *
+ * School of Informatics, University of Edinburgh Funded by the JISC
+ * (http://www.jisc.ac.uk/)
+ *
+ * @author gyaikhom
+ *
+ * @description Delete layer.
+ */
+
+include 'login.php';
+
+function die_error($c, $m) {
+	die('{success: false, errcode: '.$c.', message: "'.$m.'"}');
 }
 
-mysql_select_db("ngembryo", $con);
-
-$lid = $_GET[lid];
+function echo_success($m) {
+	echo '{success: true, errcode: 0, message: "'.$m.'"}';
+}
 
 /* Remove all of the marker annotations, on this layer. */
-$sql = "UPDATE 2Dmarker SET deleted_at=NOW() WHERE layer_id=$lid";
-if (!mysql_query($sql, $con)) {
-	die('{success: false, errcode: -1, message: '.json_encode(mysql_error()).'}');
+function remove_markers($lid) {
+	global $con;
+	$sql = "UPDATE 2Dmarker SET deleted_at=NOW() WHERE layer_id=$lid";
+	if (!mysql_query($sql, $con)) {
+		die_error(-1, json_encode(mysql_error()));
+	}
 }
 
 /* Remove all of the region annotations, on this layer. */
-$sql = "UPDATE 2Dpolyline SET deleted_at=NOW() WHERE 2Dregion_id in (SELECT DISTINCT id FROM 2Dregion WHERE deleted_at IS NULL AND layer_id=$lid)";
-if (!mysql_query($sql, $con)) {
-	die('{success: false, errcode: -1, message: '.json_encode(mysql_error()).'}');
-}
-$sql = "UPDATE 2Dregion SET deleted_at=NOW() WHERE layer_id=$lid";
-if (!mysql_query($sql, $con)) {
-	die('{success: false, errcode: -1, message: '.json_encode(mysql_error()).'}');
-}
-
-/* Now remove the layer. */
-$sql = "UPDATE layer SET deleted_at=NOW() WHERE id=$lid";
-if (!mysql_query($sql, $con)) {
-	die('{success: false, errcode: -1, message: '.json_encode(mysql_error()).'}');
-}
-
-$sql = "SELECT title FROM layer WHERE id=$lid";
-if ($result = mysql_query($sql, $con)) {
-	if ($row = mysql_fetch_array($result)) {
-		echo '{success: true, errcode: 0, message: "Layer \''.$row['title'].'\' has been deleted."}';
-	} else {
-		echo '{success: true, errcode: 0, message: "Layer has been deleted."}';
+function remove_regions($lid) {
+	global $con;
+	$sql = "UPDATE 2Dpolyline SET deleted_at=NOW() WHERE 2Dregion_id in (SELECT DISTINCT id FROM 2Dregion WHERE deleted_at IS NULL AND layer_id=$lid)";
+	if (!mysql_query($sql, $con)) {
+		die_error(-2, json_encode(mysql_error()));
 	}
-} else {
-	die('{success: false, errcode: -1, message: '.json_encode(mysql_error()).'}');
+	$sql = "UPDATE 2Dregion SET deleted_at=NOW() WHERE layer_id=$lid";
+	if (!mysql_query($sql, $con)) {
+		die_error(-3, json_encode(mysql_error()));
+	}
 }
+
+/* Remove layer with supplied id. */
+function remove_layer($lid) {
+	global $con;
+	$sql = "UPDATE layer SET deleted_at=NOW() WHERE id=$lid";
+	if (!mysql_query($sql, $con)) {
+		die_error(-4, json_encode(mysql_error()));
+	}
+	$sql = "SELECT title FROM layer WHERE id=$lid LIMIT 1";
+	if ($temp = mysql_query($sql, $con)) {
+		$row = mysql_fetch_array($temp);
+		return $row[0];
+	} else {
+		die_error(-5, json_encode(mysql_error()));
+	}
+}
+
+$logged_in = checkLogin();
+if (!$logged_in) {
+	header('Location: ngembryo.php');
+} else {
+
+	/* Supplied by the client. */
+	$lid = $_GET[lid];
+
+	remove_markers($lid);
+	remove_regions($lid);
+	$t = remove_layer($lid);
+	echo_success("Layer \'$t\' has been deleted.");
+}
+
 mysql_close($con);
 ?>
