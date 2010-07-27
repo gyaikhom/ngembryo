@@ -1,5 +1,14 @@
 <?php
-
+/**
+ * @projectDescription The Next-Generation Embryology Project
+ *
+ * School of Informatics, University of Edinburgh Funded by the JISC
+ * (http://www.jisc.ac.uk/)
+ *
+ * @author gyaikhom
+ *
+ * @description Main web application (development version).
+ */
 include 'login.php';
 
 if(isset($_POST['sublogin'])) {
