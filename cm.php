@@ -1,41 +1,74 @@
 <?php
+/**
+ * @projectDescription The Next-Generation Embryology Project
+ *
+ * School of Informatics, University of Edinburgh Funded by the JISC
+ * (http://www.jisc.ac.uk/)
+ *
+ * @author gyaikhom
+ *
+ * @description Create a new marker on supplied layer using supplied details.
+ */
 
-include 'utils.php';
+include 'login.php';
 
-$con = mysql_connect("localhost", "ngembryo", "ngembryo");
-if (!$con) {
-    die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
+function die_error($c, $m) {
+	die('{success: false, errcode: '.$c.', message: "'.$m.'", id: 0}');
 }
 
-mysql_select_db("ngembryo", $con);
+function echo_success($m, $id) {
+	echo '{success: true, errcode: 0, message: "'.$m.'", id:'.$id.'}';
+}
 
-/* Supplied by the client. */
-$x = $_POST[x];
-$y = $_POST[y];
-$scale = $_POST[scale];
-$label = $_POST[label];
-$description = $_POST[description];
-$lid = $_POST[lid];
+/* Check if a layer with the given id exists. */
+function check_layer($lid) {
+	global $con;
+	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND id=$lid LIMIT 1";
+	if ($temp = mysql_query($sql, $con)) {
+		if (mysql_num_rows($temp) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		die_error(-1, json_encode(mysql_error()));
+	}
+}
 
-/* Escape quotes etc. */
-$label = return_well_formed($label);
-$description = return_well_formed($description);
+/* Create a new marker on the supplied layer using the supplied details. */
+function create_marker($lid, $x, $y, $s, $l, $d) {
+	global $con;
+	$sql = "INSERT INTO 2Dmarker (layer_id, x, y, scale, label, description, created_at) VALUES ('$lid', '$x', '$y', '$s', '$l', '$d', NOW())";
+	if (!mysql_query($sql, $con)) {
+		die_error(-2, json_encode(mysql_error()));
+	}
+	return mysql_insert_id();
+}
 
-/* First check if the layer exists. */
-$layer = mysql_query("SELECT id FROM layer WHERE deleted_at IS NULL AND id=$lid");
-if ($temp = mysql_fetch_array($layer)) {
-    $lid = $temp['id'];
+$logged_in = checkLogin();
+if (!$logged_in) {
+	header('Location: ngembryo.php');
 } else {
-    die('{success: false, errcode: -1, message: "Invalid layer.", id: 0}');
-}
 
-/* Create a new 2D marker using this layer. */
-$sql = "INSERT INTO 2Dmarker (layer_id, x, y, scale, label, description, created_at) VALUES ('$lid', '$x', '$y', '$scale', '$label', '$description', NOW())";
-if (!mysql_query($sql, $con)) {
-    die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', id: 0}');
+	/* Supplied by the client. */
+	$x = $_POST[x];
+	$y = $_POST[y];
+	$scale = $_POST[scale];
+	$label = $_POST[label];
+	$description = $_POST[description];
+	$lid = $_POST[lid];
+
+	/* Escape quotes etc. */
+	$label = return_well_formed($label);
+	$description = return_well_formed($description);
+
+	if (check_layer($lid)) {
+		$id = create_marker($lid, $x, $y, $scale, $label, $description);
+		echo_success("New marker \'$label\' has been created.", $id);
+	} else {
+		die_error(-3, "Invalid layer.");
+	}
 }
-$id = mysql_insert_id();
-echo '{success: true, errcode: 0, message: "New marker \''.$label.'\' has been created.", id:'.$id.'}';
 
 mysql_close($con);
 ?>
