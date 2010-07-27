@@ -93,10 +93,10 @@ if (!$logged_in) {
 
 	$oid = check_create_orientation($model, $yaw, $pitch, $roll, $distance);
 	if (check_layer($oid, $title)) {
-		die_error(-6, "Layer \''.$title.'\' already exists. No new layer created.");
+		die_error(-6, "Layer \'$title\' already exists. No new layer created.");
 	} else {
 		$lid = create_layer($oid, $title, $summary, $description);
-		echo_success("New layer \''.$title.'\' has been created.", $lid);
+		echo_success("New layer \'$title\' has been created.", $lid);
 	}
 }
 
