@@ -1,114 +1,123 @@
 <?php
-$con = mysql_connect("localhost", "ngembryo", "ngembryo");
-if (!$con) {
-	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
+/**
+ * @projectDescription The Next-Generation Embryology Project
+ *
+ * School of Informatics, University of Edinburgh Funded by the JISC
+ * (http://www.jisc.ac.uk/)
+ *
+ * @author gyaikhom
+ *
+ * @description Get annotation resources.
+ */
+
+include 'login.php';
+
+function die_error($c, $m) {
+	die('{success: false, errcode: '.$c.', message: "'.$m.'", r: null}');
 }
 
-mysql_select_db("ngembryo", $con);
-
-$aid = $_GET[aid];
-$type = $_GET[type];
-$exclude = $_GET[exclude];
-$format = $_GET[format];
-$table = "";
-
-if ($type == "m") {
-	$table = "2Dmarker";
-} else {
-	if ($type == "r") {
-		$table = "2Dregion";
-	} else {
-		die('{success: false, errcode: 2, message: "Unknown annotation type.", resources: null}');
-	}
+function echo_success($m, $r) {
+	echo '{success: true, errcode: 0, message: "'.$m.'", r: '.$r.'}';
 }
 
 /* Check if the annotation exists. */
-$annotation = mysql_query("SELECT id FROM $table WHERE deleted_at IS NULL AND id=$aid");
-if ($temp = mysql_fetch_array($annotation)) {
-	$aid = $temp['id'];
-} else {
-	die('{success: false, errcode: -1, message: "Supplied annotation does not exists.", resources: null}');
+function check_annotation($table, $aid) {
+	global $con;
+	$sql = "SELECT id FROM $table WHERE deleted_at IS NULL AND id=$aid LIMIT 1";
+	if ($temp = mysql_query($sql, $con)) {
+		if (mysql_num_rows($temp) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		die_error(-1, json_encode(mysql_error()));
+	}
 }
 
-/**
- * This is the old version with resource items.
- *
- function printResource($resource) {
- echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', resourceItems: ';
- $resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['resource.id']."'");
- if ($item = mysql_fetch_array($resourceItems)) {
- $count = 1;
- echo '[{id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
- while ($item = mysql_fetch_array($resourceItems)) {
- echo ', {id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
- $count++;
- }
- echo ']';
- } else {
- echo 'null';
- }
- echo ' }';
- }
- */
-
-/**
- * This is the new version according to the requirement from April 30, meeting at NCL.
- * No more resource items. Only a flat list of resources.
- */
-function printResource($resource) {
-	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', link: ';
-	$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."' LIMIT 1");
-	if ($item = mysql_fetch_array($resourceItems)) {
-		echo json_encode($item['link']);
+/* Encode resource details. */
+function encode_resource($resource) {
+	global $con;
+	$str = '{i:'.$resource['id'].',a:'.json_encode($resource['author']).',t:'.json_encode($resource['title']).',d:'.json_encode($resource['abstract']).',l:';
+	$sql = "SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."' LIMIT 1";
+	if ($temp = mysql_query($sql, $con)) {
+		if ($item = mysql_fetch_array($temp)) {
+			$str = $str.json_encode($item['link']);
+		} else {
+			$str = $str.'null';
+		}
 	} else {
-		echo 'null';
+		die_error(-2, json_encode(mysql_error()));
 	}
-	echo ' }';
+	$str = $str.'}';
+	return $str;
+}
+
+/* Encode resources. */
+function encode_resources($resources) {
+	$str = "[";
+	if ($resource = mysql_fetch_array($resources))
+	$str = $str.encode_resource($resource);
+	while ($resource = mysql_fetch_array($resources)) {
+		$str = $str.',';
+		$str = $str.encode_resource($resource);
+	}
+	$str = $str.']';
+	return $str;
 }
 
 /* Get all of the resources linked (or not linked) to this annotation. */
-$table = $table."Resource";
-if ($exclude) {
-	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.deleted_at IS NULL AND resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND $table.annotation_id=$aid)";
-}
-else {
-	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
+function get_linked_resources($table, $aid, $exclude) {
+	global $con;
+	$table = $table."Resource";
+	if ($exclude) {
+		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.deleted_at IS NULL AND resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND $table.annotation_id=$aid)";
+	}
+	else {
+		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
+	}
+	if (($temp = mysql_query($sql, $con))) {
+		return $temp;
+	} else {
+		die_error(-3, json_encode(mysql_error()));
+	}
 }
 
-/* For each of the resources, retrieve the resource details. */
-if (($resources = mysql_query($sql, $con))) {
-	if ($format == "json") {
-		echo '{success: true, errcode: 0, message: "Resources retrieved successfully.", resources: [';
-		if ($resource = mysql_fetch_array($resources))
-		printResource($resource);
-		while ($resource = mysql_fetch_array($resources)) {
-			echo ',';
-			printResource($resource);
-		}
-		echo ']}';
+$logged_in = checkLogin();
+if (!$logged_in) {
+	header('Location: ngembryo.php');
+} else {
+
+	/* Supplied by the client. */
+	$aid = $_GET[aid];
+	$type = $_GET[type];
+	$exclude = $_GET[exclude];
+	$format = $_GET[format];
+	$table = "";
+
+	if ($type == "m") {
+		$table = "2Dmarker";
 	} else {
-		if ($format == "csv") {
-			print('id,author,title,abstract,url'."\n");
-			while ($resource = mysql_fetch_array($resources)) {
-				print($resource['id'].', "'.$resource['author'].'", "'.$resource['title'].'", "'.$resource['abstract'].'", ""'."\n");
-			}
+		if ($type == "r") {
+			$table = "2Dregion";
 		} else {
-			echo '<response><success>true</success><errcode>0</errcode><message>Resources retrieved successfully.</message><resources>';
-			while ($resource = mysql_fetch_array($resources)) {
-				echo '<resource><id>'.$resource['id'].'</id><author>'.$resource['author'].'</author><title>'.$resource['title'].'</title><description>'.$resource['abstract'].'</description><resourceItems>';
-				$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."'");
-				while ($item = mysql_fetch_array($resourceItems)) {
-					echo '<item><id>'.$item['id'].'</id><title>'.$item['title'].'</title><description>'.$item['abstract'].'</description><mime>'.$item['mime'].'</mime><link>'.$item['link'].'</link></item>';
-				}
-				echo '</resourceItems></resource>';
-			}
-			echo '</resources></response>';
+			die_error(-4, "Unknown annotation type.");
 		}
 	}
-} else {
-	die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
+
+	if (check_annotation($table, $aid)) {
+		/**
+		 * This is the new version according to the requirement
+		 * from April 30, meeting at NCL.
+		 * No more resource items. Only a flat list of resources.
+		 */
+		$res = get_linked_resources($table, $aid, $exclude);
+		$json = encode_resources($res);
+		echo_success("Resources retrieved successfully.", $json);
+	} else {
+		die_error(-5, "Invalid annotation.");
+	}
 }
 
 mysql_close($con);
-
 ?>
