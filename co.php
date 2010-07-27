@@ -1,40 +1,75 @@
 <?php
+/**
+ * @projectDescription The Next-Generation Embryology Project
+ *
+ * School of Informatics, University of Edinburgh Funded by the JISC
+ * (http://www.jisc.ac.uk/)
+ *
+ * @author gyaikhom
+ *
+ * @description Create a new orientation.
+ */
 
-include 'utils.php';
+include 'login.php';
 
-$con = mysql_connect("localhost", "ngembryo", "ngembryo");
-if (!$con) {
-	die('{success: false, message: '.json_encode(mysql_error()).', oid: -1}');
+function die_error($c, $m) {
+	die('{success: false, errcode: '.$c.', message: "'.$m.'", oid: 0}');
 }
 
-mysql_select_db("ngembryo", $con);
+function echo_success($m, $oid) {
+	echo '{success: true, errcode: 0, message: "'.$m.'", oid:'.$oid.'}';
+}
 
-/* Supplied by the client. */
-$title = $_POST[title];
-$description = $_POST[description];
-$model = $_POST[model];
-$yaw = $_POST[yaw];
-$pitch = $_POST[pitch];
-$roll = $_POST[roll];
-$distance = $_POST[distance];
-
-/* Escape quotes etc. */
-$title = return_well_formed($title);
-$description = return_well_formed($description);
-
-/* First check if the current orientation exists. */
-$orientations = mysql_query("SELECT id FROM orientation WHERE deleted_at IS NULL AND model_id=$model AND yaw=$yaw AND pitch=$pitch AND roll=$roll AND distance=$distance");
-if ($x = mysql_fetch_array($orientations)) {
-	$orientation_id = $x['id'];
-	echo '{success: false, message: "Orientation \''.$title.'\' already exists.", oid:'.$orientation_id.'}';
-} else {
-	/* Create a new orientation. */
-	$sql = "INSERT INTO orientation (model_id, title, description, yaw, pitch, roll, distance, created_at) VALUES ('$model', '$title', '$description', '$yaw', '$pitch', '$roll', '$distance', NOW())";
-	if (!mysql_query($sql, $con)) {
-		die('{success: false, message: '.json_encode(mysql_error()).', oid: -1}');
+/* Check if the orientation exists. */
+function check_orientation($m, $y, $p, $r, $d) {
+	global $con;
+	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND model_id=$m AND yaw=$y AND pitch=$p AND roll=$r AND distance=$d LIMIT 1";
+	if ($temp = mysql_query($sql, $con)) {
+		if (mysql_num_rows($temp) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		die_error(-1, json_encode(mysql_error()));
 	}
-	$orientation_id = mysql_insert_id();
-	echo '{success: true, message: "New orientation \''.$title.'\' has been created.", oid:'.$orientation_id.'}';
+
+}
+
+/* Create a new orientation with parameters supplied by the user. */
+function create_orientation($m, $t, $d, $y, $p, $r, $d) {
+	global $con;
+	$sql = "INSERT INTO orientation (model_id, title, description, yaw, pitch, roll, distance, created_at) VALUES ('$m', '$t', '$d', '$y', '$p', '$r', '$d', NOW())";
+	if (!mysql_query($sql, $con)) {
+		die_error(-2, json_encode(mysql_error()));
+	}
+	return mysql_insert_id();
+}
+
+$logged_in = checkLogin();
+if (!$logged_in) {
+	header('Location: ngembryo.php');
+} else {
+
+	/* Supplied by the client. */
+	$title = $_POST[title];
+	$description = $_POST[description];
+	$model = $_POST[model];
+	$yaw = $_POST[yaw];
+	$pitch = $_POST[pitch];
+	$roll = $_POST[roll];
+	$distance = $_POST[distance];
+
+	/* Escape quotes etc. */
+	$title = return_well_formed($title);
+	$description = return_well_formed($description);
+
+	if (check_orientation($model, $yaw, $pitch, $roll, $distance)) {
+		die_error(-3, "Orientation \'$title\' already exists. No new orientation created.");
+	} else {
+		$oid = create_orientation($model, $title, $description, $yaw, $pitch, $roll, $distance);
+		echo_success("Orientation \'$title\' has been created.", $oid);
+	}
 }
 
 mysql_close($con);
