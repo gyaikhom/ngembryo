@@ -38,10 +38,14 @@ function check_layer($lid) {
 	}
 }
 
-/* Find all of the regions for this layer. */
-function find_regions($lid, $xl, $xh, $yl, $yh, $sl, $sh) {
+/* Find all of the regions for this layer at a given scaling factor. */
+function find_regions($lid, $xl, $xh, $yl, $yh, $s, $f) {
 	global $con;
-	$sql = "SELECT * FROM 2Dregion WHERE deleted_at IS NULL AND layer_id='$lid' AND scale <= '$sh' AND scale >= '$sl' AND ((tl_x >= '$xl' AND tl_x <= '$xh' AND tl_y >= '$yl' AND tl_y <= '$yh') OR (br_x >= '$xl' AND br_x <= '$xh' AND br_y >= '$yl' AND br_y <= '$yh') OR (tl_x < '$xl' AND br_x > '$xh' AND ((br_y >= '$yl' AND br_y <= '$yh') OR (tl_y >= '$yl' AND tl_y <= '$yh') OR (tl_y < '$yl' AND br_y > '$yh'))) OR (tl_y < '$yl' AND br_y > '$yh' AND ((br_x >= '$xl' AND br_x <= '$xh') OR (tl_x >= '$xl' AND tl_x <= '$xh') OR (tl_x < '$xl' AND br_x > '$xh'))))";
+	$xl = $xl * $f / $s;
+	$xh = $xh * $f / $s;
+	$yl = $yl * $f / $s;
+	$yh = $yh * $f / $s;
+	$sql = "SELECT * FROM 2Dregion WHERE deleted_at IS NULL AND layer_id='$lid' AND scale='$f' AND ((tl_x >= '$xl' AND tl_x <= '$xh' AND tl_y >= '$yl' AND tl_y <= '$yh') OR (br_x >= '$xl' AND br_x <= '$xh' AND br_y >= '$yl' AND br_y <= '$yh') OR (tl_x < '$xl' AND br_x > '$xh' AND ((br_y >= '$yl' AND br_y <= '$yh') OR (tl_y >= '$yl' AND tl_y <= '$yh') OR (tl_y < '$yl' AND br_y > '$yh'))) OR (tl_y < '$yl' AND br_y > '$yh' AND ((br_x >= '$xl' AND br_x <= '$xh') OR (tl_x >= '$xl' AND tl_x <= '$xh') OR (tl_x < '$xl' AND br_x > '$xh'))))";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(-2, json_encode(mysql_error()));
 	}
@@ -146,12 +150,15 @@ if (!$logged_in) {
 	$xh = $_GET[x_high];
 	$yl = $_GET[y_low];
 	$yh = $_GET[y_high];
-	$sl = $_GET[scale_low];
-	$sh = $_GET[scale_high];
+	$s = $_GET[scale];
 
 	if (check_layer($lid)) {
-		$rgs = find_regions($lid, $xl, $xh, $yl, $yh, $sl, $sh);
-		$json = encode_regions($rgs);
+		$mkrs = find_regions($lid, $xl, $xh, $yl, $yh, $s, 1);
+		$json = '['.encode_regions($mkrs);
+		$mkrs = find_regions($lid, $xl, $xh, $yl, $yh, $s, 2);
+		$json .= ','.encode_regions($mkrs);
+		$mkrs = find_regions($lid, $xl, $xh, $yl, $yh, $s, 4);
+		$json .= ','.encode_regions($mkrs).']';
 	} else {
 		die_error(-5, "Invalid layer.");
 	}
