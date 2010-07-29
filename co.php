@@ -21,9 +21,9 @@ function echo_success($m, $oid) {
 }
 
 /* Check if the orientation exists. */
-function check_orientation($m, $y, $p, $r, $d) {
+function check_orientation($u, $m, $y, $p, $r, $d) {
 	global $con;
-	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND model_id=$m AND yaw=$y AND pitch=$p AND roll=$r AND distance=$d LIMIT 1";
+	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND owner='$u' AND model_id=$m AND yaw=$y AND pitch=$p AND roll=$r AND distance=$d LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			return true;
@@ -37,9 +37,9 @@ function check_orientation($m, $y, $p, $r, $d) {
 }
 
 /* Create a new orientation with parameters supplied by the user. */
-function create_orientation($m, $t, $d, $y, $p, $r, $d) {
+function create_orientation($u, $m, $t, $d, $y, $p, $r, $d) {
 	global $con;
-	$sql = "INSERT INTO orientation (model_id, title, description, yaw, pitch, roll, distance, created_at) VALUES ('$m', '$t', '$d', '$y', '$p', '$r', '$d', NOW())";
+	$sql = "INSERT INTO orientation (owner, model_id, title, description, yaw, pitch, roll, distance, created_at) VALUES ('$u', '$m', '$t', '$d', '$y', '$p', '$r', '$d', NOW())";
 	if (!mysql_query($sql, $con)) {
 		die_error(-2, json_encode(mysql_error()));
 	}
@@ -59,15 +59,16 @@ if (!$logged_in) {
 	$pitch = $_POST[pitch];
 	$roll = $_POST[roll];
 	$distance = $_POST[distance];
+	$user = $_SESSION['username'];
 
 	/* Escape quotes etc. */
 	$title = return_well_formed($title);
 	$description = return_well_formed($description);
 
-	if (check_orientation($model, $yaw, $pitch, $roll, $distance)) {
-		die_error(-3, "Orientation \'$title\' already exists. No new orientation created.");
+	if (check_orientation($user, $model, $yaw, $pitch, $roll, $distance)) {
+		die_error(-3, "Orientation already exists with title \'$title\'. No new orientation created.");
 	} else {
-		$oid = create_orientation($model, $title, $description, $yaw, $pitch, $roll, $distance);
+		$oid = create_orientation($user, $model, $title, $description, $yaw, $pitch, $roll, $distance);
 		echo_success("Orientation \'$title\' has been created.", $oid);
 	}
 }

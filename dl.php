@@ -21,35 +21,35 @@ function echo_success($m) {
 }
 
 /* Remove all of the marker annotations, on this layer. */
-function remove_markers($lid) {
+function remove_markers($u, $lid) {
 	global $con;
-	$sql = "UPDATE 2Dmarker SET deleted_at=NOW() WHERE layer_id=$lid";
+	$sql = "UPDATE 2Dmarker SET deleted_at=NOW() WHERE layer_id=$lid AND owner='$u'";
 	if (!mysql_query($sql, $con)) {
 		die_error(-1, json_encode(mysql_error()));
 	}
 }
 
 /* Remove all of the region annotations, on this layer. */
-function remove_regions($lid) {
+function remove_regions($u, $lid) {
 	global $con;
-	$sql = "UPDATE 2Dpolyline SET deleted_at=NOW() WHERE 2Dregion_id in (SELECT DISTINCT id FROM 2Dregion WHERE deleted_at IS NULL AND layer_id=$lid)";
+	$sql = "UPDATE 2Dpolyline SET deleted_at=NOW() WHERE 2Dregion_id in (SELECT DISTINCT id FROM 2Dregion WHERE deleted_at IS NULL AND owner='$u' AND layer_id=$lid)";
 	if (!mysql_query($sql, $con)) {
 		die_error(-2, json_encode(mysql_error()));
 	}
-	$sql = "UPDATE 2Dregion SET deleted_at=NOW() WHERE layer_id=$lid";
+	$sql = "UPDATE 2Dregion SET deleted_at=NOW() WHERE layer_id=$lid AND owner='$u'";
 	if (!mysql_query($sql, $con)) {
 		die_error(-3, json_encode(mysql_error()));
 	}
 }
 
 /* Remove layer with supplied id. */
-function remove_layer($lid) {
+function remove_layer($u, $lid) {
 	global $con;
-	$sql = "UPDATE layer SET deleted_at=NOW() WHERE id=$lid";
+	$sql = "UPDATE layer SET deleted_at=NOW() WHERE id=$lid AND owner='$u'";
 	if (!mysql_query($sql, $con)) {
 		die_error(-4, json_encode(mysql_error()));
 	}
-	$sql = "SELECT title FROM layer WHERE id=$lid LIMIT 1";
+	$sql = "SELECT title FROM layer WHERE id=$lid AND owner='$u' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		$row = mysql_fetch_array($temp);
 		return $row[0];
@@ -65,10 +65,11 @@ if (!$logged_in) {
 
 	/* Supplied by the client. */
 	$lid = $_GET[lid];
+    $user = $_SESSION['username'];
 
-	remove_markers($lid);
-	remove_regions($lid);
-	$t = remove_layer($lid);
+	remove_markers($user, $lid);
+	remove_regions($user, $lid);
+	$t = remove_layer($user, $lid);
 	echo_success("Layer \'$t\' has been deleted.");
 }
 

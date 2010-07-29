@@ -21,9 +21,9 @@ function echo_success($m, $l) {
 }
 
 /* Find the orientation. */
-function find_orientation($m, $y, $p, $r, $d) {
+function find_orientation($u, $m, $y, $p, $r, $d) {
 	global $con;
-	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND model_id='$m' AND yaw='$y' AND pitch='$p' AND roll='$r' AND distance='$d' LIMIT 1";
+	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND owner='$u' AND model_id='$m' AND yaw='$y' AND pitch='$p' AND roll='$r' AND distance='$d' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if ($x = mysql_fetch_array($temp)) {
 			return $x[0];
@@ -36,9 +36,9 @@ function find_orientation($m, $y, $p, $r, $d) {
 }
 
 /* Find all of the layers for this orientation. */
-function get_layers($oid) {
+function get_layers($u, $oid) {
 	global $con;
-	$sql = "SELECT * FROM layer WHERE deleted_at IS NULL AND orientation_id=$oid";
+	$sql = "SELECT * FROM layer WHERE deleted_at IS NULL AND owner='$u' AND orientation_id=$oid";
 	if ($temp = mysql_query($sql, $con)) {
 		return $temp;
 	} else {
@@ -64,7 +64,6 @@ function encode_layers($lyrs) {
 	return $str;
 }
 
-
 $logged_in = checkLogin();
 if (!$logged_in) {
 	header('Location: ngembryo.php');
@@ -76,9 +75,10 @@ if (!$logged_in) {
 	$pitch = $_GET[pitch];
 	$roll = $_GET[roll];
 	$distance = $_GET[distance];
+	$user = $_SESSION['username'];
 
-	$oid = find_orientation($model, $yaw, $pitch, $roll, $distance);
-	$lyrs = get_layers($oid);
+	$oid = find_orientation($user, $model, $yaw, $pitch, $roll, $distance);
+	$lyrs = get_layers($user, $oid);
 	$json = encode_layers($lyrs);
 	echo_success("Layers retrieved successfully.", $json);
 }

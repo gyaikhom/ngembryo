@@ -23,9 +23,9 @@ function echo_success($m, $lid) {
 /* Check if the orientation exists. If yes, return orientation id,
  * otherwise, create a new orientation and return the new id.
  */
-function check_create_orientation($m, $y, $p, $r, $d) {
+function check_create_orientation($u, $m, $y, $p, $r, $d) {
 	global $con;
-	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND model_id='$m' AND yaw='$y' AND pitch='$p' AND roll='$r' AND distance='$d' LIMIT 1";
+	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND owner='$u' AND model_id='$m' AND yaw='$y' AND pitch='$p' AND roll='$r' AND distance='$d' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			if ($x = mysql_fetch_array($temp)) {
@@ -35,7 +35,7 @@ function check_create_orientation($m, $y, $p, $r, $d) {
 			}
 		} else {
 			/* Create a new orientation with supplied values. */
-			$sql = "INSERT INTO orientation (model_id, yaw, pitch, roll, distance, created_at) VALUES ('$m', '$y', '$p', '$r', '$d', NOW())";
+			$sql = "INSERT INTO orientation (owner, model_id, yaw, pitch, roll, distance, created_at) VALUES ('$u', '$m', '$y', '$p', '$r', '$d', NOW())";
 			if (!mysql_query($sql, $con)) {
 				die_error(-2, json_encode(mysql_error()));
 			}
@@ -47,9 +47,9 @@ function check_create_orientation($m, $y, $p, $r, $d) {
 }
 
 /* Check if a layer with the given title exists. */
-function check_layer($oid, $t) {
+function check_layer($u, $oid, $t) {
 	global $con;
-	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND orientation_id='$oid' AND title='$t' LIMIT 1";
+	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND owner='$u' AND orientation_id='$oid' AND title='$t' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			return true;
@@ -62,9 +62,9 @@ function check_layer($oid, $t) {
 }
 
 /* Create a new layer using the supplied orientation. */
-function create_layer($oid, $t, $s, $d) {
+function create_layer($u, $oid, $t, $s, $d) {
 	global $con;
-	$sql = "INSERT INTO layer (orientation_id, title, summary, description, created_at) VALUES ('$oid', '$t', '$s', '$d', NOW())";
+	$sql = "INSERT INTO layer (owner, orientation_id, title, summary, description, created_at) VALUES ('$u', '$oid', '$t', '$s', '$d', NOW())";
 	if (!mysql_query($sql, $con)) {
 		die_error(-5, json_encode(mysql_error()));
 	}
@@ -85,17 +85,18 @@ if (!$logged_in) {
 	$pitch = $_POST[pitch];
 	$roll = $_POST[roll];
 	$distance = $_POST[distance];
+	$user = $_SESSION['username'];
 
 	/* Escape quotes etc. */
 	$title = return_well_formed($title);
 	$summary = return_well_formed($summary);
 	$description = return_well_formed($description);
 
-	$oid = check_create_orientation($model, $yaw, $pitch, $roll, $distance);
-	if (check_layer($oid, $title)) {
+	$oid = check_create_orientation($user, $model, $yaw, $pitch, $roll, $distance);
+	if (check_layer($user, $oid, $title)) {
 		die_error(-6, "Layer \'$title\' already exists. No new layer created.");
 	} else {
-		$lid = create_layer($oid, $title, $summary, $description);
+		$lid = create_layer($user, $oid, $title, $summary, $description);
 		echo_success("New layer \'$title\' has been created.", $lid);
 	}
 }

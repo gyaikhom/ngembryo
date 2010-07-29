@@ -21,9 +21,9 @@ function echo_success($m, $r) {
 }
 
 /* Check if the annotation exists. */
-function check_annotation($table, $aid) {
+function check_annotation($u, $table, $aid) {
 	global $con;
-	$sql = "SELECT id FROM $table WHERE deleted_at IS NULL AND id=$aid LIMIT 1";
+	$sql = "SELECT id FROM $table WHERE deleted_at IS NULL AND owner='$u' AND id=$aid LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			return true;
@@ -67,14 +67,14 @@ function encode_resources($resources) {
 }
 
 /* Get all of the resources linked (or not linked) to this annotation. */
-function get_linked_resources($table, $aid, $exclude) {
+function get_linked_resources($u, $table, $aid, $exclude) {
 	global $con;
 	$table = $table."Resource";
 	if ($exclude) {
-		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.deleted_at IS NULL AND resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND $table.annotation_id=$aid)";
+		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.deleted_at IS NULL AND owner='$u' AND resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND resource.owner='$u' AND $table.annotation_id=$aid)";
 	}
 	else {
-		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
+		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND resource.owner='$u' AND $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
 	}
 	if (($temp = mysql_query($sql, $con))) {
 		return $temp;
@@ -94,6 +94,7 @@ if (!$logged_in) {
 	$exclude = $_GET[exclude];
 	$format = $_GET[format];
 	$table = "";
+	$user = $_SESSION['username'];
 
 	if ($type == "m") {
 		$table = "2Dmarker";
@@ -105,13 +106,13 @@ if (!$logged_in) {
 		}
 	}
 
-	if (check_annotation($table, $aid)) {
+	if (check_annotation($user, $table, $aid)) {
 		/**
 		 * This is the new version according to the requirement
 		 * from April 30, meeting at NCL.
 		 * No more resource items. Only a flat list of resources.
 		 */
-		$res = get_linked_resources($table, $aid, $exclude);
+		$res = get_linked_resources($user, $table, $aid, $exclude);
 		$json = encode_resources($res);
 		echo_success("Resources retrieved successfully.", $json);
 	} else {

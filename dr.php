@@ -21,13 +21,13 @@ function echo_success($m) {
 }
 
 /* Unlink resource from all of the annotations. */
-function unlink_from_annotations($rid) {
+function unlink_from_annotations($u, $rid) {
 	global $con;
-	$sql = "UPDATE 2DmarkerResource SET deleted_at=NOW() WHERE resource_id=$rid";
+	$sql = "UPDATE 2DmarkerResource SET deleted_at=NOW() WHERE resource_id=$rid AND owner='$u'";
 	if (!mysql_query($sql, $con)) {
 		die_error(-1, json_encode(mysql_error()));
 	}
-	$sql = "UPDATE 2DregionResource SET deleted_at=NOW() WHERE resource_id=$rid";
+	$sql = "UPDATE 2DregionResource SET deleted_at=NOW() WHERE resource_id=$rid AND owner='$u'";
 	if (!mysql_query($sql, $con)) {
 		die_error(-2, json_encode(mysql_error()));
 	}
@@ -43,13 +43,13 @@ function remove_resource_items($rid) {
 }
 
 /* Remove resource. */
-function remove_resource($rid) {
+function remove_resource($u, $rid) {
 	global $con;
-	$sql = "UPDATE resource SET deleted_at=NOW() WHERE id=$rid";
+	$sql = "UPDATE resource SET deleted_at=NOW() WHERE id=$rid AND owner='$u'";
 	if (!mysql_query($sql, $con)) {
 		die_error(-4, json_encode(mysql_error()));
 	}
-	$sql = "SELECT title FROM resource WHERE id=$rid LIMIT 1";
+	$sql = "SELECT title FROM resource WHERE id=$rid AND owner='$u' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		$row = mysql_fetch_array($temp);
 		return $row[0];
@@ -65,10 +65,11 @@ if (!$logged_in) {
 
 	/* Supplied by the client. */
 	$rid = $_GET[rid];
+	$user = $_SESSION['username'];
 
-	unlink_from_annotations($rid);
-	remove_resource_items($rid);
-	$t = remove_resource($rid);
+	unlink_from_annotations($user, $rid);
+	remove_resource_items($user, $rid);
+	$t = remove_resource($user, $rid);
 	echo_success("Resource \'$t\' has been deleted.");
 }
 

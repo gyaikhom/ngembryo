@@ -24,9 +24,9 @@ function echo_success($m, $r) {
 }
 
 /* Check if a layer with the given id exists. */
-function check_layer($lid) {
+function check_layer($u, $lid) {
 	global $con;
-	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND id=$lid LIMIT 1";
+	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND owner='$u' AND id=$lid LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			return true;
@@ -39,13 +39,13 @@ function check_layer($lid) {
 }
 
 /* Find all of the markers for this layer at a given scaling factor. */
-function find_markers($lid, $xl, $xh, $yl, $yh, $s, $f) {
+function find_markers($u, $lid, $xl, $xh, $yl, $yh, $s, $f) {
 	global $con;
 	$xl = $xl * $f / $s;
 	$xh = $xh * $f / $s;
 	$yl = $yl * $f / $s;
 	$yh = $yh * $f / $s;
-	$sql = "SELECT * FROM 2Dmarker WHERE deleted_at IS NULL AND layer_id=$lid AND scale='$f' AND x >= '$xl' AND x <= '$xh' AND y >= '$yl' AND y <= '$yh'";
+	$sql = "SELECT * FROM 2Dmarker WHERE deleted_at IS NULL AND owner='$u' AND layer_id=$lid AND scale='$f' AND x >= '$xl' AND x <= '$xh' AND y >= '$yl' AND y <= '$yh'";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(-2, json_encode(mysql_error()));
 	}
@@ -125,13 +125,14 @@ if (!$logged_in) {
 	$yl = $_GET[y_low];
 	$yh = $_GET[y_high];
 	$s = $_GET[scale];
-
-	if (check_layer($lid)) {
-		$mkrs = find_markers($lid, $xl, $xh, $yl, $yh, $s, 1);
+    $user = $_SESSION['username'];
+    
+	if (check_layer($user, $lid)) {
+		$mkrs = find_markers($user, $lid, $xl, $xh, $yl, $yh, $s, 1);
 		$json = '['.encode_markers($mkrs);
-		$mkrs = find_markers($lid, $xl, $xh, $yl, $yh, $s, 2);
+		$mkrs = find_markers($user, $lid, $xl, $xh, $yl, $yh, $s, 2);
 		$json .= ','.encode_markers($mkrs);
-		$mkrs = find_markers($lid, $xl, $xh, $yl, $yh, $s, 4);
+		$mkrs = find_markers($user, $lid, $xl, $xh, $yl, $yh, $s, 4);
 		$json .= ','.encode_markers($mkrs).']';
 	} else {
 		die_error(-5, "Invalid layer.");

@@ -47,6 +47,7 @@ CREATE TABLE orientation (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
   PRIMARY KEY(id),
   FOREIGN KEY (model_id) REFERENCES model (id)
 );
@@ -61,6 +62,7 @@ CREATE TABLE layer (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
   PRIMARY KEY(id),
   FOREIGN KEY (orientation_id) REFERENCES orientation (id)
 );
@@ -77,6 +79,7 @@ CREATE TABLE 2Dmarker (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
   PRIMARY KEY(id),
   FOREIGN KEY (layer_id) REFERENCES layer (id)
 );
@@ -109,6 +112,7 @@ CREATE TABLE 2Dregion (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
   PRIMARY KEY(id),
   FOREIGN KEY (layer_id) REFERENCES layer (id)
 );
@@ -139,6 +143,7 @@ CREATE TABLE resource (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
   PRIMARY KEY(id)
 );
 
@@ -162,11 +167,12 @@ CREATE TABLE 2DmarkerResource (
   id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   annotation_id INTEGER UNSIGNED NOT NULL,
   resource_id INTEGER UNSIGNED NOT NULL,
-  PRIMARY KEY(id),
-  INDEX (annotation_id, resource_id),
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
+  PRIMARY KEY(id),
+  INDEX (annotation_id, resource_id),
   FOREIGN KEY (annotation_id) REFERENCES 2Dmarker (id),
   FOREIGN KEY (resource_id) REFERENCES resource (id)
 );
@@ -179,6 +185,7 @@ CREATE TABLE 2DregionResource (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
   PRIMARY KEY(id),
   INDEX (annotation_id, resource_id),
   FOREIGN KEY (annotation_id) REFERENCES 2Dregion (id),
@@ -193,6 +200,7 @@ CREATE TABLE layer2Dmarker (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
   PRIMARY KEY(id),
   INDEX (annotation_id, layer_id),
   FOREIGN KEY (annotation_id) REFERENCES 2Dmarker (id),
@@ -207,6 +215,7 @@ CREATE TABLE layer2Dregion (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT NULL,
   deleted_at DATETIME DEFAULT NULL,
+  owner VARCHAR(30),
   PRIMARY KEY(id),
   INDEX (annotation_id, layer_id),
   FOREIGN KEY (annotation_id) REFERENCES 2Dregion (id),
@@ -228,7 +237,7 @@ create table user (
 );
 
 insert into model (title, description, stack, server, webpath, fspath, initialdst, assayid, imgtitle, external, tileframe, locator, sectionplane, sp_src, sp_inc, sp_numpit, sp_numyaw, sp_title, sp_bgcolor, created_at) VALUES 
-("Carnegie Stage 14", "A Carnegie Stage 14 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs14_N939_mirror.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data0/home/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW()),("Carnegie Stage 16", "A Carnegie Stage 16 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs16_N1323_mirror.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data0/home/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW()), ("Carnegie Stage 23", "A Carnegie Stage 23 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs23_N336.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data0/home/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW()), ("Carnegie Stage 17", "A Carnegie Stage 17 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs17_N365_new.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data0/home/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW()), ("Carnegie Stage 22", "A Carnegie Stage 22 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs22_N542_inv.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data0/home/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW());
+("Carnegie Stage 14", "A Carnegie Stage 14 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs14_N939_mirror.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data1/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW()),("Carnegie Stage 16", "A Carnegie Stage 16 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs16_N1323_mirror.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data1/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW()), ("Carnegie Stage 23", "A Carnegie Stage 23 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs23_N336.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data1/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW()), ("Carnegie Stage 17", "A Carnegie Stage 17 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs17_N365_new.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data1/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW()), ("Carnegie Stage 22", "A Carnegie Stage 22 human embryo OPT model from the MRC Wellcome Trust Human Developmental Biology Resource", "/net/node-00/export/data1/zsolth/CS_models/cs22_N542_inv.wlz", "/mrciip/fcgi-bin/clusteriip.fcgi", "/iip-projects/", "/export/data0/iip/projects/", 123, "", "", "", 1, 1, 1, "/net/node-00/export/data1/zsolth/ts18_sectionMontage.tif", 1, 180, 180, 'Section Plane', 'black', NOW());
 
 /*
 DROP USER 'ngembryo'@'localhost';

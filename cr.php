@@ -40,9 +40,9 @@ function cleanup($rid, $reason) {
 }
 
 /* Create a region. */
-function create_region($lid, $s, $l, $d) {
+function create_region($u, $lid, $s, $l, $d) {
 	global $con;
-	$sql = "INSERT INTO 2Dregion (layer_id, scale, tl_x, tl_y, br_x, br_y, label, description, created_at) VALUES ('$lid', '$s', 0, 0, 0, 0, '$l', '$d', NOW())";
+	$sql = "INSERT INTO 2Dregion (owner, layer_id, scale, tl_x, tl_y, br_x, br_y, label, description, created_at) VALUES ('$u', '$lid', '$s', 0, 0, 0, 0, '$l', '$d', NOW())";
 	if (!mysql_query($sql, $con)) {
 		die_error(-4, json_encode(mysql_error()));
 	}
@@ -50,9 +50,9 @@ function create_region($lid, $s, $l, $d) {
 }
 
 /* Check if a layer with the given id exists. */
-function check_layer($lid) {
+function check_layer($u, $lid) {
 	global $con;
-	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND id=$lid LIMIT 1";
+	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND owner='$u' AND id=$lid LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			return true;
@@ -123,14 +123,15 @@ if (!$logged_in) {
 	/* Escape quotes etc. */
 	$label = return_well_formed($label);
 	$description = return_well_formed($description);
+	$user = $_SESSION['username'];
 
-	if (check_layer($lid)) {
+	if (check_layer($user, $lid)) {
 		if (isset($polyline)) {
 			$points = explode(':', $polyline);
 			if (sizeof($points) < 3) {
 				die_error(-6, "At least three points are required to create a region.");
 			} else {
-				$rid = create_region($lid, $scale, $label, $description);
+				$rid = create_region($user, $lid, $scale, $label, $description);
 				$bbox = insert_polyline($rid, $points);
 				update_bbox($rid, $bbox["tl_x"], $bbox["tl_y"], $bbox["br_x"], $bbox["br_y"]);
 				echo_success("New region \'$label\' has been created.", $rid);

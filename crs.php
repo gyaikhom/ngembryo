@@ -21,9 +21,9 @@ function echo_success($m, $rid) {
 }
 
 /* Check if a resource with the given title and author exists. */
-function check_resource($a, $t) {
+function check_resource($u, $a, $t) {
 	global $con;
-	$sql = "SELECT id FROM resource WHERE deleted_at IS NULL AND author='$a' AND title='$t' LIMIT 1";
+	$sql = "SELECT id FROM resource WHERE deleted_at IS NULL AND owner='$u' AND author='$a' AND title='$t' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			return true;
@@ -36,9 +36,9 @@ function check_resource($a, $t) {
 }
 
 /* Create a new resource. */
-function create_resource($t, $a, $ab) {
+function create_resource($u, $t, $a, $ab) {
 	global $con;
-	$sql = "INSERT INTO resource (title, author, abstract, created_at) VALUES ('$t', '$a', '$ab', NOW())";
+	$sql = "INSERT INTO resource (owner, title, author, abstract, created_at) VALUES ('$u', '$t', '$a', '$ab', NOW())";
 	if (!mysql_query($sql, $con)) {
 		die_error(-2, json_encode(mysql_error()));
 	}
@@ -69,16 +69,17 @@ if (!$logged_in) {
 	$author = $_POST[author];
 	$link = $_POST[link]; /* New requirement: Just a flat list of resources. */
 	$abstract = $_POST[description];
+	$user = $_SESSION['username'];
 
 	/* Escape quotes etc. */
 	$title = return_well_formed($title);
 	$author = return_well_formed($author);
 	$abstract = return_well_formed($abstract);
 
-	if (check_resource($author, $title)) {
+	if (check_resource($user, $author, $title)) {
 		die_error(-4, "Resource \'$title\' by \'$author\' already exists. No new resource created.");
 	} else {
-		$rid = create_resource($title, $author, $abstract);
+		$rid = create_resource($user, $title, $author, $abstract);
 		create_resource_item($rid, $title, $abstract, $link);
 		echo_success("New resource \'$title\' has been created.", $rid);
 	}

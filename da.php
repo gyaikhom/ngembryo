@@ -20,29 +20,30 @@ function echo_success($m) {
 	echo '{success: true, errcode: 0, message: "'.$m.'"}';
 }
 
-/* Delete annotation. */
-function delete_annotation($table, $aid) {
+/* Unlink resources from the annotation. */
+function unlink_annotation_resources($u, $table, $aid) {
 	global $con;
-	$sql = "UPDATE $table SET deleted_at=NOW() WHERE id=$aid";
+	$table = $table.Resource;
+	$sql = "UPDATE $table SET deleted_at=NOW() WHERE annotation_id=$aid AND owner='$u'";
+	if (!mysql_query($sql, $con)) {
+		die_error(-3, json_encode(mysql_error()));
+	}
+}
+
+/* Delete annotation. */
+function delete_annotation($u, $table, $aid) {
+	global $con;
+	unlink_annotation_resources($u, $table, $aid);
+	$sql = "UPDATE $table SET deleted_at=NOW() WHERE id=$aid AND owner='$u'";
 	if (!mysql_query($sql, $con)) {
 		die_error(-1, json_encode(mysql_error()));
 	}
-	$sql = "SELECT label FROM $table WHERE id=$aid LIMIT 1";
+	$sql = "SELECT label FROM $table WHERE id=$aid AND owner='$u' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		$row = mysql_fetch_array($temp);
 		return $row[0];
 	} else {
 		die_error(-2, json_encode(mysql_error()));
-	}
-}
-
-/* Unlink resources from the annotation. */
-function unlink_annotation_resources($table, $aid) {
-	global $con;
-	$table = $table.Resource;
-	$sql = "UPDATE $table SET deleted_at=NOW() WHERE annotation_id=$aid";
-	if (!mysql_query($sql, $con)) {
-		die_error(-3, json_encode(mysql_error()));
 	}
 }
 
@@ -55,6 +56,7 @@ if (!$logged_in) {
 	$aid = $_GET[aid];
 	$type = $_GET[type];
 	$table = "";
+	$user = $_SESSION['username'];
 
 	if ($type == "m") {
 		$table = "2Dmarker";
@@ -65,8 +67,7 @@ if (!$logged_in) {
 			die_error(-4, "Unknown annotation type.");
 		}
 	}
-	$t = delete_annotation($table, $aid);
-	unlink_annotation_resources($table, $aid);
+	$t = delete_annotation($user, $table, $aid);
 	echo_success("Annotation \'$t\' has been deleted.");
 }
 

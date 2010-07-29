@@ -21,14 +21,14 @@ function echo_success($m, $r) {
 }
 
 /* Find the resources. */
-function find_resources($rid) {
+function find_resources($u, $rid) {
 	global $con;
 	$f = false;
 	if ($rid == "") {
-		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL";
+		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND owner='$u'";
 		$f = false;
 	} else {
-		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND id=$rid";
+		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND id=$rid AND owner='$u'";
 		$f = true;
 	}
 	if (($t = mysql_query($sql, $con))) {
@@ -74,8 +74,9 @@ if (!$logged_in) {
 
 	/* Supplied by the client. */
 	$rid = $_GET['rid'];
+	$user = $_SESSION['username'];
 
-	$rs = find_resources($rid);
+	$rs = find_resources($user, $rid);
 	$json = encode_resources($rs);
 	echo_success("Resources retrieved successfully.", $json);
 }
