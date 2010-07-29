@@ -105,7 +105,7 @@ function encode_polyline($aid) {
 			$str .= ','.encode_point($p);
 		}
 	} else {
-		die_error(-4, json_encode(mysql_error()));
+		die_error(-5, json_encode(mysql_error()));
 	}
 	$str .= ']';
 	return $str;
@@ -160,7 +160,7 @@ if (!$logged_in) {
 		$mkrs = find_regions($lid, $xl, $xh, $yl, $yh, $s, 4);
 		$json .= ','.encode_regions($mkrs).']';
 	} else {
-		die_error(-5, "Invalid layer.");
+		die_error(-6, "Invalid layer.");
 	}
 	echo_success("Regions retrieved successfully.", $json);
 }
