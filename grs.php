@@ -1,102 +1,83 @@
 <?php
-$rid = $_GET['rid'];
-$format = $_GET['format'];
+/**
+ * @projectDescription The Next-Generation Embryology Project
+ *
+ * School of Informatics, University of Edinburgh Funded by the JISC
+ * (http://www.jisc.ac.uk/)
+ *
+ * @author gyaikhom
+ *
+ * @description Get resources.
+ */
 
-$con = mysql_connect("localhost", "ngembryo", "ngembryo");
-if (!$con) {
-	if ($format == "json") {
-		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
-	} else {
-		echo '<response><success>false</success><errcode>1</errcode><message>MySQL connection error:'.mysql_error().'</message><resources></resources></response>';
-	}
+include 'login.php';
+
+function die_error($c, $m) {
+	die('{success:false,errcode:'.$c.',message:"'.$m.'",r:null}');
 }
-mysql_select_db("ngembryo", $con);
+
+function echo_success($m, $r) {
+	echo '{success:true,errcode:0,message:"'.$m.'",r:'.$r.'}';
+}
 
 /* Find the resources. */
-$items = false;
-if ($rid == "") {
-	$sql = "SELECT * FROM resource WHERE deleted_at IS NULL";
-	$items = false;
-} else {
-	$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND id=$rid";
-	$items = true;
-}
-
-/**
- * Get the first resource item always.
- * NOTE: Changes to requirement. Flat resource listing. No resource items.
- */
-$items = true;
-
-if (!($result = mysql_query($sql, $con))) {
-	if ($format == "json") {
-		die('{success: false, errcode: 1, message: '.json_encode(mysql_error()).', resources: null}');
+function find_resources($rid) {
+	global $con;
+	$f = false;
+	if ($rid == "") {
+		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL";
+		$f = false;
 	} else {
-		echo '<response><success>false</success><errcode>1</errcode><message>MySQL Query error:'.mysql_error().'</message><resources></resources></response>';
+		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND id=$rid";
+		$f = true;
+	}
+	if (($t = mysql_query($sql, $con))) {
+	 return $t;
+	} else {
+		die_error(-1, json_encode(mysql_error()));
 	}
 }
 
-/**
- * Old version with resource items.
- * 
-function printResource($items, $resource) {
-	echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']);
-	if ($items == true) {
-		echo ', resourceItems: '; 
-		$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."' LIMIT 1");
-		if ($item = mysql_fetch_array($resourceItems)) {
-			$count = 1;
-			echo '[{id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
-			while ($item = mysql_fetch_array($resourceItems)) {
-				echo ', {id: '.$item['id'].', title: '.json_encode($item['title']).', description: '.json_encode($item['abstract']).', mime: '.json_encode($item['mime']).', link: '.json_encode($item['link']).'}';
-				$count++;
-			}
-			echo ']';
+/* Encode resource. */
+function encode_resource($r) {
+	global $con;
+	$str = '{id:'.$r['id'].',a:'.json_encode($r['author']).',t:'.json_encode($r['title']).',d:'.json_encode($r['abstract']).',l:';
+	$sql = "SELECT link FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$r['id']."' LIMIT 1";
+	if (($t = mysql_query($sql, $con))) {
+		if ($i = mysql_fetch_array($t)) {
+			$str .= json_encode($i[0]).'}';
 		} else {
-			echo 'null';
+			$str .= 'null}';
 		}
+	} else {
+		die_error(-1, json_encode(mysql_error()));
 	}
-	echo ' }';
-}*/
-
-/**
- * This is the new version according to the requirement from April 30, meeting at NCL.
- * No more resource items. Only a flat list of resources.
- */
-function printResource($items, $resource) {
-    echo '{ id: '.$resource['id'].', author: '.json_encode($resource['author']).', title: '.json_encode($resource['title']).', description: '.json_encode($resource['abstract']).', link: ';
-    $resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."' LIMIT 1");
-    if ($item = mysql_fetch_array($resourceItems)) {
-        echo json_encode($item['link']);
-    } else {
-        echo 'null';
-    }
-    echo ' }';
+	return $str;
 }
-if ($format == "json") {
-	echo '{success: true, errcode: 0, message: "Resources retrieved successfully.", resources: [';
-	if ($resource = mysql_fetch_array($result))
-	printResource($items, $resource);
-	while ($resource = mysql_fetch_array($result)) {
-		echo ',';
-		printResource($items, $resource);
-	}
-	echo ']}';
-} else {
-	echo '<response><success>true</success><errcode>0</errcode><message>Resources retrieved successfully.</message><resources>';
-	while ($resource = mysql_fetch_array($result)) {
-		echo '<resource><id>'.$resource['id'].'</id><author>'.$resource['author'].'</author><title>'.$resource['title'].'</title><description>'.$resource['abstract'].'</description>';
-		if ($items == true) {
-			echo '<resourceItems>';
-			$resourceItems = mysql_query("SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."'");
-			while ($item = mysql_fetch_array($resourceItems)) {
-				echo '<item><id>'.$item['id'].'</id><title>'.$item['title'].'</title><description>'.$item['abstract'].'</description><mime>'.$item['mime'].'</mime><link>'.$item['link'].'</link></item>';
-			}
-			echo '</resourceItems>';
+
+/* Encode resources. */
+function encode_resources($rs) {
+	$str = '[';
+	if ($r = mysql_fetch_array($rs)) {
+		$str .= encode_resource($r);
+		while ($r = mysql_fetch_array($rs)) {
+			$str .= ','.encode_resource($r);
 		}
-		echo '</resource>';
 	}
-	echo '</resources></response>';
+	return $str.']';
+}
+
+$logged_in = checkLogin();
+if (!$logged_in) {
+	header('Location: ngembryo.php');
+} else {
+
+	/* Supplied by the client. */
+	$rid = $_GET['rid'];
+
+	$rs = find_resources($rid);
+	$json = encode_resources($rs);
+	echo_success("Resources retrieved successfully.", $json);
 }
 
 mysql_close($con);
