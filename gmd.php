@@ -1,4 +1,14 @@
 <?php
+/**
+ * @projectDescription The Next-Generation Embryology Project
+ *
+ * School of Informatics, University of Edinburgh Funded by the JISC
+ * (http://www.jisc.ac.uk/)
+ *
+ * @author gyaikhom
+ *
+ * @description Get orientation, layer, and annotation details of models.
+ */
 include 'login.php';
 
 function die_msg($c, $m) {
@@ -11,6 +21,7 @@ function die_error($c) {
 
 $details = array();
 
+/* Get annotation count. */
 function get_annotation_count($type, $id) {
 	global $con;
 	$sql = "SELECT id FROM $type WHERE deleted_at IS NULL AND layer_id=$id";
@@ -20,6 +31,7 @@ function get_annotation_count($type, $id) {
 	return mysql_num_rows($t);
 }
 
+/* Get total annotation count. */
 function get_annotations($ls) {
 	global $con, $details;
 	foreach ($ls as $t) {
@@ -30,6 +42,7 @@ function get_annotations($ls) {
 	}
 }
 
+/* Get layer count. */
 function get_layers($os) {
 	global $con, $details;
 	$ls = array();
@@ -45,6 +58,7 @@ function get_layers($os) {
 	return $ls;
 }
 
+/* Get the orientation count. */
 function get_orientations($mid) {
 	global $con, $details;
 	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND model_id=$mid";
@@ -55,6 +69,7 @@ function get_orientations($mid) {
 	return $os;
 }
 
+/* Get model details. */
 function get_details($mid) {
 	$os = get_orientations($mid);
 	$ls = get_layers($os);
