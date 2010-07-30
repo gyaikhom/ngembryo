@@ -53,9 +53,9 @@ function find_markers($u, $lid, $xl, $xh, $yl, $yh, $s, $f) {
 }
 
 /* Get number of resources connected to this marker. */
-function get_resources_count($aid) {
+function get_resources_count($u, $aid) {
 	global $con;
-	$sql = "SELECT DISTINCT resource.id FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid";
+	$sql = "SELECT DISTINCT resource.id FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.deleted_at IS NULL AND resource.owner='$u' AND 2DmarkerResource.owner='$u' AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid";
 	if (($temp = mysql_query($sql, $con))) {
 		return mysql_num_rows($temp);
 	} else {
@@ -70,9 +70,9 @@ function encode_resource($r) {
 
 
 /* Get resources. */
-function get_resources($aid) {
+function get_resources($u, $aid) {
 	global $con;
-	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid LIMIT 5";
+	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.deleted_at IS NULL AND resource.owner='$u' AND 2DmarkerResource.owner='$u' AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid LIMIT 5";
 	if (($t = mysql_query($sql, $con))) {
 		if ($r = mysql_fetch_array($t)) {
 			$str = '['.encode_resource($r);
@@ -88,11 +88,11 @@ function get_resources($aid) {
 }
 
 /* Encode marker. */
-function encode_marker($m) {
+function encode_marker($u, $m) {
 	$str =  '{id:'.$m['id'].',x:'.$m['x'].',y:'.$m['y'].',s:'.$m['scale'].',l:'.json_encode($m['label']).',d:'.json_encode($m['description']);
 	$aid = $m['id'];
-	if (($c = get_resources_count($aid)) > 0) {
-		$str .= ',r:{c:'.$c.',r:'.get_resources($aid).'}}';
+	if (($c = get_resources_count($u, $aid)) > 0) {
+		$str .= ',r:{c:'.$c.',r:'.get_resources($u, $aid).'}}';
 	} else {
 		$str .= ',r:{c:0,r:null}}';
 	}
@@ -100,14 +100,14 @@ function encode_marker($m) {
 }
 
 /* Encode markers and resources. */
-function encode_markers($mkrs) {
+function encode_markers($u, $mkrs) {
 	$str = "[";
 
 	if ($m = mysql_fetch_array($mkrs)) {
-		$str .= encode_marker($m);
+		$str .= encode_marker($u, $m);
 	}
 	while ($m = mysql_fetch_array($mkrs)) {
-		$str .= ','.encode_marker($m);
+		$str .= ','.encode_marker($u, $m);
 	}
 	$str .= ']';
 	return $str;
@@ -129,11 +129,11 @@ if (!$logged_in) {
     
 	if (check_layer($user, $lid)) {
 		$mkrs = find_markers($user, $lid, $xl, $xh, $yl, $yh, $s, 1);
-		$json = '['.encode_markers($mkrs);
+		$json = '['.encode_markers($user, $mkrs);
 		$mkrs = find_markers($user, $lid, $xl, $xh, $yl, $yh, $s, 2);
-		$json .= ','.encode_markers($mkrs);
+		$json .= ','.encode_markers($user, $mkrs);
 		$mkrs = find_markers($user, $lid, $xl, $xh, $yl, $yh, $s, 4);
-		$json .= ','.encode_markers($mkrs).']';
+		$json .= ','.encode_markers($user, $mkrs).']';
 	} else {
 		die_error(-5, "Invalid layer.");
 	}

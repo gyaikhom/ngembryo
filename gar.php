@@ -71,10 +71,10 @@ function get_linked_resources($u, $table, $aid, $exclude) {
 	global $con;
 	$table = $table."Resource";
 	if ($exclude) {
-		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.deleted_at IS NULL AND owner='$u' AND resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND resource.owner='$u' AND $table.annotation_id=$aid)";
+		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.deleted_at IS NULL AND owner='$u' AND resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE $table.deleted_at IS NULL AND $table.owner='$u' AND $table.annotation_id=$aid)";
 	}
 	else {
-		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE resource.deleted_at IS NULL AND resource.owner='$u' AND $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
+		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE $table.deleted_at IS NULL AND resource.deleted_at IS NULL AND resource.owner='$u' AND $table.owner='$u' AND $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
 	}
 	if (($temp = mysql_query($sql, $con))) {
 		return $temp;

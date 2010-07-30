@@ -53,9 +53,9 @@ function find_regions($u, $lid, $xl, $xh, $yl, $yh, $s, $f) {
 }
 
 /* Get number of resources connected to this region. */
-function get_resources_count($aid) {
+function get_resources_count($u, $aid) {
 	global $con;
-	$sql = "SELECT DISTINCT resource.id FROM resource LEFT JOIN 2DregionResource ON 2DregionResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DregionResource.annotation_id IS NOT NULL AND 2DregionResource.annotation_id=$aid";
+	$sql = "SELECT DISTINCT resource.id FROM resource LEFT JOIN 2DregionResource ON 2DregionResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DregionResource.deleted_at IS NULL AND resource.owner='$u' AND 2DregionResource.owner='$u' AND 2DregionResource.annotation_id IS NOT NULL AND 2DregionResource.annotation_id=$aid";
 	if (($temp = mysql_query($sql, $con))) {
 		return mysql_num_rows($temp);
 	} else {
@@ -70,9 +70,9 @@ function encode_resource($r) {
 
 
 /* Get resources. */
-function get_resources($aid) {
+function get_resources($u, $aid) {
 	global $con;
-	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author FROM resource LEFT JOIN 2DregionResource ON 2DregionResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DregionResource.annotation_id IS NOT NULL AND 2DregionResource.annotation_id=$aid LIMIT 5";
+	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author FROM resource LEFT JOIN 2DregionResource ON 2DregionResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DregionResource.deleted_at IS NULL AND resource.owner='$u' AND 2DregionResource.owner='$u' AND 2DregionResource.annotation_id IS NOT NULL AND 2DregionResource.annotation_id=$aid LIMIT 5";
 	if (($t = mysql_query($sql, $con))) {
 		if ($r = mysql_fetch_array($t)) {
 			$str = '['.encode_resource($r);
@@ -113,12 +113,12 @@ function encode_polyline($aid) {
 }
 
 /* Encode region. */
-function encode_region($r) {
+function encode_region($u, $r) {
 	$str =  '{id:'.$r['id'].',s:'.$r['scale'].',l:'.json_encode($r['label']).',d:'.json_encode($r['description']);
 	$aid = $r['id'];
 	$str .= ',p:'.encode_polyline($aid);
-	if (($c = get_resources_count($aid)) > 0) {
-		$str .= ',r:{c:'.$c.',r:'.get_resources($aid).'}}';
+	if (($c = get_resources_count($u, $aid)) > 0) {
+		$str .= ',r:{c:'.$c.',r:'.get_resources($u, $aid).'}}';
 	} else {
 		$str .= ',r:{c:0,r:null}}';
 	}
@@ -126,14 +126,14 @@ function encode_region($r) {
 }
 
 /* Encode regions and resources. */
-function encode_regions($rgs) {
+function encode_regions($u, $rgs) {
 	$str = "[";
 
 	if ($r = mysql_fetch_array($rgs)) {
-		$str .= encode_region($r);
+		$str .= encode_region($u, $r);
 	}
 	while ($r = mysql_fetch_array($rgs)) {
-		$str .= ','.encode_region($r);
+		$str .= ','.encode_region($u, $r);
 	}
 	$str .= ']';
 	return $str;
@@ -155,11 +155,11 @@ if (!$logged_in) {
 
 	if (check_layer($user, $lid)) {
 		$mkrs = find_regions($user, $lid, $xl, $xh, $yl, $yh, $s, 1);
-		$json = '['.encode_regions($mkrs);
+		$json = '['.encode_regions($user, $mkrs);
 		$mkrs = find_regions($user, $lid, $xl, $xh, $yl, $yh, $s, 2);
-		$json .= ','.encode_regions($mkrs);
+		$json .= ','.encode_regions($user, $mkrs);
 		$mkrs = find_regions($user, $lid, $xl, $xh, $yl, $yh, $s, 4);
-		$json .= ','.encode_regions($mkrs).']';
+		$json .= ','.encode_regions($user, $mkrs).']';
 	} else {
 		die_error(-6, "Invalid layer.");
 	}
