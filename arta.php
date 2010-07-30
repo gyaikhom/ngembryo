@@ -21,9 +21,9 @@ function echo_success($m, $id) {
 }
 
 /* Check if the resource exists. */
-function check_resource($rid) {
+function check_resource($u, $rid) {
 	global $con;
-	$sql = "SELECT id FROM resource WHERE deleted_at IS NULL AND id=$rid LIMIT 1";
+	$sql = "SELECT id FROM resource WHERE deleted_at IS NULL AND owner='$u' AND id=$rid LIMIT 1";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(-1, json_encode(mysql_error()));
 	}
@@ -35,9 +35,9 @@ function check_resource($rid) {
 }
 
 /* Check if the annotation exists. */
-function check_annotation($table, $aid) {
+function check_annotation($u, $table, $aid) {
 	global $con;
-	$sql = "SELECT id FROM $table WHERE deleted_at IS NULL AND id=$aid LIMIT 1";
+	$sql = "SELECT id FROM $table WHERE deleted_at IS NULL AND owner='$u' AND id=$aid LIMIT 1";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(-2, json_encode(mysql_error()));
 	}
@@ -49,9 +49,9 @@ function check_annotation($table, $aid) {
 }
 
 /* Check if the resource is already linked to the annotation. */
-function check_linked($table, $aid, $rid) {
+function check_linked($u, $table, $aid, $rid) {
 	global $con;
-	$sql = "SELECT id FROM $table WHERE deleted_at IS NULL AND annotation_id=$aid AND resource_id=$rid LIMIT 1";
+	$sql = "SELECT id FROM $table WHERE deleted_at IS NULL AND owner='$u' AND annotation_id=$aid AND resource_id=$rid LIMIT 1";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(-3, json_encode(mysql_error()));
 	}
@@ -63,9 +63,9 @@ function check_linked($table, $aid, $rid) {
 }
 
 /* Add resource to annotation */
-function link_resource_to_annotation($table, $aid, $rid) {
+function link_resource_to_annotation($u, $table, $aid, $rid) {
 	global $con;
-	$sql = "INSERT INTO $table (annotation_id, resource_id, created_at) VALUES ('$aid', '$rid', NOW())";
+	$sql = "INSERT INTO $table (owner, annotation_id, resource_id, created_at) VALUES ('$u','$aid', '$rid', NOW())";
 	if (!mysql_query($sql, $con)) {
 		die_error(-4, json_encode(mysql_error()));
 	}
@@ -82,6 +82,7 @@ if (!$logged_in) {
 	$aid = $_GET[aid];
 	$type = $_GET[type];
 	$table = "";
+	$user = $_SESSION['username'];
 
 	if ($type == "m") {
 		$table = "2Dmarker";
@@ -93,11 +94,11 @@ if (!$logged_in) {
 		}
 	}
 
-	if (check_resource($rid)) {
-		if (check_annotation($table, $aid)) {
+	if (check_resource($user, $rid)) {
+		if (check_annotation($user, $table, $aid)) {
 			$table = $table."Resource";
-			if (!check_linked($table, $aid, $rid)) {
-				$id = link_resource_to_annotation($table, $aid, $rid);
+			if (!check_linked($user, $table, $aid, $rid)) {
+				$id = link_resource_to_annotation($user, $table, $aid, $rid);
 				echo_success("Resource added to annotation.", $id);
 			} else {
 				die_error(2, "Resource already linked to the annotation.");
