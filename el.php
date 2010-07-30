@@ -16,7 +16,7 @@ function die_error($c, $m) {
 	die('{success: false, errcode: '.$c.', message: "'.$m.'"}');
 }
 
-function echo_success($m, $rid) {
+function echo_success($m) {
 	echo '{success: true, errcode: 0, message: "'.$m.'"}';
 }
 
@@ -69,7 +69,7 @@ if (!$logged_in) {
 		die_error(-4, "Layer \'$title\' already exists. Changes not saved.");
 	} else {
 		update_layer($title, $description, $lid);
-		echo_success("Changes to layer \'$title\' has been saved.", $lid);
+		echo_success("Changes to layer \'$title\' have been saved.", $lid);
 	}
 }
 
