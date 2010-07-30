@@ -38,7 +38,7 @@ function check_annotation($u, $table, $aid) {
 /* Encode resource details. */
 function encode_resource($resource) {
 	global $con;
-	$str = '{i:'.$resource['id'].',a:'.json_encode($resource['author']).',t:'.json_encode($resource['title']).',d:'.json_encode($resource['abstract']).',l:';
+	$str = '{id:'.$resource['id'].',a:'.json_encode($resource['author']).',t:'.json_encode($resource['title']).',d:'.json_encode($resource['abstract']).',l:';
 	$sql = "SELECT * FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$resource['id']."' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if ($item = mysql_fetch_array($temp)) {
