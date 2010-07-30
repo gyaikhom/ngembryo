@@ -21,12 +21,18 @@ function echo_success($m, $rid) {
 }
 
 /* Check if a resource with the given title and author exists. */
-function check_resource($u, $a, $t) {
+function check_resource($u, $a, $t, $rid) {
 	global $con;
 	$sql = "SELECT id FROM resource WHERE deleted_at IS NULL AND owner='$u' AND author='$a' AND title='$t' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
-			return true;
+			if ($k = mysql_fetch_array($temp)) {
+				if ($k[0] == $rid) {
+					return false;
+				} else {
+					return true;
+				}
+			}
 		} else {
 			return false;
 		}
@@ -76,7 +82,7 @@ if (!$logged_in) {
 	$author = return_well_formed($author);
 	$abstract = return_well_formed($abstract);
 
-	if (check_resource($user, $author, $title)) {
+	if (check_resource($user, $author, $title, $rid)) {
 		die_error(-4, "Resource \'$title\' by \'$author\' already exists. Changes not saved.");
 	} else {
 		update_resource($user, $title, $author, $abstract, $rid);

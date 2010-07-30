@@ -21,12 +21,18 @@ function echo_success($m, $rid) {
 }
 
 /* Check if a layer with the given title exists. */
-function check_layer($u, $t) {
+function check_layer($u, $t, $lid) {
 	global $con;
 	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND owner='$u' AND title='$t' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
-			return true;
+			if ($k = mysql_fetch_array($temp)) {
+				if ($k[0] == $lid) {
+					return false;
+				} else {
+					return true;
+				}
+			}
 		} else {
 			return false;
 		}
@@ -59,7 +65,7 @@ if (!$logged_in) {
 	$title = return_well_formed($title);
 	$description = return_well_formed($description);
 
-	if (check_layer($user, $title)) {
+	if (check_layer($user, $title, $lid)) {
 		die_error(-4, "Layer \'$title\' already exists. Changes not saved.");
 	} else {
 		update_layer($title, $description, $lid);
