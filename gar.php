@@ -13,23 +13,27 @@
 include 'login.php';
 
 function die_error($c, $m) {
-	die('{success: false, errcode: '.$c.', message: "'.$m.'", r: null}');
+	die('{success: false, errcode: '.$c.', message: "'.$m.'",r:{l:null,d:null,r:null}}');
 }
 
-function echo_success($m, $r) {
-	echo '{success: true, errcode: 0, message: "'.$m.'", r: '.$r.'}';
+function echo_success($m, $t, $r) {
+	echo '{success: true, errcode: 0, message: "'.$m.'",r:{l:'.$t["l"].',d:'.$t["d"].',r:'.$r.'}}';
 }
 
 /* Check if the annotation exists. */
 function check_annotation($u, $table, $aid) {
 	global $con;
-	$sql = "SELECT id FROM $table WHERE deleted_at IS NULL AND owner='$u' AND id=$aid LIMIT 1";
+	$t = array("t" => false, "l" => "", "d" => "");
+	$sql = "SELECT label,description FROM $table WHERE deleted_at IS NULL AND owner='$u' AND id=$aid LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
-			return true;
-		} else {
-			return false;
+			if ($item = mysql_fetch_array($temp)) {
+				$t["t"] = true;
+				$t["l"] = json_encode($item['label']);
+				$t["d"] = json_encode($item['description']);
+			}
 		}
+		return $t;
 	} else {
 		die_error(-1, json_encode(mysql_error()));
 	}
@@ -106,7 +110,8 @@ if (!$logged_in) {
 		}
 	}
 
-	if (check_annotation($user, $table, $aid)) {
+	$t = check_annotation($user, $table, $aid);
+	if ($t['t']) {
 		/**
 		 * This is the new version according to the requirement
 		 * from April 30, meeting at NCL.
@@ -114,7 +119,7 @@ if (!$logged_in) {
 		 */
 		$res = get_linked_resources($user, $table, $aid, $exclude);
 		$json = encode_resources($res);
-		echo_success("Resources retrieved successfully.", $json);
+		echo_success("Resources retrieved successfully.", $t, $json);
 	} else {
 		die_error(-5, "Invalid annotation.");
 	}
