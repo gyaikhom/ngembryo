@@ -35,7 +35,6 @@ if (!$logged_in) {
 } else {
 	/* Supplied by the client. */
 	$username = return_well_formed($_POST[un]);
-	$password = return_well_formed($_POST[pw]);
 	$npassword = return_well_formed($_POST[npw]);
 	$realname = return_well_formed($_POST[rn]);
 	$email = return_well_formed($_POST[em]);

@@ -82,11 +82,6 @@ if (!$logged_in) {
             value='<?php echo ($u['username']); ?>' style='width: 100%;'></td>
 	</tr>
 	<tr>
-		<td align='right'>Current password: </td>
-		<td><input type='password' trim='true' name='pw' id='pw'
-			maxlength='30' value='' style='width: 100%;'></td>
-	</tr>
-	<tr>
 		<td align='right'>New password: </td>
 		<td><input type='password' trim='true' name='npw' id='npw'
 			maxlength='30' value='' style='width: 100%;'></td>
