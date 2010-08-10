@@ -39,15 +39,6 @@ if (!$logged_in) {
 ?>
 <script type="text/javascript">
     function check() {
-      var frm = document.forms["chuser"];
-      if (frm.pw.value == null || frm.pw.value.length == 0) {
-          alert('Please supply old password.');
-          return false;
-      }
-      if (frm.pw.value.length < 8) {
-          alert('Passwords must be atleast 8 characters long.');
-          return false;
-      }
       if (frm.npw.value == null || frm.npw.value.length == 0) {
           alert('Please supply new password');
           return false;
