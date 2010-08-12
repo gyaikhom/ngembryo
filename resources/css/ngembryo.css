@@ -1065,6 +1065,7 @@ img #loading-image {
 }
 
 .search-match-count {
+	width: auto;
 }
 
 .search-item {
