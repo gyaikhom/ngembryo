@@ -1,24 +1,61 @@
 <?php
-$con = mysql_connect("localhost", "ngembryo", "ngembryo");
-if (!$con) {
-	die('Could not connect: '.mysql_error());
+/**
+ * @projectDescription The Next-Generation Embryology Project
+ *
+ * School of Informatics, University of Edinburgh Funded by the JISC
+ * (http://www.jisc.ac.uk/)
+ *
+ * @author gyaikhom
+ *
+ * @description Get models.
+ */
+
+include 'login.php';
+
+function die_error($c, $m) {
+    die('{success:false,errcode:'.$c.',message:"'.$m.'",m:null}');
 }
-mysql_select_db("ngembryo", $con);
-$result = mysql_query("SELECT * FROM model WHERE deleted_at IS NULL ORDER BY title ASC");
-if ($_GET[format] == "json") {
-	echo '[';
-	if ($row = mysql_fetch_array($result))
-	echo '{id:'.$row['id'].',title:'.json_encode($row['title']).',description:'.json_encode($row['description']).',stack:'.json_encode($row['stack']).',server:'.json_encode($row['server']).',webpath:'.json_encode($row['webpath']).',fspath:'.json_encode($row['fspath']).',initialdst:'.$row['initialdst'].',assayid:'.json_encode($row['assayid']).',imgtitle:'.json_encode($row['imgtitle']).',external:'.json_encode($row['external']).',tileframe:{enable:'.$row['tileframe'].'},locator:{enable:'.$row['locator'].'},sectionplane:{enable:'.$row['sectionplane'].',src:'.json_encode($row['sp_src']).',inc:'.$row['sp_inc'].',numpit:'.$row['sp_numpit'].',numyaw:'.$row['sp_numyaw'].',title:'.json_encode($row['sp_title']).',bgcolor:'.json_encode($row['sp_bgcolor']).'}}';
-	while ($row = mysql_fetch_array($result)) {
-		echo ',{id:'.$row['id'].',title:'.json_encode($row['title']).',description:'.json_encode($row['description']).',stack:'.json_encode($row['stack']).',server:'.json_encode($row['server']).',webpath:'.json_encode($row['webpath']).',fspath:'.json_encode($row['fspath']).',initialdst:'.$row['initialdst'].',assayid:'.json_encode($row['assayid']).',imgtitle:'.json_encode($row['imgtitle']).',external:'.json_encode($row['external']).',tileframe:{enable:'.$row['tileframe'].'},locator:{enable:'.$row['locator'].'},sectionplane:{enable:'.$row['sectionplane'].',src:'.json_encode($row['sp_src']).',inc:'.$row['sp_inc'].',numpit:'.$row['sp_numpit'].',numyaw:'.$row['sp_numyaw'].',title:'.json_encode($row['sp_title']).',bgcolor:'.json_encode($row['sp_bgcolor']).'}}';
-	}
-	echo ']';
+
+function echo_success($m, $mo) {
+    echo '{success:true,errcode:0,message:"'.$m.'",m:'.$mo.'}';
+}
+
+/* Find all of the models. */
+function get_models() {
+   global $con;
+    $sql = "SELECT * FROM model WHERE deleted_at IS NULL ORDER BY title ASC";
+    if (($m = mysql_query($sql, $con))) {
+        return $m;
+    } else {
+        die_error(-1, json_encode(mysql_error()));
+    }
+}
+
+/* Encode model. */
+function encode_model($m) {
+	return '{id:'.$m['id'].',title:'.json_encode($m['title']).',description:'.json_encode($m['description']).',stack:'.json_encode($m['stack']).',server:'.json_encode($m['server']).',webpath:'.json_encode($m['webpath']).',fspath:'.json_encode($m['fspath']).',initialdst:'.$m['initialdst'].',assayid:'.json_encode($m['assayid']).',imgtitle:'.json_encode($m['imgtitle']).',external:'.json_encode($m['external']).',tileframe:{enable:'.$m['tileframe'].'},locator:{enable:'.$m['locator'].'},sectionplane:{enable:'.$m['sectionplane'].',src:'.json_encode($m['sp_src']).',inc:'.$m['sp_inc'].',numpit:'.$m['sp_numpit'].',numyaw:'.$m['sp_numyaw'].',title:'.json_encode($m['sp_title']).',bgcolor:'.json_encode($m['sp_bgcolor']).'}}';
+}
+
+/* Encode models. */
+function encode_models($ms) {
+    $str = '[';
+    if ($m = mysql_fetch_array($ms)) {
+        $str .= encode_model($m);
+        while ($m = mysql_fetch_array($ms)) {
+            $str .= ','.encode_model($m);
+        }
+    }
+    return $str.']';
+}
+
+$logged_in = checkLogin();
+if (!$logged_in) {
+    header('Location: ngembryo.php');
 } else {
-	echo '<models>';
-	while ($row = mysql_fetch_array($result)) {
-		echo '<model><id>'.$row['id'].'</id><title>'.$row['title'].'</title><description>'.$row['description'].'</description><stack>'.$row['stack'].'</stack><server>'.$row['server'].'</server><webpath>'.$row['webpath'].'</webpath><fspath>'.$row['fspath'].'</fspath><initialdst>'.$row['initialdst'].'</initialdst><assayid>'.$row['assayid'].'</assayid><imgtitle>'.$row['imgtitle'].'</imgtitle><external>'.$row['external'].'</external><tileframe><enable>'.$row['tileframe'].'</enable></tileframe><locator><enable>'.$row['locator'].'</enable></locator><sectionplane><enable>'.$row['sectionplane'].'</enable><src>'.$row['sp_src'].'</src><inc>'.$row['sp_inc'].'</inc><numpit>'.$row['sp_numpit'].'</numpit><numyaw>'.$row['sp_numyaw'].'</numyaw><title>'.$row['sp_title'].'</title><bgcolor>'.$row['sp_bgcolor'].'</bgcolor></sectionplane></model>';
-	}
-	echo '</models>';
+    $user = $_SESSION['username'];
+    $ms = get_models();
+    $json = encode_models($ms);
+    echo_success("Models retrieved successfully.", $json);
 }
 mysql_close($con);
 ?>
