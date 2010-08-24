@@ -20,25 +20,25 @@ function count_matches($u, $key) {
 	global $con;
 	$nfound = array();
 
-	$sql = "SELECT DISTINCT id FROM 2Dmarker WHERE deleted_at IS NULL AND owner='$u' AND (label like '%$key%' OR description like '%$key%')";
+	$sql = "SELECT DISTINCT id FROM 2Dmarker WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND (label like '%$key%' OR description like '%$key%')";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(2, json_encode(mysql_error()));
 	}
 	$nfound[0] = mysql_num_rows($temp);
 
-	$sql = "SELECT DISTINCT id FROM 2Dregion WHERE deleted_at IS NULL AND owner='$u' AND (label like '%$key%' OR description like '%$key%')";
+	$sql = "SELECT DISTINCT id FROM 2Dregion WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND (label like '%$key%' OR description like '%$key%')";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(3, json_encode(mysql_error()));
 	}
 	$nfound[1] = mysql_num_rows($temp);
 
-	$sql = "SELECT DISTINCT id FROM layer WHERE deleted_at IS NULL AND owner='$u' AND (title like '%$key%' OR summary like '%$key%' OR description like '%$key%')";
+	$sql = "SELECT DISTINCT id FROM layer WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND (title like '%$key%' OR summary like '%$key%' OR description like '%$key%')";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(4, json_encode(mysql_error()));
 	}
 	$nfound[2] = mysql_num_rows($temp);
 
-	$sql = "SELECT DISTINCT id FROM resource WHERE deleted_at IS NULL AND owner='$u' AND (title like '%$key%' OR abstract like '%$key%' OR author like '%$key%')";
+	$sql = "SELECT DISTINCT id FROM resource WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND (title like '%$key%' OR abstract like '%$key%' OR author like '%$key%')";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(5, json_encode(mysql_error()));
 	}
@@ -95,7 +95,7 @@ function get_link($i) {
 
 function find_markers($u, $key, $start, $limit) {
 	global $con;
-	$sql = "SELECT DISTINCT id,layer_id,scale,label,description FROM 2Dmarker WHERE deleted_at IS NULL AND owner='$u' AND (label like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
+	$sql = "SELECT DISTINCT id,layer_id,scale,label,description FROM 2Dmarker WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND (label like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
 	if ($markers = mysql_query($sql, $con)) {
 		return $markers;
 	} else {
@@ -105,7 +105,7 @@ function find_markers($u, $key, $start, $limit) {
 
 function find_regions($u, $key, $start, $limit) {
 	global $con;
-	$sql = "SELECT DISTINCT id,layer_id,scale,label,description FROM 2Dregion WHERE deleted_at IS NULL AND owner='$u' AND (label like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
+	$sql = "SELECT DISTINCT id,layer_id,scale,label,description FROM 2Dregion WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND (label like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
 	if (!($regions = mysql_query($sql, $con))) {
 		return null;
 	}
@@ -114,7 +114,7 @@ function find_regions($u, $key, $start, $limit) {
 
 function find_layers($u, $key, $start, $limit) {
 	global $con;
-	$sql = "SELECT DISTINCT id,orientation_id,title,description FROM layer WHERE deleted_at IS NULL AND owner='$u' AND (title like '%$key%' OR summary like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
+	$sql = "SELECT DISTINCT id,orientation_id,title,description FROM layer WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND (title like '%$key%' OR summary like '%$key%' OR description like '%$key%') LIMIT $start,$limit";
 	if (!($layers = mysql_query($sql, $con))) {
 		return null;
 	}
@@ -123,7 +123,7 @@ function find_layers($u, $key, $start, $limit) {
 
 function find_resources($u, $key, $start, $limit) {
 	global $con;
-	$sql = "SELECT DISTINCT id,author,title,abstract FROM resource WHERE deleted_at IS NULL AND owner='$u' AND (title like '%$key%' OR abstract like '%$key%' OR author like '%$key%') LIMIT $start,$limit";
+	$sql = "SELECT DISTINCT id,author,title,abstract FROM resource WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND (title like '%$key%' OR abstract like '%$key%' OR author like '%$key%') LIMIT $start,$limit";
 	if (!($resources = mysql_query($sql, $con))) {
 		return null;
 	}

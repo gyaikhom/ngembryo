@@ -13,22 +13,23 @@
 include 'login.php';
 
 function die_error($c, $m) {
-	die('{success: false, errcode: '.$c.', message: "'.$m.'",r:{l:null,d:null,r:null}}');
+	die('{success: false, errcode: '.$c.', message: "'.$m.'",r:{l:null,d:null,m:null,r:null}}');
 }
 
 function echo_success($m, $t, $r) {
-	echo '{success: true, errcode: 0, message: "'.$m.'",r:{l:'.$t["l"].',d:'.$t["d"].',r:'.$r.'}}';
+	echo '{success: true, errcode: 0, message: "'.$m.'",r:{l:'.$t["l"].',d:'.$t["d"].',m:'.$t["m"].',r:'.$r.'}}';
 }
 
 /* Check if the annotation exists. */
 function check_annotation($u, $table, $aid) {
 	global $con;
-	$t = array("t" => false, "l" => "", "d" => "");
-	$sql = "SELECT label,description FROM $table WHERE deleted_at IS NULL AND owner='$u' AND id=$aid LIMIT 1";
+	$t = array("t" => false, "m" => 0, "l" => "", "d" => "");
+	$sql = "SELECT label,description,owner FROM $table WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND id=$aid LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			if ($item = mysql_fetch_array($temp)) {
 				$t["t"] = true;
+				if ($item['owner'] == $u) $t["m"] = 1;
 				$t["l"] = json_encode($item['label']);
 				$t["d"] = json_encode($item['description']);
 			}
@@ -75,10 +76,10 @@ function get_linked_resources($u, $table, $aid, $exclude) {
 	global $con;
 	$table = $table."Resource";
 	if ($exclude) {
-		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.deleted_at IS NULL AND owner='$u' AND resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE $table.deleted_at IS NULL AND $table.owner='$u' AND $table.annotation_id=$aid)";
+		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource WHERE resource.deleted_at IS NULL AND (owner='$u' OR owner='admin') AND resource.id NOT IN (SELECT DISTINCT resource.id FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE $table.deleted_at IS NULL AND ($table.owner='$u' OR $table.owner='admin') AND $table.annotation_id=$aid)";
 	}
 	else {
-		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE $table.deleted_at IS NULL AND resource.deleted_at IS NULL AND resource.owner='$u' AND $table.owner='$u' AND $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
+		$sql = "SELECT DISTINCT resource.id, resource.title, resource.author, resource.abstract FROM resource LEFT JOIN $table ON $table.resource_id=resource.id WHERE $table.deleted_at IS NULL AND resource.deleted_at IS NULL AND (resource.owner='$u' OR resource.owner='admin') AND ($table.owner='$u' OR $table.owner='admin') AND $table.annotation_id IS NOT NULL AND $table.annotation_id=$aid";
 	}
 	if (($temp = mysql_query($sql, $con))) {
 		return $temp;

@@ -25,10 +25,10 @@ function find_resources($u, $rid) {
 	global $con;
 	$f = false;
 	if ($rid == "") {
-		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND owner='$u'";
+		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin')";
 		$f = false;
 	} else {
-		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND id=$rid AND owner='$u'";
+		$sql = "SELECT * FROM resource WHERE deleted_at IS NULL AND id=$rid AND (owner='$u' OR owner='admin')";
 		$f = true;
 	}
 	if (($t = mysql_query($sql, $con))) {
@@ -39,9 +39,12 @@ function find_resources($u, $rid) {
 }
 
 /* Encode resource. */
-function encode_resource($r) {
+function encode_resource($r, $u) {
 	global $con;
-	$str = '{id:'.$r['id'].',a:'.json_encode($r['author']).',t:'.json_encode($r['title']).',d:'.json_encode($r['abstract']).',l:';
+    $q = 0;
+    if ($r['owner'] == $u) $q = 1;
+	
+	$str = '{id:'.$r['id'].',m:'.$q.',a:'.json_encode($r['author']).',t:'.json_encode($r['title']).',d:'.json_encode($r['abstract']).',l:';
 	$sql = "SELECT link FROM resourceItem WHERE deleted_at IS NULL AND resource_id='".$r['id']."' LIMIT 1";
 	if (($t = mysql_query($sql, $con))) {
 		if ($i = mysql_fetch_array($t)) {
@@ -57,11 +60,12 @@ function encode_resource($r) {
 
 /* Encode resources. */
 function encode_resources($rs) {
+	$u = $_SESSION['username'];
 	$str = '[';
 	if ($r = mysql_fetch_array($rs)) {
-		$str .= encode_resource($r);
+		$str .= encode_resource($r, $u);
 		while ($r = mysql_fetch_array($rs)) {
-			$str .= ','.encode_resource($r);
+			$str .= ','.encode_resource($r, $u);
 		}
 	}
 	return $str.']';

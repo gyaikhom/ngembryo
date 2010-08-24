@@ -23,7 +23,7 @@ function echo_success($m, $id) {
 /* Check if the resource exists. */
 function check_resource($u, $rid) {
 	global $con;
-	$sql = "SELECT id FROM resource WHERE deleted_at IS NULL AND owner='$u' AND id=$rid LIMIT 1";
+	$sql = "SELECT id FROM resource WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND id=$rid LIMIT 1";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(-1, json_encode(mysql_error()));
 	}

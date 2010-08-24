@@ -24,7 +24,7 @@ $details = array();
 /* Get annotation count. */
 function get_annotation_count($type, $id, $u) {
 	global $con;
-	$sql = "SELECT id FROM $type WHERE deleted_at IS NULL AND owner='$u' AND layer_id=$id";
+	$sql = "SELECT id FROM $type WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND layer_id=$id";
 	if (!($t = mysql_query($sql, $con))) {
 		die_error(1);
 	}
@@ -48,7 +48,7 @@ function get_layers($os, $u) {
 	$ls = array();
 	$c = 0;
 	while ($o = mysql_fetch_array($os)) {
-		$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND owner='$u' AND orientation_id=$o[0]";
+		$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND orientation_id=$o[0]";
 		if (!($ls[$c] = mysql_query($sql, $con))) {
 			die_error(2);
 		}
@@ -61,7 +61,7 @@ function get_layers($os, $u) {
 /* Get the orientation count. */
 function get_orientations($mid, $u) {
 	global $con, $details;
-	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND owner='$u' AND model_id=$mid";
+	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND model_id=$mid";
 	if (!($os = mysql_query($sql, $con))) {
 		die_error(3);
 	}

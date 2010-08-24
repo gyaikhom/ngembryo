@@ -23,7 +23,7 @@ function echo_success($m, $l) {
 /* Find the orientation. */
 function find_orientation($u, $m, $y, $p, $r, $d) {
 	global $con;
-	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND owner='$u' AND model_id='$m' AND yaw='$y' AND pitch='$p' AND roll='$r' AND distance='$d' LIMIT 1";
+	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND model_id='$m' AND yaw='$y' AND pitch='$p' AND roll='$r' AND distance='$d' LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if ($x = mysql_fetch_array($temp)) {
 			return $x[0];
@@ -38,7 +38,7 @@ function find_orientation($u, $m, $y, $p, $r, $d) {
 /* Find all of the layers for this orientation. */
 function get_layers($u, $oid) {
 	global $con;
-	$sql = "SELECT * FROM layer WHERE deleted_at IS NULL AND owner='$u' AND orientation_id=$oid";
+	$sql = "SELECT * FROM layer WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND orientation_id=$oid";
 	if ($temp = mysql_query($sql, $con)) {
 		return $temp;
 	} else {
@@ -47,18 +47,21 @@ function get_layers($u, $oid) {
 }
 
 /* Encode layer details. */
-function encode_layer($l) {
-	return '{i:'.$l['id'].',v:true,t:'.json_encode($l['title']).',s:'.json_encode($l['summary']).',d:'.json_encode($l['description']).'}';
+function encode_layer($l, $u) {
+	$m = 0;
+	if ($l['owner'] == $u) $m = 1;
+	return '{i:'.$l['id'].',m:'.$m.',v:true,t:'.json_encode($l['title']).',s:'.json_encode($l['summary']).',d:'.json_encode($l['description']).'}';
 }
 
 /* Encode layers. */
 function encode_layers($lyrs) {
+	$u = $_SESSION['username'];
 	$str = '[';
 	if ($l = mysql_fetch_array($lyrs)) {
-		$str .= encode_layer($l);
+		$str .= encode_layer($l, $u);
 	}
 	while ($l = mysql_fetch_array($lyrs)) {
-		$str .= ','.encode_layer($l);
+		$str .= ','.encode_layer($l, $u);
 	}
 	$str .=']';
 	return $str;

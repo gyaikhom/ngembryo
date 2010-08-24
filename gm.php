@@ -26,7 +26,7 @@ function echo_success($m, $r) {
 /* Check if a layer with the given id exists. */
 function check_layer($u, $lid) {
 	global $con;
-	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND owner='$u' AND id=$lid LIMIT 1";
+	$sql = "SELECT id FROM layer WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND id=$lid LIMIT 1";
 	if ($temp = mysql_query($sql, $con)) {
 		if (mysql_num_rows($temp) > 0) {
 			return true;
@@ -45,7 +45,7 @@ function find_markers($u, $lid, $xl, $xh, $yl, $yh, $s, $f) {
 	$xh = $xh * $f / $s;
 	$yl = $yl * $f / $s;
 	$yh = $yh * $f / $s;
-	$sql = "SELECT * FROM 2Dmarker WHERE deleted_at IS NULL AND owner='$u' AND layer_id=$lid AND scale='$f' AND x >= '$xl' AND x <= '$xh' AND y >= '$yl' AND y <= '$yh'";
+	$sql = "SELECT * FROM 2Dmarker WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND layer_id=$lid AND scale='$f' AND x >= '$xl' AND x <= '$xh' AND y >= '$yl' AND y <= '$yh'";
 	if (!($temp = mysql_query($sql, $con))) {
 		die_error(-2, json_encode(mysql_error()));
 	}
@@ -55,7 +55,7 @@ function find_markers($u, $lid, $xl, $xh, $yl, $yh, $s, $f) {
 /* Get number of resources connected to this marker. */
 function get_resources_count($u, $aid) {
 	global $con;
-	$sql = "SELECT DISTINCT resource.id FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.deleted_at IS NULL AND resource.owner='$u' AND 2DmarkerResource.owner='$u' AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid";
+	$sql = "SELECT DISTINCT resource.id FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.deleted_at IS NULL AND (resource.owner='$u' OR resource.owner='admin') AND (2DmarkerResource.owner='$u' OR 2DmarkerResource.owner='admin') AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid";
 	if (($temp = mysql_query($sql, $con))) {
 		return mysql_num_rows($temp);
 	} else {
@@ -72,7 +72,7 @@ function encode_resource($r) {
 /* Get resources. */
 function get_resources($u, $aid) {
 	global $con;
-	$sql = "SELECT DISTINCT resource.id, resource.title, resource.author FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.deleted_at IS NULL AND resource.owner='$u' AND 2DmarkerResource.owner='$u' AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid LIMIT 5";
+	$sql = "SELECT DISTINCT resource.id,resource.title,resource.author FROM resource LEFT JOIN 2DmarkerResource ON 2DmarkerResource.resource_id=resource.id WHERE resource.deleted_at IS NULL AND 2DmarkerResource.deleted_at IS NULL AND (resource.owner='$u' OR resource.owner='admin') AND (2DmarkerResource.owner='$u' OR 2DmarkerResource.owner='admin') AND 2DmarkerResource.annotation_id IS NOT NULL AND 2DmarkerResource.annotation_id=$aid LIMIT 5";
 	if (($t = mysql_query($sql, $con))) {
 		if ($r = mysql_fetch_array($t)) {
 			$str = '['.encode_resource($r);
@@ -89,7 +89,9 @@ function get_resources($u, $aid) {
 
 /* Encode marker. */
 function encode_marker($u, $m) {
-	$str =  '{id:'.$m['id'].',x:'.$m['x'].',y:'.$m['y'].',s:'.$m['scale'].',l:'.json_encode($m['label']).',d:'.json_encode($m['description']);
+	$q = 0;
+	if ($m['owner'] == $u) $q = 1;
+	$str =  '{id:'.$m['id'].',m:'.$q.',x:'.$m['x'].',y:'.$m['y'].',s:'.$m['scale'].',l:'.json_encode($m['label']).',d:'.json_encode($m['description']);
 	$aid = $m['id'];
 	if (($c = get_resources_count($u, $aid)) > 0) {
 		$str .= ',r:{c:'.$c.',r:'.get_resources($u, $aid).'}}';
@@ -125,8 +127,8 @@ if (!$logged_in) {
 	$yl = $_GET[y_low];
 	$yh = $_GET[y_high];
 	$s = $_GET[scale];
-    $user = $_SESSION['username'];
-    
+	$user = $_SESSION['username'];
+
 	if (check_layer($user, $lid)) {
 		$mkrs = find_markers($user, $lid, $xl, $xh, $yl, $yh, $s, 1);
 		$json = '['.encode_markers($user, $mkrs);
