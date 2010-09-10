@@ -33,29 +33,44 @@ $logged_in = checkLogin();
 if (!$logged_in) {
 	header('Location: ngembryo.php');
 } else {
-	/* Supplied by the client. */
-	$username = return_well_formed($_POST[un]);
-	$npassword = return_well_formed($_POST[npw]);
-	$realname = return_well_formed($_POST[rn]);
-	$email = return_well_formed($_POST[em]);
-	$affiliation = return_well_formed($_POST[aff]);
-
-	if ($username != $_SESSION['username']) {
-		die_error(-1, "Supplied username does not belong to this session.");
+	/* Supplied by the client (check for sanity). */
+	if (!check_sanity($_POST['un'], 'username')) {
+		$error = "<li><b>Invalid username</b><p>Username must have at least 5 and at most 16 characters. Must begin with a letter, followed by letters, digits and '_'.</p></li>";
+	}
+	if (!check_sanity($_POST['npw'], 'password')) {
+		$error .= "<li><b>Invalid password</b><p>Password must have at least 8 and at most 30 characters. Must also have a digit, a lowercase letter and an uppercase letter.</p></li>";
+	}
+	if (!check_sanity($_POST['em'], 'email')) {
+		$error .= "<li><b>Invalid email</b></li>";
 	}
 
-	$npassword = md5($npassword);
+	if (!$error) {
+		$username = return_well_formed($_POST[un]);
+		$npassword = return_well_formed($_POST[npw]);
+		$realname = return_well_formed($_POST[rn]);
+		$email = return_well_formed($_POST[em]);
+		$affiliation = return_well_formed($_POST[aff]);
 
-	if (changeUserDetails($username, $npassword, $realname, $email, $affiliation)) {
-		$_SESSION['username'] = $username;
-		$_SESSION['password'] = $npassword;
-		if(isset($_POST['rem'])){
-			setcookie("ckn", $_SESSION['username'], time()+60*60*24*100, "/");
-			setcookie("ckp", $_SESSION['npassword'], time()+60*60*24*100, "/");
+		if ($username != $_SESSION['username']) {
+			die_error(-1, "Supplied username does not belong to this session.");
 		}
-		echo_success("User details changed successfully.");
+
+		$npassword = md5($npassword);
+
+		if (changeUserDetails($username, $npassword, $realname, $email, $affiliation)) {
+			$_SESSION['username'] = $username;
+			$_SESSION['password'] = $npassword;
+			if(isset($_POST['rem'])){
+				setcookie("ckn", $_SESSION['username'], time()+60*60*24*100, "/");
+				setcookie("ckp", $_SESSION['npassword'], time()+60*60*24*100, "/");
+			}
+			echo_success("User details changed successfully.");
+		} else {
+			die_error(-2, "Failed to change user details! Please try again.");
+		}
 	} else {
-		die_error(-2, "Failed to create user! Please try again.");
+		$error = "Failed to change user details! Please try again.<ul>".$error."</ul>";
+		die_error(-3, $error);
 	}
 }
 

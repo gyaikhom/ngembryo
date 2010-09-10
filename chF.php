@@ -37,35 +37,8 @@ if (!$logged_in) {
 } else {
 	$u = getUserDetails($_SESSION['username']);
 ?>
-<script type="text/javascript">
-    function check() {
-      if (frm.npw.value == null || frm.npw.value.length == 0) {
-          alert('Please supply new password');
-          return false;
-      }
-      if (frm.npw.value.length < 8) {
-          alert('New password must be atleast 8 characters long.');
-          return false;
-      }
-      if (frm.rnpw.value == null || frm.rnpw.value.length == 0) {
-          alert('Please re-type new password');
-          return false;
-      }
-      if (frm.npw.value != frm.rnpw.value) {
-        alert('Supplied new password and re-typed new password do not match!');
-        return false;
-      }
-      if (frm.rn.value == null || frm.rn.value.length < 1) {
-          alert('Please supply real name.');
-          return false;
-      }
-      return true;
-    }
-</script>
-
 <div class="regForm">
-<form action="" name="chuser" id="chuser" method="post"
-	onsubmit="return check();">
+<form action="" name="chuser" id="chuser" method="post">
 <table align="left" border="0" cellspacing="3" cellpadding="3" width="100%">
 	<tr>
 		<td align='right' style='width: 130px;'>Username: </td>

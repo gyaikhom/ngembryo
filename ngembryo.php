@@ -3,51 +3,63 @@
 include 'login.php';
 
 if(isset($_POST['sublogin'])) {
-	/* Supplied by the client. */
-	$username = return_well_formed(trim($_POST['un']));
-	$password = return_well_formed($_POST['pw']);
-	$md5pass = md5($password);
-	$result = confirmUser($username, $md5pass);
-	if ($result) {
-		$_SESSION['username'] = $username;
-		$_SESSION['password'] = $md5pass;
-		if(isset($_POST['rem'])){
-			setcookie("ckn", $_SESSION['username'], time()+60*60*24*100, "/");
-			setcookie("ckp", $_SESSION['password'], time()+60*60*24*100, "/");
+	/* Supplied by the client (check for sanity). */
+	if (!check_sanity($_POST['un'], 'username') || !check_sanity($_POST['pw'], 'password')) {
+		$error = 'Invalid username or password. Please try again...';
+	}
+
+	if (!$error) {
+		/* make it suitable for mysql. */
+		$username = return_well_formed($_POST['un']);
+		$password = return_well_formed($_POST['pw']);
+
+		$md5pass = md5($password);
+		$result = confirmUser($username, $md5pass);
+		if ($result) {
+			$_SESSION['username'] = $username;
+			$_SESSION['password'] = $md5pass;
+			if(isset($_POST['rem'])){
+				setcookie("ckn", $_SESSION['username'], time()+60*60*24*100, "/");
+				setcookie("ckp", $_SESSION['password'], time()+60*60*24*100, "/");
+			}
+		} else {
+			$error = 'Invalid username or password. Please try again.';
 		}
-	} else {
-		$error = 'Invalid username or password. Please try again.';
 	}
 }
 
-$logged_in = checkLogin(); 
+$logged_in = checkLogin();
 if (!$logged_in) {
 	include 'loginForm.php';
 } else { ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html class="dj_gecko">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-        <title>Next Generation Embryology</title>
-        <meta name="author" content="Gagarine Yaikhom" />
-        <meta name="keywords" content="ngembryo Woolz Internet Imaging Protocol IIP IIPImage Mootools" />
-        <meta name="description" content="Next Generation Embryology Project" />
-        <meta name="copyright" content="&copy; 2009, 2010 NG-Embryo Project" />
-        <script src="http://www.google.com/jsapi" type="text/javascript">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>Next Generation Embryology</title>
+<meta name="author" content="Gagarine Yaikhom" />
+<meta name="keywords"
+	content="ngembryo Woolz Internet Imaging Protocol IIP IIPImage Mootools" />
+<meta name="description" content="Next Generation Embryology Project" />
+<meta name="copyright" content="&copy; 2009, 2010 NG-Embryo Project" />
+<script src="http://www.google.com/jsapi" type="text/javascript">
         </script>
-        <script type="text/javascript">
+<script type="text/javascript">
             var djConfig = {
                 parseOnLoad: true,
                 isDebug: false
             };
         </script>
-        <script type="text/javascript" src="lib/dojo/dojo-release-1.4.0/dojo/dojo.js">
+<script type="text/javascript"
+	src="lib/dojo/dojo-release-1.4.0/dojo/dojo.js">
         </script>
-        <script type="text/javascript" src="lib/mootools/mootools-1.2.1-core-yc.js">
+<script type="text/javascript"
+	src="lib/mootools/mootools-1.2.1-core-yc.js">
         </script>
-        <script type="text/javascript" src="lib/mootools/mootools-1.2.1-more-yc.js">
+<script type="text/javascript"
+	src="lib/mootools/mootools-1.2.1-more-yc.js">
         </script>
-        <script type="text/javascript">
+<script type="text/javascript">
             dojo.require("dijit.dijit");
             dojo.require("dojo.cookie");
             dojo.require("dojox.gfx");
@@ -70,16 +82,18 @@ if (!$logged_in) {
             dojo.require("dojo.dnd.move");
             dojo.require("dojo.parser");
         </script>
-        <script type="text/javascript" src="lib/ngembryo/ngc.js">
+<script type="text/javascript" src="lib/ngembryo/ngc.js">
         </script>
-        <style type="text/css">
-            @import "lib/dojo/dojo-release-1.4.0/dojo/resources/dojo.css";
-            @import "lib/dojo/dojo-release-1.4.0/dijit/themes/soria/soria.css";
-            @import "resources/css/ngembryo.css";
-        </style>
-    </head>
-    <body class="soria">
-        <script type="text/javascript">
+<style type="text/css">
+@import "lib/dojo/dojo-release-1.4.0/dojo/resources/dojo.css";
+
+@import "lib/dojo/dojo-release-1.4.0/dijit/themes/soria/soria.css";
+
+@import "resources/css/ngembryo.css";
+</style>
+</head>
+<body class="soria">
+<script type="text/javascript">
             var ngembryo;
             var woolz;
             dojo.addOnLoad(function(){
@@ -90,7 +104,7 @@ if (!$logged_in) {
                 ngembryo.destroy();
             });
         </script>
-    </body>
+</body>
 </html>
 
 <?php } ?>

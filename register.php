@@ -26,24 +26,38 @@ function addNewUser($username, $password, $realname, $email, $affiliation){
 }
 
 if(isset($_POST['subreg'])){
-	/* Supplied by the client. */
-	$username = return_well_formed(trim($_POST[un]));
-	$password = return_well_formed($_POST[pw]);
-	$realname = return_well_formed($_POST[rn]);
-	$email = return_well_formed($_POST[em]);
-	$affiliation = return_well_formed($_POST[aff]);
+	/* Supplied by the client (check for sanity). */
+	if (!check_sanity($_POST['un'], 'username')) {
+		$error = "<li><b>Invalid username</b><p>Username must have at least 5 and at most 16 characters. Must begin with a letter, followed by letters, digits and '_'.</p></li>";
+	}
+	if (!check_sanity($_POST['pw'], 'password')) {
+		$error .= "<li><b>Invalid password</b><p>Password must have at least 8 and at most 30 characters. Must also have a digit, a lowercase letter and an uppercase letter.</p></li>";
+	}
+	if (!check_sanity($_POST['em'], 'email')) {
+		$error .= "<li><b>Invalid email</b></li>";
+	}
 
-	if(usernameTaken($username)){
-		$error = "Username ".$username." is already taken. Please choose a different username.";
-	} else {
-		if (addNewUser($username, $password, $realname, $email, $affiliation)) {
-			echo "<html><head><meta http-equiv='Refresh' content='2; url=ngembryo.php'>";
-			echo "<link rel='stylesheet' type='text/css' href='resources/css/login.css' /></head>";
-			echo "<body><div class='success'>Registration was successful! You will now be redirected to the <a href='ngembryo.php'>login page</a>.</div></body></html>";
-			return;
+	if (!$error) {
+		$username = return_well_formed($_POST[un]);
+		$password = return_well_formed($_POST[pw]);
+		$realname = return_well_formed($_POST[rn]);
+		$email = return_well_formed($_POST[em]);
+		$affiliation = return_well_formed($_POST[aff]);
+
+		if(usernameTaken($username)){
+			$error = "Username ".$username." is already taken. Please choose a different username.";
 		} else {
-			$error = "Failed to create user! Please try again.";
+			if (addNewUser($username, $password, $realname, $email, $affiliation)) {
+				echo "<html><head><meta http-equiv='Refresh' content='2; url=ngembryo.php'>";
+				echo "<link rel='stylesheet' type='text/css' href='resources/css/login.css' /></head>";
+				echo "<body><div class='success'>Registration was successful! You will now be redirected to the <a href='ngembryo.php'>login page</a>.</div></body></html>";
+				return;
+			} else {
+				$error = "Failed to create user! Please try again.";
+			}
 		}
+	} else {
+		$error = "Failed to create user! Please try again.<ul>".$error."</ul>";
 	}
 }
 
@@ -62,38 +76,64 @@ if(isset($_POST['subreg'])){
 </head>
 <body>
 <script type="text/javascript">
-    function check() {
-      var frm = document.forms["cuser"];
-      if (frm.un.value == null || frm.un.value.length < 1) {
-          alert('Please supply username.');
-          return false;
-      }
-      if (frm.pw.value.length > 30) {
-          alert('Username must not have more than 30 characters.');
-          return false;
-      }
-      if (frm.pw.value == null || frm.pw.value.length == 0) {
-          alert('Please supply password.');
-          return false;
-      }
-      if (frm.pw.value.length < 8) {
-          alert('Passwords must be atleast 8 characters long.');
-          return false;
-      }
-      if (frm.rpw.value == null || frm.rpw.value.length == 0) {
-          alert('Please re-type password');
-          return false;
-      }
-      if (frm.pw.value != frm.rpw.value) {
-        alert('Supplied password and re-typed password do not match!');
+function is_sane(data, type) {
+    var p = "";
+    switch (type) {
+    case 'u':
+        return /^[a-zA-Z]+[a-zA-Z0-9_]{4,15}$/.test(data);
+    case 'p':
+        return /^.*(?=.{8,30})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/.test(data);
+    case 'e':
+        return /^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/.test(data);
+    default:
         return false;
-      }
-      if (frm.rn.value == null || frm.rn.value.length < 1) {
-          alert('Please supply real name.');
-          return false;
-      }
-      return true;
     }
+}
+function check() {
+    var frm = document.forms["cuser"];
+    if (frm.un.value == null) {
+        alert('Please supply a username');
+        return false;
+    }
+    if (!this.is_sane(frm.un.value, 'u')) {
+        alert('Please supply a valid username');
+        return false;
+    }
+    if (frm.pw.value == null) {
+        alert('Please supply a password');
+        return false;
+    }
+    if (!this.is_sane(frm.pw.value, 'p')) {
+        alert('Please supply a valid password');
+        return false;
+    }
+    if (frm.rpw.value == null) {
+        alert('Please re-type the password');
+        return false;
+    }
+    if (frm.pw.value != frm.rpw.value) {
+        alert("Supplied password and re-typed"
+                + " password do not match!");
+        return false;
+    }
+    if (frm.rn.value == null) {
+        alert('Please supply real name.');
+        return false;
+    }
+    if (frm.em.value == null) {
+        alert('Please supply an email.');
+        return false;
+    }
+    if (!this.is_sane(frm.em.value, 'e')) {
+        alert('Please supply a valid email');
+        return false;
+    }
+    if (frm.aff.value == null) {
+        alert('Please supply affiliation.');
+        return false;
+    }
+    return true;
+}
 </script>
 <h2>The Next Generation Embryology Project</h2>
 <div class="regForm">
@@ -137,11 +177,13 @@ if(isset($_POST['subreg'])){
 		<td><input type='text' trim='true' name='aff' id='aff' maxlength='100'
 			value='' style='width: 300px;'></td>
 	</tr>
-    <tr>
-        <td colspan="2" align="right"><input type="submit" name="subreg" value="Register"></td>
-    </tr>
 	<tr>
-		<td colspan="2" align="left"><a href='ngembryo.php'>Return to login page</a></td>
+		<td colspan="2" align="right"><input type="submit" name="subreg"
+			value="Register"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="left"><a href='ngembryo.php'>Return to login
+		page</a></td>
 	</tr>
 	</form>
 	</div>
