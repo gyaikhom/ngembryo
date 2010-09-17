@@ -23,10 +23,10 @@ function echo_success($m, $l) {
 /* Find the orientation. */
 function find_orientation($u, $m, $y, $p, $r, $d) {
 	global $con;
-	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND model_id='$m' AND yaw='$y' AND pitch='$p' AND roll='$r' AND distance='$d' LIMIT 1";
+	$sql = "SELECT id FROM orientation WHERE deleted_at IS NULL AND (owner='$u' OR owner='admin') AND model_id='$m' AND yaw='$y' AND pitch='$p' AND roll='$r' AND distance='$d'";
 	if ($temp = mysql_query($sql, $con)) {
-		if ($x = mysql_fetch_array($temp)) {
-			return $x[0];
+		if (mysql_num_rows($temp) > 0) {
+			return $temp;
 		} else {
 			die_error(-1, "Orientation not found.");
 		}
@@ -56,14 +56,12 @@ function encode_layer($l, $u) {
 /* Encode layers. */
 function encode_layers($lyrs) {
 	$u = $_SESSION['username'];
-	$str = '[';
 	if ($l = mysql_fetch_array($lyrs)) {
 		$str .= encode_layer($l, $u);
 	}
 	while ($l = mysql_fetch_array($lyrs)) {
 		$str .= ','.encode_layer($l, $u);
 	}
-	$str .=']';
 	return $str;
 }
 
@@ -80,10 +78,20 @@ if (!$logged_in) {
 	$distance = $_GET[distance];
 	$user = $_SESSION['username'];
 
-	$oid = find_orientation($user, $model, $yaw, $pitch, $roll, $distance);
-	$lyrs = get_layers($user, $oid);
-	$json = encode_layers($lyrs);
-	echo_success("Layers retrieved successfully.", $json);
+	$oids = find_orientation($user, $model, $yaw, $pitch, $roll, $distance);
+	$json = "";
+	if ($oid = mysql_fetch_array($oids)) {
+		$lyrs = get_layers($user, $oid[0]);
+		$json .= encode_layers($lyrs);
+		while ($oid = mysql_fetch_array($oids)) {
+			$lyrs = get_layers($user, $oid[0]);
+			if (mysql_num_rows($lyrs) > 0) {
+				$json .= ',';
+				$json .= encode_layers($lyrs);
+			}
+		}
+	}
+	echo_success("Layers retrieved successfully.", '['.$json.']');
 }
 
 mysql_close($con);
