@@ -12,10 +12,12 @@
 include 'login.php';
 
 if(isset($_POST['sublogin'])) {
-	/* Supplied by the client (check for sanity). */
+	/* Supplied by the client (check for sanity).
+	 * NOTE: removed for the moment to fit existing installation.
+	 *
 	if (!check_sanity($_POST['un'], 'username') || !check_sanity($_POST['pw'], 'password')) {
 		$error = 'Invalid username or password. Please try again.';
-	}
+	}*/
 
 	if (!$error) {
 		/* make it suitable for mysql. */
