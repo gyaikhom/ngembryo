@@ -96,7 +96,9 @@ function check() {
         return false;
     }
     if (!this.is_sane(frm.un.value, 'u')) {
-        alert('Please supply a valid username');
+        alert("Please supply a valid username. " + 
+              "Usernames must have at least 5 and at most 16 characters, and " +
+              "must begin with a letter, followed by letters, digits and '_'");
         return false;
     }
     if (frm.pw.value == null) {
@@ -104,7 +106,9 @@ function check() {
         return false;
     }
     if (!this.is_sane(frm.pw.value, 'p')) {
-        alert('Please supply a valid password');
+        alert("Please supply a valid password. Passwords must have at least 8" +
+              " and at most 30 characters, and must contain a digit, " +
+              "a lowercase letter and an uppercase letter.");
         return false;
     }
     if (frm.rpw.value == null) {
@@ -143,7 +147,7 @@ function check() {
 <?php if ($error) { ?>
 	<tr>
 		<td colspan="2" align="left">
-		<div class="error"><?php echo $error; ?></div>
+		<div id="error" class="error"><?php echo $error; ?></div>
 		</td>
 	</tr>
 	<?php } ?>
