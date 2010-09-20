@@ -67,3 +67,19 @@ body {
 img {
 	border: 0px;
 }
+
+a {
+	text-decoration: none;
+}
+
+a:active {
+	color: #0000ff;
+}
+a:link {
+	color: #0000ff;
+}
+a:hover {
+	color: #ff0000;
+}
+a:visited {
+}

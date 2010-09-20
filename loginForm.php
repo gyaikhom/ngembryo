@@ -21,7 +21,25 @@ Newcastle and the e-MouseAtlas in Edinburgh. In this project, we use the
 deliver research and educational materials directly in the context of
 the developing embryo. The interface of the prototype NG-Embryo portal
 is similar to that of Google Maps, while the functionality it provides
-is similar to that of Wikimapia.</div>
+is similar to that of Wikimapia.<br>
+<ul>
+<li>
+<a href="http://dl.dropbox.com/u/5546862/User%20Tutorial.ppt">Tutorial for using the Next Generation Embryology portal (powerpoint slides)</a>
+</li>
+<li>
+<a href="http://screencast.com/t/YzE5N2QwMWE">Quick demonstration of the Next Generation Embryology portal (video)</a>
+</li>
+<li>
+<a href="http://screencast.com/t/ZmU1YjIzZDIt">How to add a new marker and link a resource (video)</a>
+</li>
+<li>
+<a href="http://screencast.com/t/NzEwNGEy">How to create a new orientation, layer, marker and region (video)</a>
+</li>
+<li>
+<a href="http://screencast.com/t/NDI3MDM2YjMt">Uploading resources to the repository (video)</a>
+</li>
+</ul> 
+</br></div>
 <div id="loginForm">
 <form action="" method="post">
 <table align="left" border="0" cellspacing="0" cellpadding="3">
