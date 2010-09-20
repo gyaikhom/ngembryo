@@ -33,9 +33,10 @@ if(isset($_POST['subreg'])){
 	if (!check_sanity($_POST['pw'], 'password')) {
 		$error .= "<li><b>Invalid password</b><p>Password must have at least 8 and at most 30 characters. Must also have a digit, a lowercase letter and an uppercase letter.</p></li>";
 	}
+	/*
 	if (!check_sanity($_POST['em'], 'email')) {
 		$error .= "<li><b>Invalid email</b></li>";
-	}
+	}*/
 
 	if (!$error) {
 		$username = return_well_formed($_POST[un]);
@@ -84,7 +85,7 @@ function is_sane(data, type) {
     case 'p':
         return /^.*(?=.{8,30})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/.test(data);
     case 'e':
-        return /^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/.test(data);
+        return /^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/.test(data);
     default:
         return false;
     }
@@ -128,10 +129,12 @@ function check() {
         alert('Please supply an email.');
         return false;
     }
+    /*
     if (!this.is_sane(frm.em.value, 'e')) {
         alert('Please supply a valid email');
         return false;
     }
+    */
     if (frm.aff.value == null) {
         alert('Please supply affiliation.');
         return false;
