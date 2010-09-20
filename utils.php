@@ -26,7 +26,7 @@ function check_sanity($data, $type) {
 			$pattern = "/^.*(?=.{8,30})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/";
 			break;
 		case 'email':
-			$pattern = "/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/";
+			$pattern = "/^[a-zA-Z][a-zA-Z0-9_]*([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/";
 			break;
 		default:
 			return false;

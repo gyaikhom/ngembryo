@@ -40,10 +40,9 @@ if (!$logged_in) {
 	if (!check_sanity($_POST['npw'], 'password')) {
 		$error .= "<li><b>Invalid password</b><p>Password must have at least 8 and at most 30 characters. Must also have a digit, a lowercase letter and an uppercase letter.</p></li>";
 	}
-	/*
 	if (!check_sanity($_POST['em'], 'email')) {
 		$error .= "<li><b>Invalid email</b></li>";
-	}*/
+	}
 
 	if (!$error) {
 		$username = return_well_formed($_POST[un]);
