@@ -144,7 +144,18 @@ function check() {
 <form action="" name="cuser" id="cuser" method="post"
 	onsubmit="return check();">
 <table align="left" border="0" cellspacing="0" cellpadding="3">
-<?php if ($error) { ?>
+	<tr>
+		<td colspan="2" align="left">
+		<b>Note:</b>
+		<ul>
+			<li>Username must have at least 5 and at most 16 characters, and
+			must begin with a letter, followed by letters, digits and '_'.</li>
+			<li>Password must have at least 8 and at most 30 characters, and
+			must contain a digit, a lowercase letter and an uppercase letter.</li>
+		</ul>
+		</td>
+	</tr>
+	<?php if ($error) { ?>
 	<tr>
 		<td colspan="2" align="left">
 		<div id="error" class="error"><?php echo $error; ?></div>
