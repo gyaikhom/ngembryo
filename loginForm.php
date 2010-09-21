@@ -15,13 +15,13 @@
 <div id="loginInfo">3D developmental atlases are used in research for
 capture, collation and analysis of spatio-temporal data such as in situ
 gene-expression. The most advanced systems are based on a temporal
-series of 3D models. Examples are the EADHB human embryo atlas in
-Newcastle and the e-MouseAtlas in Edinburgh. In this project, we use the
+series of 3D models. Examples are the <a href="http://www.hudsen.org/">HUDSEN</a> human embryo atlas in
+Newcastle and the <a href="http://www.emouseatlas.org/">e-MouseAtlas</a> in Edinburgh. In this project, we use the
 3D spatio-temporal frameworks in conjunction with a repository to
 deliver research and educational materials directly in the context of
 the developing embryo. The interface of the prototype NG-Embryo portal
-is similar to that of Google Maps, while the functionality it provides
-is similar to that of Wikimapia.<br>
+is similar to that of <a href="http://maps.google.co.uk">Google Maps</a>, while the functionality it provides
+is similar to that of <a href="http://www.wikimapia.org">Wikimapia</a>.<br>
 <ul>
 <li>
 <a href="http://dl.dropbox.com/u/5546862/User%20Tutorial.ppt">Tutorial for using the Next Generation Embryology portal (powerpoint slides)</a>
