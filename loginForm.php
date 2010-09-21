@@ -12,7 +12,11 @@
 </head>
 <body>
 <h2>The Next Generation Embryology Project</h2>
-<div id="loginInfo">3D developmental atlases are used in research for
+<div id="loginInfo">
+<span style="color:#ff0000;text-decoration:blink;">The ngembryo portal will be down for
+maintenance from 4pm, Friday 24th September to 9am, Monday 27th September 2010</span><br><br>
+
+3D developmental atlases are used in research for
 capture, collation and analysis of spatio-temporal data such as in situ
 gene-expression. The most advanced systems are based on a temporal
 series of 3D models. Examples are the <a href="http://www.hudsen.org/">HUDSEN</a> human embryo atlas in
