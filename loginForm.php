@@ -12,10 +12,11 @@
 </head>
 <body>
 <h2>The Next Generation Embryology Project</h2>
-<div id="loginInfo"><span
+<div id="loginInfo">
+<!--<span
 	style="color: #ff0000; text-decoration: blink;">The ngembryo portal
 will be down for maintenance from 4pm, Friday 24th September to 9am,
-Monday 27th September 2010</span><br>
+Monday 27th September 2010</span><br>-->
 <br>
 
 3D developmental atlases are used in research for capture, collation and
@@ -34,6 +35,8 @@ functionality it provides is similar to that of <a
 	<li><a href="http://dl.dropbox.com/u/5546862/User%20Tutorial.ppt">Tutorial
 	for using the NG-Embryo portal (powerpoint slides)</a>
 	</li>
+	<li><a href="http://dl.dropbox.com/u/5546862/User%20Instructions.doc">User manual (document)</a>
+	</li>
 	<li><a href="http://screencast.com/t/YzE5N2QwMWE">Quick demonstration
 	of the NG-Embryo portal (video)</a></li>
 	<li><a href="http://screencast.com/t/ZmU1YjIzZDIt">How to add a new
@@ -48,6 +51,8 @@ functionality it provides is similar to that of <a
 	</li>
 </ul>
 </br>
+
+Note: The portal has only been tested on <a href="http://www.firefox.com">Firefox</a>, <a href="http://www.google.com/chrome">Chrome</a> and <a href="http://www.apple.com/safari/">Safari</a>.
 </div>
 <div id="loginForm">
 <form action="" method="post">
