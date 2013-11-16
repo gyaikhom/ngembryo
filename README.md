@@ -54,7 +54,6 @@ installation instructions.
     <IfModule mod_proxy.c>
         ProxyRequests On
         ProxyPreserveHost On
-
         ProxyStatus On
         <Location /status>
             SetHandler server-status
@@ -62,9 +61,8 @@ installation instructions.
             Deny from all
             Allow from 127.0.0.1
         </Location>
-
-        ProxyPass /mrciip/fcgi-bin/wlziipsrv.fcgi http://aberlour.hgu.mrc.ac.uk/mrciip/fcgi-bin/wlziipsrv.fcgi
-        ProxyPassReverse /mrciip/fcgi-bin/wlziipsrv.fcgi http://aberlour.hgu.mrc.ac.uk/mrciip/fcgi-bin/wlziipsrv.fcgi
+        ProxyPass /fcgi-bin/iip3dsrv_ema.fcgi http://www.emouseatlas.org/fcgi-bin/iip3dsrv_ema.fcgi
+        ProxyPassReverse /fcgi-bin/iip3dsrv_ema.fcgi http://www.emouseatlas.org/fcgi-bin/iip3dsrv_ema.fcgi
     </IfModule>
 
 7. Start apache server
@@ -86,8 +84,8 @@ has now concluded, and as of 1 October, development has also ceased.
 
 I am releasing the source code here, so that it is accessible to
 embryo researchers who are interested in annotation and analysis. I have
-also updated the embryo resources as currently hosted at [MRC
-Edinburgh](http://aberlour.hgu.mrc.ac.uk/wlziipdemos/). The code
-hasn't changed much since the project concluded. I have moved the code
-from [sourceforge](http://sourceforge.net/projects/ngembryo/) to
+also updated the embryo resources as currently hosted at [eMouse Atlas]
+(http://www.emouseatlas.org). The code hasn't changed much since the
+project concluded. I have moved the code from
+[sourceforge](http://sourceforge.net/projects/ngembryo/) to
 GitHub so that all of my projects are under my GitHub account.
