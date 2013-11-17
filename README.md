@@ -13,45 +13,45 @@ installation instructions.
 
 1. Enable PHP, by uncommenting PHP5 module (`LoadModule php5_module libexec/apache2/libphp5.so`).
 
-    $ sudo vi /etc/apache2/httpd.conf
+     $ sudo vi /etc/apache2/httpd.conf
 
 2. Ensure that MySQL server is accessible to PHP.
 
-    $ sudo cd /var
-    $ sudo mkdir mysql
-    $ sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock
+     $ sudo cd /var
+     $ sudo mkdir mysql
+     $ sudo ln -s /tmp/mysql.sock /var/mysql/mysql.sock
 
 3. We will use the user's `Sites` directory to deploy `ngembryo`.
    Create the `Sites` directory if it does not exists.
 
-    $ whoami
-    user
+     $ whoami
+     user
 
-    $ cd ~
-    $ mkdir Sites
+     $ cd ~
+     $ mkdir Sites
 
 4. Download the source code:
 
-    $ cd Sites
-    $ git clone https://github/gyaikhom/ngembryo.git
-    $ cd ngembryo
+     $ cd Sites
+     $ git clone https://github/gyaikhom/ngembryo.git
+     $ cd ngembryo
 
 5. Install the database, and check that it is accessible to user `ngembryo`.
 
-    $ pwd
-    /Users/user/Sites/ngembryo
+     $ pwd
+     /Users/user/Sites/ngembryo
 
-    $ cd resources
-    $ mysql -u root < ngembryo.sql
+     $ cd resources
+     $ mysql -u root < ngembryo.sql
 
 6. Since the embryo images are hosted at MRC Edinburgh, we will have
    to set up a proxy so that request for images are re-directed.
 
-    $ sudo vi /etc/apache2/other/proxy.conf
+     $ sudo vi /etc/apache2/other/proxy.conf
 
    Add the following:
 
-    <IfModule mod_proxy.c>
+     <IfModule mod_proxy.c>
         ProxyRequests On
         ProxyPreserveHost On
         ProxyStatus On
@@ -63,11 +63,11 @@ installation instructions.
         </Location>
         ProxyPass /fcgi-bin/iip3dsrv_ema.fcgi http://www.emouseatlas.org/fcgi-bin/iip3dsrv_ema.fcgi
         ProxyPassReverse /fcgi-bin/iip3dsrv_ema.fcgi http://www.emouseatlas.org/fcgi-bin/iip3dsrv_ema.fcgi
-    </IfModule>
+     </IfModule>
 
 7. Start apache server
 
-    $ sudo apachectl start
+     $ sudo apachectl start
 
 8. Visit `http://localhost:80/~user/ngembryo`. Register as user, and
    `ngembryo` is ready for use.
