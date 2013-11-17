@@ -96,4 +96,4 @@ GitHub so that all of my projects are under my GitHub account.
 This project uses the WoolzIIP protocol for retrieving embryo images. The related
 code, especially `woolz.js`, is derived from the implementation available at
 [MRC Edinburgh](http://aberlour.hgu.mrc.ac.uk/wlziipdemos/). The WoolzIIP is
-itself derived from the [IIPImage project](http://iipimage.sourceforge.net/). 
+itself derived from the [IIPImage project](http://iipimage.sourceforge.net/).
