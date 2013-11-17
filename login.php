@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include 'db.php';
 include 'utils.php';
@@ -9,15 +10,15 @@ include 'utils.php';
  * wants to be remembered. Returns true if success; otherwise, false.
  */
 function confirmUser($username, $password) {
-	global $con;
-	$sql="SELECT id FROM user WHERE deleted_at IS NULL AND username='$username' AND password='$password'";
-	$result = mysql_query($sql, $con);
-	$row = mysql_fetch_array($result);
-	if(mysql_num_rows($result) == 1) {
-		return true;
-	} else {
-		return false;
-	}
+    global $con;
+    $sql = "SELECT id FROM user WHERE deleted_at IS NULL AND username='$username' AND password='$password'";
+    $result = mysql_query($sql, $con);
+    $row = mysql_fetch_array($result);
+    if (mysql_num_rows($result) == 1) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -26,24 +27,25 @@ function confirmUser($username, $password) {
  * If so, the database is queried to make ensure that the user is
  * authentic. Returns true if the user has logged in.
  */
-function checkLogin(){
-	/* Check if user has been remembered */
-	if(isset($_COOKIE['ckn']) && isset($_COOKIE['ckp'])){
-		$_SESSION['username'] = $_COOKIE['ckn'];
-		$_SESSION['password'] = $_COOKIE['ckp'];
-	}
+function checkLogin() {
+    /* Check if user has been remembered */
+    if (isset($_COOKIE['ckn']) && isset($_COOKIE['ckp'])) {
+        $_SESSION['username'] = $_COOKIE['ckn'];
+        $_SESSION['password'] = $_COOKIE['ckp'];
+    }
 
-	/* Username and password have been set */
-	if(isset($_SESSION['username']) && isset($_SESSION['password'])){
-		/* Confirm that username and password are valid */
-		if(confirmUser($_SESSION['username'], $_SESSION['password'])) {
-			return true;
-		}
+    /* Username and password have been set */
+    if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+        /* Confirm that username and password are valid */
+        if (confirmUser($_SESSION['username'], $_SESSION['password'])) {
+            return true;
+        }
 
-		/* Variables are incorrect, user not logged in */
-		unset($_SESSION['username']);
-		unset($_SESSION['password']);
-	}
-	return false;
+        /* Variables are incorrect, user not logged in */
+        unset($_SESSION['username']);
+        unset($_SESSION['password']);
+    }
+    return false;
 }
+
 ?>
