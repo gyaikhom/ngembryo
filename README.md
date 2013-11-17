@@ -78,14 +78,22 @@ installation instructions.
 This project was funded by [JISC](http://www.jisc.ac.uk/) to develop a
 prototype system. The project was funded for 18 months. Design began in
 September 2009, and active development started in January 2010. The project
-has now concluded, and as of 1 October, development has also ceased.
+has now concluded, and as of 1 October, development has also ceased. Further
+details are in the `about.html` page.
 
 ## Code release
 
 I am releasing the source code here, so that it is accessible to
 embryo researchers who are interested in annotation and analysis. I have
 also updated the embryo resources as currently hosted at [eMouse Atlas]
-(http://www.emouseatlas.org). The code hasn't changed much since the
-project concluded. I have moved the code from
+(http://www.emouseatlas.org). The code haven't changed much since the
+project concluded, except for some cleanup. I have moved the code from
 [sourceforge](http://sourceforge.net/projects/ngembryo/) to
 GitHub so that all of my projects are under my GitHub account.
+
+## Acknowledgement
+
+This project uses the WoolzIIP protocol for retrieving embryo images. The related
+code, especially `woolz.js`, is derived from the implementation available at
+[MRC Edinburgh](http://aberlour.hgu.mrc.ac.uk/wlziipdemos/). The WoolzIIP is
+itself derived from the [IIPImage project](http://iipimage.sourceforge.net/). 
