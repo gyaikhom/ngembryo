@@ -115,13 +115,12 @@ $logged_in = checkLogin();
 if (!$logged_in) {
     header('Location: ngembryo.php');
 } else {
-
-    /* Supplied by the client. */
     $scale = return_well_formed($_POST[scale]);
     $label = return_well_formed($_POST[label]);
     $description = return_well_formed($_POST[description]);
     $lid = $_POST[lid];
     $polyline = $_POST[polyline];
+    $user = $_SESSION['username'];
 
     if (check_layer($user, $lid)) {
         if (isset($polyline)) {

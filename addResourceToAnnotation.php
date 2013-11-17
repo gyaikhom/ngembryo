@@ -76,8 +76,6 @@ $logged_in = checkLogin();
 if (!$logged_in) {
     header('Location: ngembryo.php');
 } else {
-
-    /* Supplied by the client. */
     $rid = $_GET[rid];
     $aid = $_GET[aid];
     $type = $_GET[type];

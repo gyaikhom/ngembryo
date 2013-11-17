@@ -28,7 +28,7 @@ function get_annotation_count($type, $id, $u) {
  * Get total annotation count.
  */
 function get_annotations($ls, $u) {
-    global $con, $details;
+    global $details;
     foreach ($ls as $t) {
         while ($l = mysql_fetch_array($t)) {
             $details[0] += get_annotation_count("2Dmarker", $l[0], $u);

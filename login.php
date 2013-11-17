@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include 'db.php';
+include 'databaseConnection.php';
 include 'utils.php';
 
 /**

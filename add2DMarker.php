@@ -10,7 +10,6 @@ if (!$con) {
 
 mysql_select_db("ngembryo", $con);
 
-/* Supplied by the client. */
 $aid = $_POST[aid];
 $lid = $_POST[lid];
 
