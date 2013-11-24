@@ -4,6 +4,18 @@ ngembryo
 The Next Generation Embryology Project aimed to develop a web application
 which provides annotations over 3D rendering of embryos.
 
+The following are videos of **ngembryo** in use. They were created by
+[Rosa Spencer](http://www.dgemap.org/people/profiles/16) of [Newcastle
+University](http://www.ncl.ac.uk). I plan to update these videos with
+the latest resources made available recently at the [eMouse
+Atlas](http://www.emouseatlas.org) web portal.
+
+* [Quick demonstration of the **ngembryo** portal](http://screencast.com/t/YzE5N2QwMWE)
+* [How to add a new marker and link a resource](http://screencast.com/t/ZmU1YjIzZDIt)
+* [How to create a new orientation, layer, marker and region](http://screencast.com/t/NzEwNGEy)
+* [Uploading resources to the repository](http://screencast.com/t/NDI3MDM2YjMt)
+
+
 ## Installation
 
 For now, I will describe the process to get this running under Mac
