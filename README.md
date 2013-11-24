@@ -10,10 +10,9 @@ University](http://www.ncl.ac.uk). I plan to update these videos with
 the latest resources made available recently at the [eMouse
 Atlas](http://www.emouseatlas.org) web portal.
 
-* [Quick demonstration of the **ngembryo** portal](http://screencast.com/t/YzE5N2QwMWE)
-* [How to add a new marker and link a resource](http://screencast.com/t/ZmU1YjIzZDIt)
-* [How to create a new orientation, layer, marker and region](http://screencast.com/t/NzEwNGEy)
-* [Uploading resources to the repository](http://screencast.com/t/NDI3MDM2YjMt)
+* [Quick demonstration of the **ngembryo** portal](http://content.screencast.com/users/rosaspencer/folders/Jing/media/db79dcf7-4dab-4373-85f5-2531c3d606ac/00000029.swf)
+* [How to add a new marker and link a resource](http://content.screencast.com/users/rosaspencer/folders/Jing/media/6522b98a-8c3e-4762-a2d2-5a9145049a78/00000025.swf)
+* [How to create a new orientation, layer, marker and region](http://content.screencast.com/users/rosaspencer/folders/Jing/media/26e0f4dc-3372-4608-9ba7-dd1eb156bc19/00000027.swf)
 
 
 ## Installation
